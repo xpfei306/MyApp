@@ -1,0 +1,52 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="smallSize">@dimen/smalltextsize</item>
+        <item name="normalSize">@dimen/middletextsize</item>
+        <item name="largeSize">@dimen/largetextsize</item>
+        <!-- 这里设置左上角可点击展开的小图标 -->
+        <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
+    </style>
+
+    <declare-styleable name="ThemeTextSize">
+        <attr name="smallSize" format="dimension" />
+        <attr name="normalSize" format="dimension" />
+        <attr name="largeSize" format="dimension" />
+    </declare-styleable>
+
+    <style name="AppTheme.Smallsize" parent="AppTheme">
+        <item name="smallSize">@dimen/smalltextsize0</item>
+        <item name="normalSize">@dimen/middletextsize0</item>
+        <item name="largeSize">@dimen/largetextsize0</item>
+    </style>
+
+    <style name="AppTheme.NormalSize" parent="AppTheme">
+        <item name="smallSize">@dimen/smalltextsize</item>
+        <item name="normalSize">@dimen/middletextsize</item>
+        <item name="largeSize">@dimen/largetextsize</item>
+
+    </style>
+
+    <style name="AppTheme.LargeSize" parent="AppTheme">
+        <item name="smallSize">@dimen/smalltextsize1</item>
+        <item name="normalSize">@dimen/middletextsize1</item>
+        <item name="largeSize">@dimen/largetextsize1</item>
+    </style>
+
+    <style name="mMultiStateView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

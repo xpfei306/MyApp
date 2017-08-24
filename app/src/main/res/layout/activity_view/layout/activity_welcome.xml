@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/welcome">
+
+        <LinearLayout
+            android:id="@+id/llmain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dim_30"
+            android:paddingRight="@dimen/dim_30"
+            android:visibility="gone">
+
+            <xpfei.myapp.view.RoundImageView
+                android:layout_width="@dimen/dim_100"
+                android:layout_height="@dimen/dim_100"
+                android:scaleType="fitXY"
+                android:src="@mipmap/header" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_30"
+                android:background="@drawable/border_bk"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim_5">
+
+                    <ImageView
+                        android:id="@+id/ivPsw"
+                        android:layout_width="@dimen/dim_20"
+                        android:layout_height="@dimen/dim_20"
+                        android:layout_marginLeft="@dimen/dim_10"
+                        android:layout_marginRight="@dimen/dim_10"
+                        android:src="@mipmap/username" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/dim_20"
+                        android:background="@android:color/white" />
+
+                    <EditText
+                        android:id="@+id/etUser"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dim_5"
+                        android:background="@null"
+                        android:hint="用户名"
+                        android:padding="@dimen/dim_5"
+                        android:singleLine="true"
+                        android:text="xpf"
+                        android:textColor="@color/colorwhite_90"
+                        android:textColorHint="@color/colorwhite_50" />
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@android:color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dim_5">
+
+                    <ImageView
+                        android:layout_width="@dimen/dim_20"
+                        android:layout_height="@dimen/dim_20"
+                        android:layout_marginLeft="@dimen/dim_10"
+                        android:layout_marginRight="@dimen/dim_10"
+                        android:src="@mipmap/psw" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/dim_20"
+                        android:background="@android:color/white" />
+
+                    <EditText
+                        android:id="@+id/etPsw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dim_5"
+                        android:background="@null"
+                        android:digits="0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM._"
+                        android:hint="密码"
+                        android:inputType="textPassword|text"
+                        android:padding="@dimen/dim_5"
+                        android:singleLine="true"
+                        android:text="11"
+                        android:textColor="@color/colorwhite_90"
+                        android:textColorHint="@color/colorwhite_50" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dim_30"
+                android:background="@drawable/border_bk"
+                android:text="登陆"
+                android:textColor="@color/colorwhite_90" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_10">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="忘记密码"
+                    android:textColor="@color/colorwhite_90" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="用户注册"
+                    android:textColor="@color/colorwhite_90" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</layout>

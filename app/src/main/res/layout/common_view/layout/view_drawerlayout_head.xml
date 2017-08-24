@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="240dp"
+    android:background="@mipmap/welcome"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_30"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <xpfei.myapp.view.RoundImageView
+            android:id="@+id/imgHeader"
+            android:layout_width="@dimen/dim_100"
+            android:layout_height="@dimen/dim_100"
+            android:src="@mipmap/header" />
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dim_20"
+            android:layout_marginTop="@dimen/dim_20"
+            android:text="乐观的蓝胖子"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+</LinearLayout>
