@@ -81,7 +81,7 @@ public class StringUtil {
 
     public static String int2double(int value) {
         if (value > 10000) {
-            double tempvalue = value / 10000;
+            double tempvalue = value / 10000.00;
             DecimalFormat df = new DecimalFormat("#.##");
             return df.format(tempvalue)+" 万";
         } else {

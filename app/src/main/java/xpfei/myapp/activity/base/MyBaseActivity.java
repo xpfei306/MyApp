@@ -1,4 +1,4 @@
-package xpfei.myapp;
+package xpfei.myapp.activity.base;
 
 import android.app.ProgressDialog;
 import android.os.Build;
@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import xpfei.myapp.R;
 import xpfei.myapp.util.ContentValue;
 import xpfei.myapp.util.DialogUtil;
 import xpfei.myapp.view.MultiStateView;

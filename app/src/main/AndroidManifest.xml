@@ -17,20 +17,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".PersonalCenterActivity" />
-        <activity android:name=".SongListActivity" />
-        <activity android:name=".WebActivity" />
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.PersonalCenterActivity" />
+        <activity android:name=".activity.GeDanListActivity" />
+        <activity android:name=".activity.SingerListActivity" />
+        <activity android:name=".activity.WebActivity" />
 
-        <service android:name=".RestaurantService" />
+        <service android:name=".activity.RestaurantService" />
     </application>
 
 </manifest>

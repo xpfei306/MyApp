@@ -1,4 +1,4 @@
-package xpfei.myapp;
+package xpfei.myapp.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -14,6 +14,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import xpfei.myapp.R;
+import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.databinding.ActivityPersonalcenterBinding;
 import xpfei.myapp.model.UserInfo;
 import xpfei.myapp.util.ContentValue;

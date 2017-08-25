@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="160dp"
     android:background="@android:color/transparent">
 
     <xpfei.myapp.view.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        app:banner_pageChangeDuration="300"
-        app:banner_pointAutoPlayInterval="3"
-        app:banner_pointContainerBackground="#33000000"
-        app:banner_pointContainerLeftRightPadding="10dp"
-        app:banner_pointDrawable="@drawable/selector_banner_point"
-        app:banner_pointGravity="right"
-        app:banner_pointLeftRightMargin="3dp"
-        app:banner_pointTopBottomMargin="6dp"
-        app:banner_tipTextColor="#FFFFFF"
-        app:banner_tipTextSize="12sp" />
-</RelativeLayout>
+        android:layout_height="match_parent" />
+</LinearLayout>

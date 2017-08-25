@@ -1,4 +1,4 @@
-package xpfei.myapp;
+package xpfei.myapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,16 +21,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import xpfei.myapp.R;
+import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.adapter.MainAdapter;
 import xpfei.myapp.model.AlbumInfo;
 import xpfei.myapp.model.BannerInfo;
 import xpfei.myapp.model.CategoryInfo;
 import xpfei.myapp.model.SongInfo;
 import xpfei.myapp.model.UserInfo;
+import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
 import xpfei.myapp.view.MyStaggerGrildLayoutManger;
 import xpfei.mylibrary.manager.ACache;
@@ -112,7 +113,7 @@ public class MainActivity extends MyBaseActivity {
                         startActivity(new Intent(MainActivity.this, HomeActivity.class));
                         break;
                     case R.id.item3:
-                        startActivity(new Intent(MainActivity.this, SongListActivity.class));
+                        startActivity(new Intent(MainActivity.this, GeDanListActivity.class));
                         break;
                     case R.id.item4:
                         CommonUtil.showToast(MainActivity.this, "退出登陆");
@@ -134,32 +135,28 @@ public class MainActivity extends MyBaseActivity {
 
     private List<CategoryInfo> initCategory() {
         List<CategoryInfo> list = new ArrayList<>();
-        list.add(new CategoryInfo("歌单", R.drawable.ic_songlist));
-        list.add(new CategoryInfo("排行榜", R.drawable.ic_ranking));
-        list.add(new CategoryInfo("歌手", R.drawable.ic_singer));
-        list.add(new CategoryInfo("电台", R.drawable.ic_musicstation));
+        list.add(new CategoryInfo("歌单", R.drawable.ic_songlist, 1));
+        list.add(new CategoryInfo("排行榜", R.drawable.ic_ranking, 2));
+        list.add(new CategoryInfo("歌手", R.drawable.ic_singer, 3));
+        list.add(new CategoryInfo("电台", R.drawable.ic_musicstation, 4));
         return list;
     }
 
     @Override
     public void onRequestData() {
-        Map<String, String> params = new HashMap<>();
-        params.put("version", "5.6.5.6");
-        params.put("num", "6");
-        params.put("method", "baidu.ting.plaza.getFocusPic");
-        MyVolley.getInstance(this).get(ContentValue.Url.BaseUrl, params, new MyVolley.MyCallBack() {
+        MyVolley.getInstance(this).get(BaiduMusicApi.focusPic(6), new MyVolley.MyCallBack() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 int code = jsonObject.optInt(ContentValue.Json.ErrorCode);
                 if (code == ContentValue.Json.Successcode) {
-                    JSONArray jsonArray = jsonObject.optJSONArray(ContentValue.Json.Banner);
-                    if (jsonArray != null && jsonArray.length() > 0) {
+                    try {
+                        JSONArray jsonArray = jsonObject.optJSONArray(ContentValue.Json.Banner);
                         List<BannerInfo> bannerList = JSON.parseArray(jsonArray.toString(), BannerInfo.class);
                         adapter.setHeaderData(bannerList);
-                    } else {
+                    } catch (Exception e) {
+                        AppLog.Loge("Error:" + e.getMessage());
                         onFailure("未查询到相关数据！");
                     }
-
                 } else {
                     onFailure("服务器繁忙，请稍后再试！");
                 }
@@ -177,20 +174,24 @@ public class MainActivity extends MyBaseActivity {
      * 获取新歌
      */
     private void getNewSong() {
-        Map<String, String> params = new HashMap<>();
-        params.put("version", "2.1.0");
-        params.put("limit", "6");
-        params.put("method", "baidu.ting.plaza.getNewSongs");
-        MyVolley.getInstance(this).get(ContentValue.Url.BaseUrl, params, new MyVolley.MyCallBack() {
+        MyVolley.getInstance(this).get(BaiduMusicApi.Song.recommendSong(6), new MyVolley.MyCallBack() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-                JSONArray jsonArray = jsonObject.optJSONArray(ContentValue.Json.SongList);
-                if (jsonArray != null && jsonArray.length() > 0) {
-                    List<SongInfo> bannerList = JSON.parseArray(jsonArray.toString(), SongInfo.class);
-                    adapter.setSongData(bannerList);
+                int code = jsonObject.optInt(ContentValue.Json.ErrorCode);
+                if (code == ContentValue.Json.Successcode) {
+                    try {
+                        JSONArray jsonArray = jsonObject.optJSONArray(ContentValue.Json.Content);
+                        JSONObject jsonSong = jsonArray.getJSONObject(0);
+                        List<SongInfo> bannerList = JSON.parseArray(jsonSong.optJSONArray(ContentValue.Json.SongList).toString(), SongInfo.class);
+                        adapter.setSongData(bannerList);
+                    } catch (Exception e) {
+                        AppLog.Loge("Error:" + e.getMessage());
+                        onFailure("未查询到相关数据！");
+                    }
                 } else {
-                    onFailure("未查询到相关数据！");
+                    onFailure("服务器繁忙，请稍后再试！");
                 }
+                onDialogSuccess(null);
             }
 
             @Override
@@ -204,12 +205,7 @@ public class MainActivity extends MyBaseActivity {
      * 获取新的专辑
      */
     private void getAlbum() {
-        Map<String, String> params = new HashMap<>();
-        params.put("version", "2.1.0");
-        params.put("offset", "0");
-        params.put("limit", "6");
-        params.put("method", "baidu.ting.plaza.getRecommendAlbum");
-        MyVolley.getInstance(this).get(ContentValue.Url.BaseUrl, params, new MyVolley.MyCallBack() {
+        MyVolley.getInstance(this).get(BaiduMusicApi.Album.recommendAlbum(0, 6), new MyVolley.MyCallBack() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 int code = jsonObject.optInt(ContentValue.Json.ErrorCode);
@@ -222,7 +218,7 @@ public class MainActivity extends MyBaseActivity {
                         List<AlbumInfo> bannerList = JSON.parseArray(jsonArray.toString(), AlbumInfo.class);
                         adapter.setAlbumData(bannerList);
                     } catch (Exception e) {
-                        AppLog.Logd("Error:" + e.getMessage());
+                        AppLog.Loge("Error:" + e.getMessage());
                         onFailure("未查询到相关数据！");
                     }
                 } else {

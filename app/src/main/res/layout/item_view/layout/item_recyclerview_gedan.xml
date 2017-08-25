@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/dim_5">
+
+    <ImageView
+        android:id="@+id/imgGeDan"
+        android:layout_width="@dimen/dim_100"
+        android:layout_height="@dimen/dim_100"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_ranking" />
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="@dimen/dim_100"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_5"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="分类1"
+        android:textColor="@android:color/black"
+        android:textSize="?normalSize"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dim_20"
+        android:gravity="center|left"
+        android:layout_marginTop="@dimen/dim_5"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:src="@drawable/ic_erji"
+            android:layout_width="@dimen/dim_20"
+            android:layout_height="@dimen/dim_20" />
+
+        <TextView
+            android:id="@+id/txtListenum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="分类1"
+            android:textSize="?smallSize" />
+    </LinearLayout>
+</LinearLayout>

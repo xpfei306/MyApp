@@ -31,10 +31,6 @@ public class ContentValue {
     public static final int ViewNewSong = 3;
     public static final int ViewAlbum = 4;
 
-    public static final class Url {
-        public static final String BaseUrl = "http://tingapi.ting.baidu.com/v1/restserver/ting?from=android&format=json";
-    }
-
     public static final class Json {
         public static final String List = "list";
         public static final String Banner = "pic";
@@ -43,6 +39,8 @@ public class ContentValue {
         public static final String Album = "plaze_album_list";
         public static final String RM = "RM";
         public static final String AlbumList = "album_list";
+        public static final String Content = "content";
+        public static final String ArtList = "artist";
         public static final int Successcode = 22000;
 
     }

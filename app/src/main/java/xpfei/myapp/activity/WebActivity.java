@@ -1,9 +1,11 @@
-package xpfei.myapp;
+package xpfei.myapp.activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
+import xpfei.myapp.R;
+import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.databinding.ActivityWebviewBinding;
 import xpfei.myapp.util.ContentValue;
 

@@ -1,4 +1,4 @@
-package xpfei.myapp;
+package xpfei.myapp.activity;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import xpfei.myapp.R;
+import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.databinding.ActivityHomeBinding;
 import xpfei.mylibrary.utils.CommonUtil;
 import xpfei.mylibrary.view.pulltorefresh.PullToRefreshBase;

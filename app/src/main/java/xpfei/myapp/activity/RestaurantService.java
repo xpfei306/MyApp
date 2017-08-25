@@ -1,4 +1,4 @@
-package xpfei.myapp;
+package xpfei.myapp.activity;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,6 +6,9 @@ import android.os.IBinder;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+
+import xpfei.myapp.NotifyCallBack;
+import xpfei.myapp.RestaurantAidlInterface;
 
 /**
  * Description: (这里用一句话描述这个类的作用)

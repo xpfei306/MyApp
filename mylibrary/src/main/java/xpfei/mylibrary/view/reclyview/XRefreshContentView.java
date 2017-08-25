@@ -499,7 +499,7 @@ public class XRefreshContentView implements OnScrollListener, OnTopRefreshTime, 
         if (mState != XRefreshViewState.STATE_COMPLETE) {
             mFooterCallBack.onStateComplete();
             setState(XRefreshViewState.STATE_COMPLETE);
-            mPinnedTime = mPinnedTime < 1000 ? 1000 : mPinnedTime;
+            mPinnedTime = mPinnedTime <= 200 ? 200 : mPinnedTime;
             if (isHideFooterWhenComplete) {
                 child.postDelayed(new Runnable() {
 

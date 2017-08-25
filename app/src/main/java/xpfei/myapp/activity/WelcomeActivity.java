@@ -1,4 +1,4 @@
-package xpfei.myapp;
+package xpfei.myapp.activity;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -8,6 +8,8 @@ import android.view.animation.AlphaAnimation;
 
 import com.alibaba.fastjson.JSONObject;
 
+import xpfei.myapp.R;
+import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.databinding.ActivityWelcomeBinding;
 import xpfei.myapp.model.UserInfo;
 import xpfei.myapp.util.ContentValue;

@@ -18,8 +18,10 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import xpfei.myapp.activity.GeDanListActivity;
 import xpfei.myapp.R;
-import xpfei.myapp.WebActivity;
+import xpfei.myapp.activity.SingerListActivity;
+import xpfei.myapp.activity.WebActivity;
 import xpfei.myapp.model.AlbumInfo;
 import xpfei.myapp.model.BannerInfo;
 import xpfei.myapp.model.CategoryInfo;
@@ -170,12 +172,30 @@ public class MainAdapter extends RecyclerView.Adapter {
      * @param hold viewhold
      * @param list 绑定的数据
      */
-    private void initCategory(CategoryHold hold, List<CategoryInfo> list) {
+    private void initCategory(CategoryHold hold, final List<CategoryInfo> list) {
         MainCategoryAdapter adapter = new MainCategoryAdapter(context, list);
         hold.recyclerView.setAdapter(adapter);
         adapter.setOnMyItemClickListener(new MainCategoryAdapter.onMyItemClickListener() {
             @Override
             public void onMyItemClick(int position) {
+                CategoryInfo info = list.get(position);
+                Intent intent = new Intent();
+                intent.putExtra(ContentValue.IntentKeyStr, info.getName());
+                switch (info.getType()) {
+                    case 1:
+                        intent.setClass(context, GeDanListActivity.class);
+                        context.startActivity(intent);
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+                        intent.setClass(context, SingerListActivity.class);
+                        context.startActivity(intent);
+                        break;
+                    case 4:
+                        break;
+                }
 
             }
         });

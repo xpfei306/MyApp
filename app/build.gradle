@@ -39,7 +39,4 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile project(':mylibrary')
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.android.support:recyclerview-v7:26.+'
 }

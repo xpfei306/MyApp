@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_10"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_5">
+
+        <xpfei.myapp.view.RoundImageView
+            android:id="@+id/imgArt"
+            android:layout_width="@dimen/dim_60"
+            android:layout_height="@dimen/dim_60"
+            android:scaleType="fitXY"
+            android:src="@mipmap/header" />
+
+        <TextView
+            android:id="@+id/txtArtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:gravity="center|left"
+            android:maxLines="1"
+            android:text="分类1"
+            android:textColor="@android:color/black"
+            android:textSize="?largeSize" />
+    </LinearLayout>
+
+    <View
+        style="@style/View_Line_H"
+        android:layout_marginLeft="@dimen/dim_10" />
+</LinearLayout>

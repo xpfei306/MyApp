@@ -8,13 +8,20 @@ package xpfei.myapp.model;
 public class CategoryInfo {
     private String name;
     private int drawableId;
-    public CategoryInfo() {
+    private int type;
 
-    }
-
-    public CategoryInfo(String name, int drawableId) {
+    public CategoryInfo(String name, int drawableId, int type) {
         this.name = name;
         this.drawableId = drawableId;
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getName() {
