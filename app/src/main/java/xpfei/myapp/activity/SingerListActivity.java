@@ -1,9 +1,11 @@
 package xpfei.myapp.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.RadioGroup;
 
 import com.alibaba.fastjson.JSON;
@@ -55,7 +57,7 @@ public class SingerListActivity extends MyBaseActivity {
         binding.xrefreshview.setPullRefreshEnable(false);
         binding.xrefreshview.setPullLoadEnable(true);
         binding.recvclerview.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ArtAdapter(this, artInfos);
+        adapter = new ArtAdapter(this, artInfos, R.layout.item_recyclerview_art);
         binding.recvclerview.setAdapter(adapter);
         adapter.setCustomLoadMoreView(new CustomFooterView(this));
     }
@@ -113,15 +115,15 @@ public class SingerListActivity extends MyBaseActivity {
                     CommonUtil.showToast(SingerListActivity.this, "已经是最后一页了！");
                 }
             }
-
+        });
+        binding.llSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh(boolean isPullDown) {
-
+            public void onClick(View view) {
+                startActivity(new Intent(SingerListActivity.this, SearchActivity.class));
             }
         });
         startBaseReqTask(this, null);
     }
-
 
     private void loadmore() {
         page++;

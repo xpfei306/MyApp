@@ -29,7 +29,9 @@
         <activity android:name=".activity.PersonalCenterActivity" />
         <activity android:name=".activity.GeDanListActivity" />
         <activity android:name=".activity.SingerListActivity" />
+        <activity android:name=".activity.RankingActivity" />
         <activity android:name=".activity.WebActivity" />
+        <activity android:name=".activity.SearchActivity" />
 
         <service android:name=".activity.RestaurantService" />
     </application>

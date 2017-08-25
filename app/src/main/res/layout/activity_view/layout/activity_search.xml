@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_60"
+        android:background="@color/colorGray"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/dim_20">
+
+        <ImageView
+            android:id="@+id/btn_left"
+            android:layout_width="@dimen/dim_40"
+            android:layout_height="@dimen/dim_40"
+            android:layout_marginBottom="@dimen/dim_5"
+            android:layout_marginTop="@dimen/dim_5"
+            android:padding="@dimen/dim_5"
+            android:src="@mipmap/btn_title_back" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dim_5"
+            android:layout_marginRight="@dimen/dim_5"
+            android:layout_marginTop="@dimen/dim_5"
+            android:background="@drawable/border_bk"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dim_20"
+                android:layout_height="@dimen/dim_20"
+                android:layout_marginLeft="@dimen/dim_5"
+                android:layout_marginRight="@dimen/dim_5"
+                android:src="@drawable/serch" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawablePadding="@dimen/dim_10"
+                android:gravity="center|left"
+                android:hint="搜歌手名、昵称、拼音..." />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

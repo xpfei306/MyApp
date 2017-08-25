@@ -29,6 +29,7 @@
                 android:src="@mipmap/btn_title_back" />
 
             <LinearLayout
+                android:id="@+id/llSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/dim_5"
@@ -39,7 +40,6 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/btn_left"
                     android:layout_width="@dimen/dim_20"
                     android:layout_height="@dimen/dim_20"
                     android:layout_marginLeft="@dimen/dim_5"

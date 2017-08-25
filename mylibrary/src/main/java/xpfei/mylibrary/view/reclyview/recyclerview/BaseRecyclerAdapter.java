@@ -22,71 +22,8 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
     private View customLoadMoreView = null;
     private View customHeaderView = null;
     private boolean isFooterEnable = true;
-
-    @Override
-    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        showFooter(customLoadMoreView, false);
-        if (viewType == VIEW_TYPES.FOOTER) {
-            Utils.removeViewFromParent(customLoadMoreView);
-            VH viewHolder = getViewHolder(customLoadMoreView);
-            return viewHolder;
-        } else if (viewType == VIEW_TYPES.HEADER) {
-            Utils.removeViewFromParent(customHeaderView);
-            VH viewHolder = getViewHolder(customHeaderView);
-            return viewHolder;
-        }
-        return onCreateViewHolder(parent, viewType, true);
-    }
-
-    private void showFooter(View footerview, boolean show) {
-        if (isFooterEnable && footerview != null && footerview instanceof IFooterCallBack) {
-            IFooterCallBack footerCallBack = (IFooterCallBack) footerview;
-            if (show) {
-                if (!footerCallBack.isShowing()) {
-                    footerCallBack.show(show);
-                }
-            } else {
-                if (getAdapterItemCount() == 0 && footerCallBack.isShowing()) {
-                    footerCallBack.show(false);
-                } else if (getAdapterItemCount() != 0 && !footerCallBack.isShowing()) {
-                    footerCallBack.show(true);
-                }
-            }
-        }
-    }
-
-    private boolean removeFooter = false;
-
-    public void addFooterView() {
-        if (removeFooter) {
-            notifyItemInserted(getItemCount());
-            removeFooter = false;
-            showFooter(customLoadMoreView, true);
-        }
-    }
-
-    public boolean isFooterShowing() {
-        return !removeFooter;
-    }
-
-    public void removeFooterView() {
-        if (!removeFooter) {
-            notifyItemRemoved(getItemCount() - 1);
-            removeFooter = true;
-        }
-    }
-
-    public abstract VH getViewHolder(View view);
-
-    /**
-     * 会调用此方法来判断是否显示空布局，返回true就会显示空布局<br/>
-     * 如有特殊需要，可重写此方法
-     *
-     * @return
-     */
-    public boolean isEmpty() {
-        return getAdapterItemCount() == 0;
-    }
+    private final RecyclerViewDataObserver observer = new RecyclerViewDataObserver();
+    private XRefreshView mParent;
 
     /**
      * @param parent
@@ -102,6 +39,23 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
      * @param position
      */
     public abstract void onBindViewHolder(VH holder, int position, boolean isItem);
+
+    public abstract VH getViewHolder(View view);
+
+    @Override
+    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        showFooter(customLoadMoreView, false);
+        if (viewType == VIEW_TYPES.FOOTER) {
+            Utils.removeViewFromParent(customLoadMoreView);
+            VH viewHolder = getViewHolder(customLoadMoreView);
+            return viewHolder;
+        } else if (viewType == VIEW_TYPES.HEADER) {
+            Utils.removeViewFromParent(customHeaderView);
+            VH viewHolder = getViewHolder(customHeaderView);
+            return viewHolder;
+        }
+        return onCreateViewHolder(parent, viewType, true);
+    }
 
     @Override
     public final void onBindViewHolder(VH holder, int position) {
@@ -122,10 +76,6 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
         }
     }
 
-    private final RecyclerViewDataObserver observer = new RecyclerViewDataObserver();
-
-    private XRefreshView mParent;
-
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -138,6 +88,33 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
                 registerAdapterDataObserver(observer);
             }
         }
+    }
+
+    @Override
+    public final int getItemViewType(int position) {
+        if (isHeader(position)) {
+            return VIEW_TYPES.HEADER;
+        } else if (isFooter(position)) {
+            return VIEW_TYPES.FOOTER;
+        } else {
+            position = getStart() > 0 ? position - 1 : position;
+            return getAdapterItemViewType(position);
+        }
+    }
+
+    /**
+     * Returns the total number of items in the data set hold by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
+    @Override
+    public final int getItemCount() {
+        int count = getAdapterItemCount();
+        count += getStart();
+        if (customLoadMoreView != null && !removeFooter) {
+            count++;
+        }
+        return count;
     }
 
     /**
@@ -192,18 +169,6 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
         return customLoadMoreView;
     }
 
-    @Override
-    public final int getItemViewType(int position) {
-        if (isHeader(position)) {
-            return VIEW_TYPES.HEADER;
-        } else if (isFooter(position)) {
-            return VIEW_TYPES.FOOTER;
-        } else {
-            position = getStart() > 0 ? position - 1 : position;
-            return getAdapterItemViewType(position);
-        }
-    }
-
     /**
      * 实现此方法来设置viewType
      *
@@ -218,19 +183,53 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
         return customHeaderView == null ? 0 : 1;
     }
 
-    /**
-     * Returns the total number of items in the data set hold by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
-    @Override
-    public final int getItemCount() {
-        int count = getAdapterItemCount();
-        count += getStart();
-        if (customLoadMoreView != null && !removeFooter) {
-            count++;
+    private void showFooter(View footerview, boolean show) {
+        if (isFooterEnable && footerview != null && footerview instanceof IFooterCallBack) {
+            IFooterCallBack footerCallBack = (IFooterCallBack) footerview;
+            if (show) {
+                if (!footerCallBack.isShowing()) {
+                    footerCallBack.show(show);
+                }
+            } else {
+                if (getAdapterItemCount() == 0 && footerCallBack.isShowing()) {
+                    footerCallBack.show(false);
+                } else if (getAdapterItemCount() != 0 && !footerCallBack.isShowing()) {
+                    footerCallBack.show(true);
+                }
+            }
         }
-        return count;
+    }
+
+    private boolean removeFooter = false;
+
+    public void addFooterView() {
+        if (removeFooter) {
+            notifyItemInserted(getItemCount());
+            removeFooter = false;
+            showFooter(customLoadMoreView, true);
+        }
+    }
+
+    public boolean isFooterShowing() {
+        return !removeFooter;
+    }
+
+    public void removeFooterView() {
+        if (!removeFooter) {
+            notifyItemRemoved(getItemCount() - 1);
+            removeFooter = true;
+        }
+    }
+
+
+    /**
+     * 会调用此方法来判断是否显示空布局，返回true就会显示空布局<br/>
+     * 如有特殊需要，可重写此方法
+     *
+     * @return
+     */
+    public boolean isEmpty() {
+        return getAdapterItemCount() == 0;
     }
 
     /**
@@ -255,7 +254,6 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
     public void insideEnableFooter(boolean enable) {
         isFooterEnable = enable;
     }
-
 
     /**
      * Insert a item to the list of the adapter

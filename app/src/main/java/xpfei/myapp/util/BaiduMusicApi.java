@@ -312,8 +312,7 @@ public class BaiduMusicApi {
          */
         public static String billCategory() {
             StringBuffer sb = new StringBuffer(BASE);
-            sb.append("&method=").append("baidu.ting.billboard.billCategory")
-                    .append("&kflag=1");
+            sb.append("&method=").append("baidu.ting.billboard.billCategory").append("&kflag=1");
             return sb.toString();
         }
 
