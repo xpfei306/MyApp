@@ -3,6 +3,7 @@ package xpfei.mylibrary.utils;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 
@@ -71,7 +72,6 @@ public class StringUtil {
         return defaultValue;
     }
 
-
     public static int str2Int(String value) {
         if (!isEmpty(value)) {
             return Integer.parseInt(value);
@@ -79,4 +79,13 @@ public class StringUtil {
         return 0;
     }
 
+    public static String int2double(int value) {
+        if (value > 10000) {
+            double tempvalue = value / 10000;
+            DecimalFormat df = new DecimalFormat("#.##");
+            return df.format(tempvalue)+" 万";
+        } else {
+            return String.valueOf(value);
+        }
+    }
 }

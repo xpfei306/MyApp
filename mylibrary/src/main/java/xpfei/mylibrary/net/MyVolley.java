@@ -12,10 +12,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 
 import java.net.SocketTimeoutException;
-import java.util.Map;
 
 import xpfei.mylibrary.utils.AppLog;
-import xpfei.mylibrary.utils.UrlUtil;
 
 
 /**
@@ -50,8 +48,8 @@ public class MyVolley {
         return instance;
     }
 
-    public void get(String baseUrl, Map<String, String> params, final MyCallBack callBack) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, UrlUtil.getUrl(baseUrl, params), null, new Response.Listener<JSONObject>() {
+    public void get(String baseUrl, final MyCallBack callBack) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, baseUrl, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 if (jsonObject != null) {
@@ -65,7 +63,7 @@ public class MyVolley {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 String msg = "未知错误，请联系管理员！";
-                AppLog.Loge(""+volleyError.getMessage());
+                AppLog.Loge("" + volleyError.getMessage());
                 Throwable cause = volleyError.getCause();
                 if (cause != null && cause instanceof SocketTimeoutException) {
                     msg = "连接超时，请检查网络设置！";
