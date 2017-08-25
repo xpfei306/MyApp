@@ -10,12 +10,9 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 
-import java.util.Collections;
-import java.util.List;
-
+import xpfei.mylibrary.utils.Utils;
 import xpfei.mylibrary.view.reclyview.XRefreshView;
 import xpfei.mylibrary.view.reclyview.callback.IFooterCallBack;
-import xpfei.mylibrary.utils.Utils;
 
 public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
@@ -24,6 +21,13 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
     private boolean isFooterEnable = true;
     private final RecyclerViewDataObserver observer = new RecyclerViewDataObserver();
     private XRefreshView mParent;
+    private boolean removeFooter = false;
+
+    protected class VIEW_TYPES {
+        public static final int FOOTER = -1;
+        public static final int HEADER = -3;
+        public static final int NORMAL = -4;
+    }
 
     /**
      * @param parent
@@ -41,6 +45,14 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
     public abstract void onBindViewHolder(VH holder, int position, boolean isItem);
 
     public abstract VH getViewHolder(View view);
+
+    /**
+     * Returns the number of items in the adapter bound to the parent
+     * RecyclerView.
+     *
+     * @return The number of items in the bound adapter
+     */
+    public abstract int getAdapterItemCount();
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -97,8 +109,7 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
         } else if (isFooter(position)) {
             return VIEW_TYPES.FOOTER;
         } else {
-            position = getStart() > 0 ? position - 1 : position;
-            return getAdapterItemViewType(position);
+            return getAdapterItemViewType();
         }
     }
 
@@ -172,10 +183,9 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
     /**
      * 实现此方法来设置viewType
      *
-     * @param position
      * @return viewType
      */
-    public int getAdapterItemViewType(int position) {
+    public int getAdapterItemViewType() {
         return VIEW_TYPES.NORMAL;
     }
 
@@ -200,8 +210,6 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
         }
     }
 
-    private boolean removeFooter = false;
-
     public void addFooterView() {
         if (removeFooter) {
             notifyItemInserted(getItemCount());
@@ -221,7 +229,6 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
         }
     }
 
-
     /**
      * 会调用此方法来判断是否显示空布局，返回true就会显示空布局<br/>
      * 如有特殊需要，可重写此方法
@@ -232,69 +239,7 @@ public abstract class BaseRecyclerAdapter<VH extends RecyclerView.ViewHolder> ex
         return getAdapterItemCount() == 0;
     }
 
-    /**
-     * Returns the number of items in the adapter bound to the parent
-     * RecyclerView.
-     *
-     * @return The number of items in the bound adapter
-     */
-    public abstract int getAdapterItemCount();
-
-    /**
-     * Swap the item of list
-     *
-     * @param list data list
-     * @param from position from
-     * @param to   position to
-     */
-    public void swapPositions(List<?> list, int from, int to) {
-        Collections.swap(list, from, to);
-    }
-
     public void insideEnableFooter(boolean enable) {
         isFooterEnable = enable;
-    }
-
-    /**
-     * Insert a item to the list of the adapter
-     *
-     * @param list     data list
-     * @param object   object T
-     * @param position position
-     * @param <T>      in T
-     */
-    public <T> void insert(List<T> list, T object, int position) {
-        list.add(position, object);
-        notifyItemInserted(position + getStart());
-    }
-
-    /**
-     * Remove a item of the list of the adapter
-     *
-     * @param list     data list
-     * @param position position
-     */
-    public void remove(List<?> list, int position) {
-        if (list.size() > 0) {
-            notifyItemRemoved(position + getStart());
-        }
-    }
-
-    /**
-     * Clear the list of the adapter
-     *
-     * @param list data list
-     */
-    public void clear(List<?> list) {
-        int start = getStart();
-        int size = list.size();
-        list.clear();
-        notifyItemRangeRemoved(start, size);
-    }
-
-    protected class VIEW_TYPES {
-        public static final int FOOTER = -1;
-        public static final int HEADER = -3;
-        public static final int NORMAL = -4;
     }
 }

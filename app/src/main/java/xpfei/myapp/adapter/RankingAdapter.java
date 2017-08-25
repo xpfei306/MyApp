@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import xpfei.myapp.R;
+import xpfei.myapp.adapter.base.BaseMyReclyViewAdapter;
 import xpfei.myapp.model.RankingInfo;
 import xpfei.myapp.model.SongInfo;
 

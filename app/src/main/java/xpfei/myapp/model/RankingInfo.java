@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class RankingInfo {
     private int count;
+    private int type;
     private String name;
     private String pic_s260;
     private List<SongInfo> content;
@@ -19,6 +20,14 @@ public class RankingInfo {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getName() {

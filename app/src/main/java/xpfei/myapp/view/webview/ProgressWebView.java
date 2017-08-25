@@ -21,8 +21,8 @@ public class ProgressWebView extends WebView {
         //实例化进度条
         progressBar = new WebViewProgressBar(context);
         //设置进度条的size
-        progressBar.setLayoutParams(new ViewGroup.LayoutParams
-                (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        progressBar.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
         //刚开始时候进度条不可见
         progressBar.setVisibility(GONE);
         //把进度条添加到webView里面
@@ -130,11 +130,6 @@ public class ProgressWebView extends WebView {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            super.onReceivedError(view, errorCode, description, failingUrl);
         }
 
         @Override

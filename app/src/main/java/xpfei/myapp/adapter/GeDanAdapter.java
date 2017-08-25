@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import xpfei.myapp.R;
+import xpfei.myapp.adapter.base.BaseMyReclyViewAdapter;
 import xpfei.myapp.model.GeDanInfo;
 import xpfei.mylibrary.utils.StringUtil;
 
@@ -51,7 +52,6 @@ public class GeDanAdapter extends BaseMyReclyViewAdapter<GeDanInfo, GeDanAdapter
         holder.txtName.setText(info.getTitle());
         holder.txtListenum.setText(StringUtil.int2double(info.getListenum()));
     }
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgGeDan;

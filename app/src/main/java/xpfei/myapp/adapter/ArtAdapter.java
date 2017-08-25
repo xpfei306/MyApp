@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import xpfei.myapp.R;
+import xpfei.myapp.adapter.base.BaseMyReclyViewAdapter;
 import xpfei.myapp.model.ArtInfo;
 
 /**
@@ -21,7 +22,6 @@ import xpfei.myapp.model.ArtInfo;
  * Date:   2017/08/22
  */
 public class ArtAdapter extends BaseMyReclyViewAdapter<ArtInfo, ArtAdapter.ViewHolder> {
-
 
     public ArtAdapter(Context context, List data, @LayoutRes int layoutId) {
         super(context, data, layoutId);
