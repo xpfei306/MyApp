@@ -59,25 +59,19 @@ public abstract class BaseMyReclyViewAdapter<T, V extends RecyclerView.ViewHolde
     }
 
     public void setData(T t) {
-        setData(t, 0);
-    }
-
-    public void setData(T t, int position) {
         if (t != null) {
             if (data == null) {
                 data = new ArrayList<>();
             }
             data.add(t);
-            notifyItemInserted(position + getStart());
+            notifyDataSetChanged();
         }
     }
 
     public void setData(List<T> list) {
         if (list != null) {
             this.data = list;
-            int start = getStart();
-            int size = list.size();
-            notifyItemRangeRemoved(start, size);
+            notifyDataSetChanged();
         }
     }
 

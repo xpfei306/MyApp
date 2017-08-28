@@ -19,6 +19,10 @@ import xpfei.mylibrary.net.response.FastJsonResponseHandler;
 import xpfei.mylibrary.utils.CommonUtil;
 import xpfei.mylibrary.utils.StringUtil;
 
+
+/**
+ * 首页
+ */
 public class WelcomeActivity extends MyBaseActivity {
     private ActivityWelcomeBinding binding;
     private String strName, strPsw;

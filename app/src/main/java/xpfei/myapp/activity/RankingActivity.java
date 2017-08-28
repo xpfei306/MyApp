@@ -57,7 +57,7 @@ public class RankingActivity extends MyBaseActivity {
             @Override
             public void onRefresh(boolean isPullDown) {
                 rankingInfos.clear();
-                startBaseReqTask(RankingActivity.this, null);
+                startBaseMSVReqTask(RankingActivity.this, null);
             }
         });
         startBaseMSVReqTask(this, null);

@@ -10,7 +10,7 @@ import xpfei.myapp.databinding.ActivityWebviewBinding;
 import xpfei.myapp.util.ContentValue;
 
 /**
- * Description: (这里用一句话描述这个类的作用)
+ * Description: 加载web的activity
  * Author: xpfei
  * Date:   2017/08/23
  */

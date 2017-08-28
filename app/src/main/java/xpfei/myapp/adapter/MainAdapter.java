@@ -20,6 +20,7 @@ import java.util.List;
 
 import xpfei.myapp.activity.GeDanListActivity;
 import xpfei.myapp.R;
+import xpfei.myapp.activity.PlayerActivity;
 import xpfei.myapp.activity.RadioListActivity;
 import xpfei.myapp.activity.RankingActivity;
 import xpfei.myapp.activity.SingerListActivity;
@@ -219,7 +220,10 @@ public class MainAdapter extends RecyclerView.Adapter {
         hold.recyclerView.setAdapter(adapter);
         adapter.setOnMyItemClickListener(new SongAdapter.onMyItemClickListener() {
             @Override
-            public void onMyItemClick(int position) {
+            public void onMyItemClick(SongInfo info) {
+                Intent intent = new Intent(context, PlayerActivity.class);
+                intent.putExtra(ContentValue.IntentKeyStr, info.getSong_id());
+                context.startActivity(intent);
             }
         });
         hold.recyclerView.setLayoutManager(new LinearLayoutManager(context));

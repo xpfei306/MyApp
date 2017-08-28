@@ -39,7 +39,7 @@ public class SingerListActivity extends MyBaseActivity {
     private ActivityArtlistBinding binding;
     private int page = 0, area, sex;
     private ArtAdapter adapter;
-    private boolean isMore = true;
+    private boolean isMore = true, isMsv = true;
     private List<ArtInfo> artInfos = new ArrayList<>();
 
     @Override
@@ -126,8 +126,9 @@ public class SingerListActivity extends MyBaseActivity {
     }
 
     private void loadmore() {
+        isMsv = false;
         page++;
-        startBaseMSVReqTask(this, null);
+        onRequestData();
     }
 
     @Override
@@ -142,20 +143,34 @@ public class SingerListActivity extends MyBaseActivity {
                         artInfos.addAll(tempList);
                         adapter.setData(artInfos);
                     } else {
-                        onMSVFailure("未查询到相关歌手信息！");
+                        if (isMsv) {
+                            onMSVFailure("未查询到相关歌手信息！");
+                        } else {
+                            CommonUtil.showToast(SingerListActivity.this, "未查询到相关歌手信息！");
+                        }
                         isMore = false;
                     }
                 } catch (Exception e) {
+                    if (isMsv) {
+                        onMSVFailure("服务器繁忙，请稍后再试！");
+                    } else {
+                        CommonUtil.showToast(SingerListActivity.this, "服务器繁忙，请稍后再试！");
+                    }
                     AppLog.Loge("Error:" + e.getMessage());
-                    onMSVFailure("服务器繁忙，请稍后再试！");
                 }
                 binding.xrefreshview.stopLoadMore();
-                onMSVSuccess(null);
+                if (isMsv) {
+                    onMSVSuccess(null);
+                }
             }
 
             @Override
             public void onFailure(String msg) {
-                onMSVFailure(msg);
+                if (isMsv) {
+                    onMSVFailure(msg);
+                } else {
+                    CommonUtil.showToast(SingerListActivity.this, msg);
+                }
                 binding.xrefreshview.stopLoadMore();
             }
         });

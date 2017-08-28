@@ -35,7 +35,7 @@ public class GeDanListActivity extends MyBaseActivity {
     private ActivityListBinding binding;
     private int page = 1;
     private GeDanAdapter adapter;
-    private boolean isMore = true;
+    private boolean isMore = true, isMsv = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +69,9 @@ public class GeDanListActivity extends MyBaseActivity {
     }
 
     private void loadmore() {
+        isMsv = false;
         page++;
-        startBaseMSVReqTask(this, null);
+        onRequestData();
     }
 
     @Override
@@ -89,15 +90,27 @@ public class GeDanListActivity extends MyBaseActivity {
                             List<GeDanInfo> tempList = JSON.parseArray(tempStr, GeDanInfo.class);
                             adapter.setData(tempList);
                         } else {
-                            onMSVFailure("未查询到相关歌单！");
+                            if (isMsv) {
+                                onMSVFailure("未查询到相关歌单！");
+                            } else {
+                                CommonUtil.showToast(GeDanListActivity.this, "未查询到相关歌单！");
+                            }
                             isMore = false;
                         }
                     } catch (Exception e) {
                         AppLog.Loge("Error:" + e.getMessage());
-                        onMSVFailure("服务器繁忙，请稍后再试！");
+                        if (isMsv) {
+                            onMSVFailure("服务器繁忙，请稍后再试！");
+                        } else {
+                            CommonUtil.showToast(GeDanListActivity.this, "服务器繁忙，请稍后再试！");
+                        }
                     }
                 } else {
-                    onMSVFailure("未查询到相关歌单！");
+                    if (isMsv) {
+                        onMSVFailure("未查询到相关歌单！");
+                    } else {
+                        CommonUtil.showToast(GeDanListActivity.this, "未查询到相关歌单！");
+                    }
                 }
                 binding.xrefreshview.stopLoadMore();
                 onMSVSuccess(null);
@@ -105,7 +118,11 @@ public class GeDanListActivity extends MyBaseActivity {
 
             @Override
             public void onFailure(String msg) {
-                onMSVFailure(msg);
+                if (isMsv) {
+                    onMSVFailure(msg);
+                } else {
+                    CommonUtil.showToast(GeDanListActivity.this,msg);
+                }
                 binding.xrefreshview.stopLoadMore();
             }
         });

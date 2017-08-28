@@ -39,7 +39,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        SongInfo info = list.get(position);
+        int index = holder.getAdapterPosition();
+        final SongInfo info = list.get(index);
         Glide.with(context).load(info.getPic_small()).error(R.mipmap.nopic).into(holder.imgSong);
         holder.txtSong.setText(info.getTitle());
         holder.txtAlbum.setText(info.getAuthor() + "-" + info.getAlbum_title());
@@ -47,7 +48,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 if (listener != null) {
-                    listener.onMyItemClick(holder.getAdapterPosition());
+                    listener.onMyItemClick(info);
                 }
             }
         });
@@ -59,7 +60,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     }
 
     public interface onMyItemClickListener {
-        void onMyItemClick(int position);
+        void onMyItemClick(SongInfo info);
     }
 
     public void setOnMyItemClickListener(onMyItemClickListener listener) {
