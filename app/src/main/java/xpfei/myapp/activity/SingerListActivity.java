@@ -81,7 +81,7 @@ public class SingerListActivity extends MyBaseActivity {
                         break;
                 }
                 artInfos.clear();
-                startBaseReqTask(SingerListActivity.this, null);
+                startBaseMSVReqTask(SingerListActivity.this, null);
             }
         });
         binding.rgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -102,7 +102,7 @@ public class SingerListActivity extends MyBaseActivity {
                         break;
                 }
                 artInfos.clear();
-                startBaseReqTask(SingerListActivity.this, null);
+                startBaseMSVReqTask(SingerListActivity.this, null);
             }
         });
         binding.xrefreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
@@ -122,12 +122,12 @@ public class SingerListActivity extends MyBaseActivity {
                 startActivity(new Intent(SingerListActivity.this, SearchActivity.class));
             }
         });
-        startBaseReqTask(this, null);
+        startBaseMSVReqTask(this, null);
     }
 
     private void loadmore() {
         page++;
-        startBaseReqTask(this, null);
+        startBaseMSVReqTask(this, null);
     }
 
     @Override
@@ -142,20 +142,20 @@ public class SingerListActivity extends MyBaseActivity {
                         artInfos.addAll(tempList);
                         adapter.setData(artInfos);
                     } else {
-                        onFailure("未查询到相关歌手信息！");
+                        onMSVFailure("未查询到相关歌手信息！");
                         isMore = false;
                     }
                 } catch (Exception e) {
                     AppLog.Loge("Error:" + e.getMessage());
-                    onFailure("服务器繁忙，请稍后再试！");
+                    onMSVFailure("服务器繁忙，请稍后再试！");
                 }
                 binding.xrefreshview.stopLoadMore();
-                onDialogSuccess(null);
+                onMSVSuccess(null);
             }
 
             @Override
             public void onFailure(String msg) {
-                onDialogFailure(msg);
+                onMSVFailure(msg);
                 binding.xrefreshview.stopLoadMore();
             }
         });

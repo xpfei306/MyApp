@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dim_100"
+    android:layout_margin="@dimen/dim_5"
+    android:background="@android:color/white"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardPreventCornerOverlap="true">
+
+    <ImageView
+        android:id="@+id/imgRadio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/welcome" />
+
+    <TextView
+        android:id="@+id/txtRadioName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#90000000"
+        android:gravity="center|left"
+        android:padding="@dimen/dim_10"
+        android:text="歌手电台"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/font_10" />
+</android.support.v7.widget.CardView>

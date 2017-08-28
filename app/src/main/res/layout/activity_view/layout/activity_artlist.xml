@@ -61,130 +61,142 @@
             style="@style/View_Line_H"
             android:layout_marginTop="@dimen/dim_10" />
 
-        <LinearLayout
+        <xpfei.myapp.view.MultiStateView
+            android:id="@+id/mMultiStateView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <RadioGroup
-                android:id="@+id/rgArea"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rbAllArea"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dim_5"
-                    android:button="@null"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:padding="@dimen/dim_5"
-                    android:text="全部地区"
-                    android:textColor="@drawable/color_radiobutton" />
-
-                <RadioButton
-                    android:id="@+id/rbHy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dim_5"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="@dimen/dim_5"
-                    android:text="华语"
-                    android:textColor="@drawable/color_radiobutton" />
-
-                <RadioButton
-                    android:id="@+id/rbHg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dim_5"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="@dimen/dim_5"
-                    android:text="韩国"
-                    android:textColor="@drawable/color_radiobutton" />
-
-                <RadioButton
-                    android:id="@+id/rbOm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dim_5"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="@dimen/dim_5"
-                    android:text="欧美"
-                    android:textColor="@drawable/color_radiobutton" />
-            </RadioGroup>
-
-            <RadioGroup
-                android:id="@+id/rgSex"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rbAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dim_5"
-                    android:button="@null"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:padding="@dimen/dim_5"
-                    android:text="全部性别"
-                    android:textColor="@drawable/color_radiobutton" />
-
-                <RadioButton
-                    android:id="@+id/rbMan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dim_5"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="@dimen/dim_5"
-                    android:text="男"
-                    android:textColor="@drawable/color_radiobutton" />
-
-                <RadioButton
-                    android:id="@+id/rbWoman"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dim_5"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="@dimen/dim_5"
-                    android:text="女"
-                    android:textColor="@drawable/color_radiobutton" />
-
-                <RadioButton
-                    android:id="@+id/rbZh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dim_5"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="@dimen/dim_5"
-                    android:text="组合"
-                    android:textColor="@drawable/color_radiobutton" />
-            </RadioGroup>
-        </LinearLayout>
-
-        <xpfei.mylibrary.view.reclyview.XRefreshView
-            android:id="@+id/xrefreshview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dim_10"
-            android:background="@android:color/white">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recvclerview"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dim_10"
-                android:layout_marginRight="@dimen/dim_10" />
-        </xpfei.mylibrary.view.reclyview.XRefreshView>
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="vertical">
+
+                    <RadioGroup
+                        android:id="@+id/rgArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rbAllArea"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_5"
+                            android:button="@null"
+                            android:checked="true"
+                            android:gravity="center"
+                            android:padding="@dimen/dim_5"
+                            android:text="全部地区"
+                            android:textColor="@drawable/color_radiobutton" />
+
+                        <RadioButton
+                            android:id="@+id/rbHy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_5"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:padding="@dimen/dim_5"
+                            android:text="华语"
+                            android:textColor="@drawable/color_radiobutton" />
+
+                        <RadioButton
+                            android:id="@+id/rbHg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_5"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:padding="@dimen/dim_5"
+                            android:text="韩国"
+                            android:textColor="@drawable/color_radiobutton" />
+
+                        <RadioButton
+                            android:id="@+id/rbOm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_5"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:padding="@dimen/dim_5"
+                            android:text="欧美"
+                            android:textColor="@drawable/color_radiobutton" />
+                    </RadioGroup>
+
+                    <RadioGroup
+                        android:id="@+id/rgSex"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rbAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_5"
+                            android:button="@null"
+                            android:checked="true"
+                            android:gravity="center"
+                            android:padding="@dimen/dim_5"
+                            android:text="全部性别"
+                            android:textColor="@drawable/color_radiobutton" />
+
+                        <RadioButton
+                            android:id="@+id/rbMan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_5"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:padding="@dimen/dim_5"
+                            android:text="男"
+                            android:textColor="@drawable/color_radiobutton" />
+
+                        <RadioButton
+                            android:id="@+id/rbWoman"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_5"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:padding="@dimen/dim_5"
+                            android:text="女"
+                            android:textColor="@drawable/color_radiobutton" />
+
+                        <RadioButton
+                            android:id="@+id/rbZh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dim_5"
+                            android:button="@null"
+                            android:gravity="center"
+                            android:padding="@dimen/dim_5"
+                            android:text="组合"
+                            android:textColor="@drawable/color_radiobutton" />
+                    </RadioGroup>
+                </LinearLayout>
+
+                <xpfei.mylibrary.view.reclyview.XRefreshView
+                    android:id="@+id/xrefreshview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/dim_10"
+                    android:background="@android:color/white">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recvclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dim_10"
+                        android:layout_marginRight="@dimen/dim_10" />
+                </xpfei.mylibrary.view.reclyview.XRefreshView>
+            </LinearLayout>
+        </xpfei.myapp.view.MultiStateView>
     </LinearLayout>
 </layout>

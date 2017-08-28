@@ -65,12 +65,12 @@ public class GeDanListActivity extends MyBaseActivity {
                 }
             }
         });
-        startBaseReqTask(this, null);
+        startBaseMSVReqTask(this, null);
     }
 
     private void loadmore() {
         page++;
-        startBaseReqTask(this, null);
+        startBaseMSVReqTask(this, null);
     }
 
     @Override
@@ -89,23 +89,23 @@ public class GeDanListActivity extends MyBaseActivity {
                             List<GeDanInfo> tempList = JSON.parseArray(tempStr, GeDanInfo.class);
                             adapter.setData(tempList);
                         } else {
-                            onFailure("未查询到相关歌单！");
+                            onMSVFailure("未查询到相关歌单！");
                             isMore = false;
                         }
                     } catch (Exception e) {
                         AppLog.Loge("Error:" + e.getMessage());
-                        onFailure("服务器繁忙，请稍后再试！");
+                        onMSVFailure("服务器繁忙，请稍后再试！");
                     }
                 } else {
-                    onFailure("未查询到相关歌单！");
+                    onMSVFailure("未查询到相关歌单！");
                 }
                 binding.xrefreshview.stopLoadMore();
-                onDialogSuccess(null);
+                onMSVSuccess(null);
             }
 
             @Override
             public void onFailure(String msg) {
-                onDialogFailure(msg);
+                onMSVFailure(msg);
                 binding.xrefreshview.stopLoadMore();
             }
         });

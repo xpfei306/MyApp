@@ -20,6 +20,7 @@ import java.util.List;
 
 import xpfei.myapp.activity.GeDanListActivity;
 import xpfei.myapp.R;
+import xpfei.myapp.activity.RadioListActivity;
 import xpfei.myapp.activity.RankingActivity;
 import xpfei.myapp.activity.SingerListActivity;
 import xpfei.myapp.activity.WebActivity;
@@ -196,7 +197,8 @@ public class MainAdapter extends RecyclerView.Adapter {
                         context.startActivity(intent);
                         break;
                     case 4:
-
+                        intent.setClass(context, RadioListActivity.class);
+                        context.startActivity(intent);
                         break;
                 }
 

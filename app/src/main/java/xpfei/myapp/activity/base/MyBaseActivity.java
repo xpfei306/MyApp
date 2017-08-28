@@ -260,7 +260,7 @@ public abstract class MyBaseActivity extends AppCompatActivity {
         super.setContentView(layoutResID);
         btn_left = (ImageView) findViewById(R.id.btn_left);
         txt_title = (TextView) findViewById(R.id.txt_title);
-//        mMultiStateView = (MultiStateView) findViewById(R.id.mMultiStateView);
+        mMultiStateView = (MultiStateView) findViewById(R.id.mMultiStateView);
     }
 
     /**

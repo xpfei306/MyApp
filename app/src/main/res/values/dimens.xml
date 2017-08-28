@@ -12,6 +12,7 @@
     <dimen name="dim_120">120dp</dimen>
     <dimen name="dim_70">70dp</dimen>
     <dimen name="font_9">9sp</dimen>
+    <dimen name="font_10">10sp</dimen>
     <dimen name="smalltextsize0">12sp</dimen>
     <dimen name="middletextsize0">14sp</dimen>
     <dimen name="largetextsize0">16sp</dimen>

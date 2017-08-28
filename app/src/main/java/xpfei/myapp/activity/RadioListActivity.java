@@ -2,7 +2,7 @@ package xpfei.myapp.activity;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.alibaba.fastjson.JSON;
 
@@ -14,26 +14,24 @@ import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.activity.base.MyBaseActivity;
-import xpfei.myapp.adapter.RankingAdapter;
+import xpfei.myapp.adapter.RadiaoAdapter;
 import xpfei.myapp.databinding.ActivityListBinding;
-import xpfei.myapp.model.RankingInfo;
+import xpfei.myapp.model.RadioInfo;
 import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
+import xpfei.myapp.view.MyStaggerGrildLayoutManger;
 import xpfei.mylibrary.net.MyVolley;
 import xpfei.mylibrary.utils.AppLog;
-import xpfei.mylibrary.view.reclyview.CustomGifHeader;
-import xpfei.mylibrary.view.reclyview.XRefreshView;
 
 /**
- * Description: 榜单列表
+ * Description: 电台列表
  * Author: xpfei
- * Date:   2017/08/25
+ * Date:   2017/08/21
  */
-public class RankingActivity extends MyBaseActivity {
+public class RadioListActivity extends MyBaseActivity {
     private String title;//标题
     private ActivityListBinding binding;
-    private RankingAdapter adapter;
-    private List<RankingInfo> rankingInfos = new ArrayList<>();
+    private RadiaoAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,49 +44,39 @@ public class RankingActivity extends MyBaseActivity {
     }
 
     private void initView() {
-        CustomGifHeader header = new CustomGifHeader(this);
-        binding.xrefreshview.setCustomHeaderView(header);
-        binding.xrefreshview.setPullRefreshEnable(true);
-        binding.recvclerview.setLayoutManager(new LinearLayoutManager(this));
+        binding.xrefreshview.setPullRefreshEnable(false);
+        binding.recvclerview.setLayoutManager(new MyStaggerGrildLayoutManger(this, 3, StaggeredGridLayoutManager.VERTICAL));
         binding.xrefreshview.setPullLoadEnable(false);
-        adapter = new RankingAdapter(this, rankingInfos, R.layout.item_recyclerview_ranking);
+        adapter = new RadiaoAdapter(this, new ArrayList<RadioInfo>());
         binding.recvclerview.setAdapter(adapter);
-        binding.xrefreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
-            @Override
-            public void onRefresh(boolean isPullDown) {
-                rankingInfos.clear();
-                startBaseReqTask(RankingActivity.this, null);
-            }
-        });
         startBaseMSVReqTask(this, null);
     }
 
+
     @Override
     public void onRequestData() {
-        MyVolley.getInstance(this).get(BaiduMusicApi.Billboard.billCategory(), new MyVolley.MyCallBack() {
+        MyVolley.getInstance(this).get(BaiduMusicApi.Radio.getRadioList(), new MyVolley.MyCallBack() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 int code = jsonObject.optInt(ContentValue.Json.ErrorCode);
                 if (code == ContentValue.Json.Successcode) {
                     try {
-                        JSONArray json = jsonObject.optJSONArray(ContentValue.Json.Content);
-                        List<RankingInfo> list = JSON.parseArray(json.toString(), RankingInfo.class);
-                        adapter.setData(list);
+                        JSONArray list = jsonObject.optJSONArray(ContentValue.Json.Result);
+                        List<RadioInfo> tempList = JSON.parseArray(list.toString(), RadioInfo.class);
+                        adapter.setData(tempList);
                     } catch (Exception e) {
                         AppLog.Loge("Error:" + e.getMessage());
                         onMSVFailure("服务器繁忙，请稍后再试！");
                     }
                 } else {
-                    onMSVFailure("未查询到相关歌单！");
+                    onMSVFailure("未查询到相关电台！");
                 }
                 onMSVSuccess(null);
-                binding.xrefreshview.stopRefresh();
             }
 
             @Override
             public void onFailure(String msg) {
                 onMSVFailure(msg);
-                binding.xrefreshview.stopRefresh();
             }
         });
     }

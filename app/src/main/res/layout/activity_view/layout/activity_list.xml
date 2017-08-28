@@ -12,16 +12,22 @@
 
         <include layout="@layout/view_topview" />
 
-        <xpfei.mylibrary.view.reclyview.XRefreshView
-            android:id="@+id/xrefreshview"
+        <xpfei.myapp.view.MultiStateView
+            android:id="@+id/mMultiStateView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#fff">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recvclerview"
+            <xpfei.mylibrary.view.reclyview.XRefreshView
+                android:id="@+id/xrefreshview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </xpfei.mylibrary.view.reclyview.XRefreshView>
+                android:layout_height="match_parent"
+                android:background="#fff">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recvclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </xpfei.mylibrary.view.reclyview.XRefreshView>
+        </xpfei.myapp.view.MultiStateView>
     </LinearLayout>
 </layout>

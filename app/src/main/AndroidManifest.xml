@@ -30,6 +30,7 @@
         <activity android:name=".activity.GeDanListActivity" />
         <activity android:name=".activity.SingerListActivity" />
         <activity android:name=".activity.RankingActivity" />
+        <activity android:name=".activity.RadioListActivity" />
         <activity android:name=".activity.WebActivity" />
         <activity android:name=".activity.SearchActivity" />
 

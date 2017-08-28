@@ -7,17 +7,34 @@
     android:background="@android:color/white"
     android:padding="10dp">
 
-    <ProgressBar
-        android:id="@+id/xrefreshview_footer_progressbar"
+    <LinearLayout
+        android:id="@+id/xrefreshview_footer_relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="正在加载..." />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/xrefreshview_footer_hint_textview"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:gravity="center"
         android:text="@string/xrefreshview_footer_hint_normal" />
 
@@ -26,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:gravity="center"
         android:text="@string/xrefreshview_footer_hint_ready" />
 </RelativeLayout>

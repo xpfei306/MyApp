@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/dim_5">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <xpfei.myapp.view.RoundImageView
+            android:id="@+id/imgSinger"
+            android:layout_width="@dimen/dim_60"
+            android:layout_height="@dimen/dim_60"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/header" />
+
+        <TextView
+            android:id="@+id/txtRadioName"
+            android:layout_width="@dimen/dim_60"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imgSinger"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_black"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:text="歌手电台"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/font_10" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtSinger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dim_5"
+        android:text="林俊杰"
+        android:textColor="@android:color/black"
+        android:textSize="?normalSize" />
+</LinearLayout>

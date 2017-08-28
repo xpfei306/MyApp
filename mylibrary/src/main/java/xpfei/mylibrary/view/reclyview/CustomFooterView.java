@@ -60,8 +60,8 @@ public class CustomFooterView extends LinearLayout implements IFooterCallBack {
     @Override
     public void onStateRefreshing() {
         mHintView.setVisibility(View.GONE);
-        mProgressBar.setVisibility(View.VISIBLE);
         mClickView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
         show(true);
     }
 
@@ -81,17 +81,17 @@ public class CustomFooterView extends LinearLayout implements IFooterCallBack {
             //处理数据加载失败时ui显示的逻辑，也可以不处理，看自己的需求
             mHintView.setText(xpfei.mylibrary.R.string.xrefreshview_footer_hint_fail);
         }
-        mHintView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mClickView.setVisibility(View.GONE);
+        mHintView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onStateComplete() {
         mHintView.setText(xpfei.mylibrary.R.string.xrefreshview_footer_hint_complete);
-        mHintView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
         mClickView.setVisibility(View.GONE);
+        mHintView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -100,8 +100,7 @@ public class CustomFooterView extends LinearLayout implements IFooterCallBack {
             return;
         }
         showing = show;
-        LayoutParams lp = (LayoutParams) mContentView
-                .getLayoutParams();
+        LayoutParams lp = (LayoutParams) mContentView.getLayoutParams();
         lp.height = show ? LayoutParams.WRAP_CONTENT : 0;
         mContentView.setLayoutParams(lp);
     }
@@ -116,7 +115,7 @@ public class CustomFooterView extends LinearLayout implements IFooterCallBack {
         ViewGroup moreView = (ViewGroup) LayoutInflater.from(mContext).inflate(xpfei.mylibrary.R.layout.xrefreshview_footer, this);
         moreView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         mContentView = moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_content);
-        mProgressBar = moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_progressbar);
+        mProgressBar = moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_relativeLayout);
         mHintView = moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_hint_textview);
         mClickView = moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_click_textview);
     }

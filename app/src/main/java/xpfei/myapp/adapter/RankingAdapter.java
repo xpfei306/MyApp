@@ -48,12 +48,10 @@ public class RankingAdapter extends BaseMyReclyViewAdapter<RankingInfo, RankingA
         return new ViewHolder(view, true);
     }
 
-
     @Override
     public RankingAdapter.ViewHolder getViewHolder(View view) {
         return new ViewHolder(view, false);
     }
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgRanking;

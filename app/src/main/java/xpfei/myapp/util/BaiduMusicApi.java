@@ -414,6 +414,36 @@ public class BaiduMusicApi {
     }
 
     /**
+     * 音乐电台
+     */
+    public static class Radio {
+        /**
+         * 音乐电台列表
+         *
+         * @return
+         */
+        public static String getRadioList() {
+            StringBuffer sb = new StringBuffer(BASE);
+            sb.append("&method=").append("baidu.ting.radio.getCategoryList");
+            return sb.toString();
+        }
+
+        /**
+         * 音乐电台详情
+         *
+         * @return
+         */
+        public static String getRadioInfo(String channelname, int pageNo, int pageSize) {
+            StringBuffer sb = new StringBuffer(BASE);
+            sb.append("&method=").append("baidu.ting.radio.getChannelSong");
+            sb.append("&pn=").append(pageNo);
+            sb.append("&rn=").append(pageSize);
+            sb.append("&channelname=").append(channelname);
+            return sb.toString();
+        }
+    }
+
+    /**
      * 乐播节目
      * 节目相当于一个专辑
      * 每一期相当于专辑里的每首歌
@@ -430,11 +460,10 @@ public class BaiduMusicApi {
          * @return
          */
         public static String channelTag(int pageNo, int pageSize) {
-
             StringBuffer sb = new StringBuffer(BASE);
             sb.append("&method=").append("baidu.ting.lebo.getChannelTag")
                     .append("&page_no=").append(pageNo)
-                    .append("&page_size=0").append(pageSize);
+                    .append("&page_size=").append(pageSize);
             return sb.toString();
         }
 
