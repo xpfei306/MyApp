@@ -83,9 +83,14 @@ public class StringUtil {
         if (value > 10000) {
             double tempvalue = value / 10000.00;
             DecimalFormat df = new DecimalFormat("#.##");
-            return df.format(tempvalue)+" 万";
+            return df.format(tempvalue) + " 万";
         } else {
             return String.valueOf(value);
         }
+    }
+
+    public static String timeParse(long duration) {
+        SimpleDateFormat times = new SimpleDateFormat("mm:ss");
+        return times.format(duration);
     }
 }

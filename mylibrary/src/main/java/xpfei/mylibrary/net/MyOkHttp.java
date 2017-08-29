@@ -1,7 +1,6 @@
 package xpfei.mylibrary.net;
 
 import android.content.Context;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
@@ -37,6 +36,7 @@ import xpfei.mylibrary.net.response.IResponseHandler;
 import xpfei.mylibrary.net.response.JsonResponseHandler;
 import xpfei.mylibrary.net.response.RawResponseHandler;
 import xpfei.mylibrary.utils.AppLog;
+import xpfei.mylibrary.utils.CommonUtil;
 import xpfei.mylibrary.utils.StringUtil;
 
 
@@ -243,7 +243,7 @@ public class MyOkHttp {
             filename = url.substring(url.lastIndexOf("/"));
         }
         if (StringUtil.isEmpty(filedir)) {
-            filedir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Myapp";
+            filedir = CommonUtil.getCachePath(context)+ "/Myapp";
         }
         Request request = builders.build();
         client.newBuilder().addNetworkInterceptor(new Interceptor() {      //设置拦截器

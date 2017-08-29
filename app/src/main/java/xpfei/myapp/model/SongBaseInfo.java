@@ -6,17 +6,19 @@ package xpfei.myapp.model;
  * Date:   2017/08/28
  */
 public class SongBaseInfo {
-    private String info;
+    private String song_id;
     private String title;
     private String author;
     private String pic_premium;
+    private String share_url;
+    private String lrclink;
 
-    public String getInfo() {
-        return info;
+    public String getSong_id() {
+        return song_id;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setSong_id(String song_id) {
+        this.song_id = song_id;
     }
 
     public String getTitle() {
@@ -41,5 +43,21 @@ public class SongBaseInfo {
 
     public void setPic_premium(String pic_premium) {
         this.pic_premium = pic_premium;
+    }
+
+    public String getShare_url() {
+        return share_url;
+    }
+
+    public void setShare_url(String share_url) {
+        this.share_url = share_url;
+    }
+
+    public String getLrclink() {
+        return lrclink;
+    }
+
+    public void setLrclink(String lrclink) {
+        this.lrclink = lrclink;
     }
 }

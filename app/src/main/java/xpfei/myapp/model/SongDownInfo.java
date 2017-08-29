@@ -11,7 +11,6 @@ public class SongDownInfo {
     private String file_extension;
     private String file_link;
     private int file_size;
-    private String show_link;
     private int song_file_id;
 
     public boolean isCan_load() {
@@ -52,14 +51,6 @@ public class SongDownInfo {
 
     public void setFile_size(int file_size) {
         this.file_size = file_size;
-    }
-
-    public String getShow_link() {
-        return show_link;
-    }
-
-    public void setShow_link(String show_link) {
-        this.show_link = show_link;
     }
 
     public int getSong_file_id() {

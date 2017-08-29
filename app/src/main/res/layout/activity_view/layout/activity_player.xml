@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -24,13 +25,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/topheight"
-                android:background="#60000000"
-                android:paddingTop="@dimen/dim_10">
+                android:layout_height="wrap_content"
+                android:background="#90000000"
+                android:paddingTop="@dimen/dim_20">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/topheight"
                     android:padding="5dp">
 
                     <ImageView
@@ -45,96 +46,146 @@
 
                     <TextView
                         android:id="@+id/txt_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/dim_5"
+                        android:layout_marginRight="@dimen/dim_5"
+                        android:layout_toLeftOf="@+id/btnMenu"
+                        android:layout_toRightOf="@+id/btn_left"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
                         android:text="标题"
                         android:textColor="@android:color/white"
                         android:textSize="?largeSize" />
+
+                    <ImageView
+                        android:id="@+id/btnMenu"
+                        android:layout_width="@dimen/dim_30"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/dim_5"
+                        android:src="@drawable/menu_point" />
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>
 
-
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/llBottom"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#60000000"
-            android:orientation="vertical">
+            android:background="#60000000">
 
-            <RelativeLayout
+            <xpfei.myapp.view.Lrc.LrcView
+                android:id="@+id/lrcView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/llBottoms"
+                android:paddingBottom="@dimen/dim_10"
+                app:lrcAnimationDuration="500"
+                app:lrcCurrentTextColor="@android:color/white"
+                app:lrcDividerHeight="24dp"
+                app:lrcLabel="暂无歌词(&gt;_&lt;)"
+                app:lrcNormalTextColor="@android:color/darker_gray"
+                app:lrcPadding="@dimen/dim_10"
+                app:lrcTextSize="@dimen/middletextsize" />
+
+            <LinearLayout
+                android:id="@+id/llBottoms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dim_20">
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtPlayerTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="2:30"
-                    android:textColor="@android:color/white"
-                    android:textSize="?smallSize" />
-
-                <SeekBar
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_toLeftOf="@+id/txtSongTime"
-                    android:layout_toRightOf="@+id/txtPlayerTime"
-                    android:max="100"
-                    android:progress="20" />
+                    android:layout_margin="@dimen/dim_5"
+                    android:paddingLeft="@dimen/dim_10"
+                    android:paddingRight="@dimen/dim_10">
 
-                <TextView
-                    android:id="@+id/txtSongTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="2:30"
-                    android:textColor="@android:color/white"
-                    android:textSize="?smallSize" />
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/txtPlayerTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="00:00"
+                        android:textColor="@android:color/white"
+                        android:textSize="?smallSize" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    <SeekBar
+                        android:id="@+id/SkbPlayer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dim_5"
+                        android:layout_marginRight="@dimen/dim_5"
+                        android:layout_toLeftOf="@+id/txtSongTime"
+                        android:layout_toRightOf="@+id/txtPlayerTime"
+                        android:progressDrawable="@drawable/player_setting_bright_progressbar"
+                        android:thumb="@drawable/player_settings_bright_thumb"
+                        android:thumbOffset="0dp" />
+
+                    <TextView
+                        android:id="@+id/txtSongTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="00:00"
+                        android:textColor="@android:color/white"
+                        android:textSize="?smallSize" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/dim_30"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/dim_20"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/dim_60"
-                        android:layout_height="@dimen/dim_60"
+                        android:id="@+id/ivCollection"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dim_20"
                         android:layout_weight="1"
+                        android:src="@drawable/nocollection" />
+
+                    <ImageView
+                        android:id="@+id/ivUp"
+                        android:layout_width="@dimen/topheight"
+                        android:layout_height="@dimen/topheight"
+                        android:layout_marginLeft="@dimen/dim_20"
                         android:src="@drawable/up" />
 
                     <ImageView
-                        android:layout_width="@dimen/dim_80"
-                        android:layout_height="@dimen/dim_80"
-                        android:layout_marginLeft="@dimen/dim_20"
-                        android:layout_marginRight="@dimen/dim_20"
-                        android:layout_weight="1"
+                        android:id="@+id/ivPlay"
+                        android:layout_width="@dimen/dim_60"
+                        android:layout_height="@dimen/dim_60"
+                        android:layout_marginLeft="@dimen/dim_10"
+                        android:layout_marginRight="@dimen/dim_10"
                         android:src="@drawable/player" />
 
                     <ImageView
-                        android:layout_width="@dimen/dim_60"
-                        android:layout_height="@dimen/dim_60"
-                        android:layout_weight="1"
+                        android:id="@+id/ivNext"
+                        android:layout_width="@dimen/topheight"
+                        android:layout_height="@dimen/topheight"
                         android:src="@drawable/down" />
+
+                    <ImageView
+                        android:id="@+id/ivDownLoad"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dim_20"
+                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_weight="1"
+                        android:src="@drawable/download" />
                 </LinearLayout>
-            </RelativeLayout>
-
-
-        </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </layout>
