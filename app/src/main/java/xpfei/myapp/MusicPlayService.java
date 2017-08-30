@@ -48,8 +48,11 @@ public class MusicPlayService extends Service {
         @Override
         public void doAction(String action) throws RemoteException {
             if (ContentValue.PlayAction.Play.equals(action)) {
-
+                player.start();
+            } else if (ContentValue.PlayAction.Pause.equals(action)) {
+                player.pause();
             }
+            notifyPlayState(player.isPaused());
         }
 
         @Override
@@ -73,6 +76,18 @@ public class MusicPlayService extends Service {
         for (int i = 0; i < len; i++) {
             try {
                 mCallBacks.getBroadcastItem(i).callBack(CurrentPosition, duration);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        mCallBacks.finishBroadcast();
+    }
+
+    private void notifyPlayState(boolean isPaused) {
+        int len = mCallBacks.beginBroadcast();
+        for (int i = 0; i < len; i++) {
+            try {
+                mCallBacks.getBroadcastItem(i).doSome(isPaused);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

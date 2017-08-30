@@ -49,5 +49,6 @@ public class ContentValue {
 
     public static final class PlayAction {
         public static final String Play = "xpfei.music.play";
+        public static final String Pause = "xpfei.music.pause";
     }
 }

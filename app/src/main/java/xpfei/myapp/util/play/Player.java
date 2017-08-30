@@ -10,6 +10,7 @@ import java.util.List;
 import xpfei.myapp.db.SongDbManager;
 import xpfei.myapp.model.Song;
 import xpfei.mylibrary.utils.AppLog;
+import xpfei.mylibrary.utils.StringUtil;
 
 /**
  * Description: (这里用一句话描述这个类的作用)
@@ -18,7 +19,7 @@ import xpfei.mylibrary.utils.AppLog;
  */
 public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
     private static volatile Player sInstance;
-    public MediaPlayer mPlayer;
+    private MediaPlayer mPlayer;
     private SongDbManager manager;
     private boolean isPaused;
     private int playingIndex = 0;
@@ -30,7 +31,6 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
             if (listener != null && !isPaused) {
                 listener.onChange(mPlayer.getCurrentPosition(), mPlayer.getDuration());
             }
-            //要做的事情
             handler.postDelayed(this, 1000);
         }
     };
@@ -80,9 +80,11 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     public void playLast() {
         playingIndex--;
+        isPaused = false;
     }
 
     public void playNext() {
+        isPaused = false;
         int size = manager.loadAll().size();
         if (size > 0) {
             playingIndex++;
@@ -103,21 +105,32 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
-    private void play(String path) {
+    public void start() {
         if (isPaused) {
             mPlayer.start();
-        } else {
-            try {
-                isPaused = false;
-                mPlayer.reset();
-                mPlayer.setDataSource(path);
-                mPlayer.prepare();
-                mPlayer.start();
-                handler.removeCallbacks(runnable);
-                handler.postDelayed(runnable, 1000);
-            } catch (IOException e) {
-                AppLog.Logd(e.getMessage());
+            isPaused = false;
+        }
+    }
+
+    public void play(String path) {
+        try {
+            isPaused = false;
+            if (StringUtil.isEmpty(path)) {
+                List<Song> list = manager.loadAll();
+                if (list.size() == 0) {
+                    AppLog.Logd("本地没有歌曲");
+                    return;
+                }
+                path = list.get(0).getFile_link();
             }
+            mPlayer.reset();
+            mPlayer.setDataSource(path);
+            mPlayer.prepare();
+            mPlayer.start();
+            handler.removeCallbacks(runnable);
+            handler.postDelayed(runnable, 1000);
+        } catch (IOException e) {
+            AppLog.Logd(e.getMessage());
         }
     }
 
@@ -140,6 +153,10 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         mPlayer.release();
         mPlayer = null;
         sInstance = null;
+    }
+
+    public boolean isPaused() {
+        return mPlayer.isPlaying();
     }
 
     @Override
