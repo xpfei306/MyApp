@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import xpfei.myapp.R;
-import xpfei.myapp.model.SongInfo;
+import xpfei.myapp.model.Song;
 
 /**
  * Description:歌曲分类的适配器
@@ -22,10 +22,10 @@ import xpfei.myapp.model.SongInfo;
  */
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     private Context context;
-    private List<SongInfo> list;
+    private List<Song> list;
     private onMyItemClickListener listener;
 
-    public SongAdapter(Context context, List<SongInfo> list) {
+    public SongAdapter(Context context, List<Song> list) {
         this.context = context;
         this.list = list;
     }
@@ -40,7 +40,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         int index = holder.getAdapterPosition();
-        final SongInfo info = list.get(index);
+        final Song info = list.get(index);
         Glide.with(context).load(info.getPic_small()).error(R.mipmap.nopic).into(holder.imgSong);
         holder.txtSong.setText(info.getTitle());
         holder.txtAlbum.setText(info.getAuthor() + "-" + info.getAlbum_title());
@@ -60,7 +60,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     }
 
     public interface onMyItemClickListener {
-        void onMyItemClick(SongInfo info);
+        void onMyItemClick(Song info);
     }
 
     public void setOnMyItemClickListener(onMyItemClickListener listener) {

@@ -14,7 +14,7 @@ import java.util.List;
 import xpfei.myapp.R;
 import xpfei.myapp.adapter.base.BaseMyReclyViewAdapter;
 import xpfei.myapp.model.RankingInfo;
-import xpfei.myapp.model.SongInfo;
+import xpfei.myapp.model.Song;
 
 /**
  * Description: 排行榜adapter
@@ -32,10 +32,10 @@ public class RankingAdapter extends BaseMyReclyViewAdapter<RankingInfo, RankingA
         RankingInfo info = data.get(position);
         Glide.with(context).load(info.getPic_s260()).error(R.mipmap.nopic).into(holder.imgRanking);
         holder.txtRankingName.setText(info.getName());
-        SongInfo songinfo = info.getContent().get(0);
-        SongInfo songinfo1 = info.getContent().get(1);
-        SongInfo songinfo2 = info.getContent().get(2);
-        SongInfo songinfo3 = info.getContent().get(3);
+        Song songinfo = info.getContent().get(0);
+        Song songinfo1 = info.getContent().get(1);
+        Song songinfo2 = info.getContent().get(2);
+        Song songinfo3 = info.getContent().get(3);
         holder.txtName.setText("1 " + songinfo.getTitle() + " — " + songinfo.getAuthor());
         holder.txtName1.setText("2 " + songinfo1.getTitle() + " — " + songinfo1.getAuthor());
         holder.txtName2.setText("3 " + songinfo2.getTitle() + " — " + songinfo2.getAuthor());

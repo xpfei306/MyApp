@@ -12,7 +12,7 @@ public class RankingInfo {
     private int type;
     private String name;
     private String pic_s260;
-    private List<SongInfo> content;
+    private List<Song> content;
 
     public int getCount() {
         return count;
@@ -46,11 +46,11 @@ public class RankingInfo {
         this.pic_s260 = pic_s260;
     }
 
-    public List<SongInfo> getContent() {
+    public List<Song> getContent() {
         return content;
     }
 
-    public void setContent(List<SongInfo> content) {
+    public void setContent(List<Song> content) {
         this.content = content;
     }
 }

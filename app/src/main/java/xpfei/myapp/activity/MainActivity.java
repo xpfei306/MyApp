@@ -29,7 +29,7 @@ import xpfei.myapp.adapter.MainAdapter;
 import xpfei.myapp.model.AlbumInfo;
 import xpfei.myapp.model.BannerInfo;
 import xpfei.myapp.model.CategoryInfo;
-import xpfei.myapp.model.SongInfo;
+import xpfei.myapp.model.Song;
 import xpfei.myapp.model.UserInfo;
 import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
@@ -182,7 +182,7 @@ public class MainActivity extends MyBaseActivity {
                     try {
                         JSONArray jsonArray = jsonObject.optJSONArray(ContentValue.Json.Content);
                         JSONObject jsonSong = jsonArray.getJSONObject(0);
-                        List<SongInfo> bannerList = JSON.parseArray(jsonSong.optJSONArray(ContentValue.Json.SongList).toString(), SongInfo.class);
+                        List<Song> bannerList = JSON.parseArray(jsonSong.optJSONArray(ContentValue.Json.SongList).toString(), Song.class);
                         adapter.setSongData(bannerList);
                     } catch (Exception e) {
                         AppLog.Loge("Error:" + e.getMessage());

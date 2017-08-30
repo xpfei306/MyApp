@@ -58,8 +58,7 @@ public class LrcView extends View {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.LrcView);
         float textSize = ta.getDimension(R.styleable.LrcView_lrcTextSize, LrcUtils.sp2px(getContext(), 12));
         mDividerHeight = ta.getDimension(R.styleable.LrcView_lrcDividerHeight, LrcUtils.dp2px(getContext(), 16));
-        mAnimationDuration = ta.getInt(R.styleable.LrcView_lrcAnimationDuration, 1000);
-        mAnimationDuration = (mAnimationDuration < 0) ? 1000 : mAnimationDuration;
+        mAnimationDuration = ta.getInt(R.styleable.LrcView_lrcAnimationDuration, 200);
         mNormalColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, 0xFFFFFFFF);
         mCurrentColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextColor, 0xFFFF4081);
         mLabel = ta.getString(R.styleable.LrcView_lrcLabel);

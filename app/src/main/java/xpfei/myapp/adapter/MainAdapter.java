@@ -28,7 +28,7 @@ import xpfei.myapp.activity.WebActivity;
 import xpfei.myapp.model.AlbumInfo;
 import xpfei.myapp.model.BannerInfo;
 import xpfei.myapp.model.CategoryInfo;
-import xpfei.myapp.model.SongInfo;
+import xpfei.myapp.model.Song;
 import xpfei.myapp.util.ContentValue;
 import xpfei.myapp.view.banner.Banner;
 import xpfei.myapp.view.banner.BannerAdapter;
@@ -44,7 +44,7 @@ public class MainAdapter extends RecyclerView.Adapter {
     private Context context;
     private List<BannerInfo> bannerInfos;
     private List<CategoryInfo> categoryInfos;
-    private List<SongInfo> songInfos;
+    private List<Song> songInfos;
     private List<AlbumInfo> albumInfos;
 
     public MainAdapter(Context context) {
@@ -214,13 +214,13 @@ public class MainAdapter extends RecyclerView.Adapter {
      * @param hold viewhold
      * @param list 绑定的数据
      */
-    private void initSong(SongHold hold, List<SongInfo> list) {
+    private void initSong(SongHold hold, List<Song> list) {
         hold.txtTitle.setText("新歌速递");
         SongAdapter adapter = new SongAdapter(context, list);
         hold.recyclerView.setAdapter(adapter);
         adapter.setOnMyItemClickListener(new SongAdapter.onMyItemClickListener() {
             @Override
-            public void onMyItemClick(SongInfo info) {
+            public void onMyItemClick(Song info) {
                 Intent intent = new Intent(context, PlayerActivity.class);
                 intent.putExtra(ContentValue.IntentKeyStr, info.getSong_id());
                 context.startActivity(intent);
@@ -284,7 +284,7 @@ public class MainAdapter extends RecyclerView.Adapter {
      *
      * @param list 绑定的数据
      */
-    public void setSongData(List<SongInfo> list) {
+    public void setSongData(List<Song> list) {
         this.songInfos = list;
         notifyDataSetChanged();
     }

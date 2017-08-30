@@ -42,7 +42,12 @@ public class ContentValue {
         public static final String Result = "result";
         public static final String Content = "content";
         public static final String ArtList = "artist";
+        public static final String Songinfo = "songinfo";
+        public static final String Bitrate = "bitrate";
         public static final int Successcode = 22000;
+    }
 
+    public static final class PlayAction {
+        public static final String Play = "xpfei.music.play";
     }
 }

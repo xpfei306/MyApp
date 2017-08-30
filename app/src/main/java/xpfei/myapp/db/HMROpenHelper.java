@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import org.greenrobot.greendao.database.Database;
 
 import xpfei.myapp.model.DaoMaster;
+import xpfei.myapp.model.SongDao;
 import xpfei.myapp.model.UserInfoDao;
 import xpfei.mylibrary.db.MigrationHelper;
 
@@ -26,6 +27,6 @@ public class HMROpenHelper extends DaoMaster.OpenHelper {
     @Override
     public void onUpgrade(Database db, int oldVersion, int newVersion) {
         MigrationHelper helper = new MigrationHelper();
-        helper.migrate(db, UserInfoDao.class);
+        helper.migrate(db, UserInfoDao.class, SongDao.class);
     }
 }

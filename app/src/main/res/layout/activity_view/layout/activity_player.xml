@@ -34,7 +34,7 @@
                     android:layout_height="@dimen/topheight"
                     android:padding="5dp">
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/btn_left"
                         android:layout_width="@dimen/dim_30"
                         android:layout_height="match_parent"
@@ -60,7 +60,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="?largeSize" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/btnMenu"
                         android:layout_width="@dimen/dim_30"
                         android:layout_height="match_parent"
@@ -85,7 +85,6 @@
                 android:layout_height="match_parent"
                 android:layout_above="@+id/llBottoms"
                 android:paddingBottom="@dimen/dim_10"
-                app:lrcAnimationDuration="500"
                 app:lrcCurrentTextColor="@android:color/white"
                 app:lrcDividerHeight="24dp"
                 app:lrcLabel="暂无歌词(&gt;_&lt;)"
@@ -149,21 +148,21 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/ivCollection"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/dim_20"
                         android:layout_weight="1"
                         android:src="@drawable/nocollection" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/ivUp"
                         android:layout_width="@dimen/topheight"
                         android:layout_height="@dimen/topheight"
                         android:layout_marginLeft="@dimen/dim_20"
                         android:src="@drawable/up" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/ivPlay"
                         android:layout_width="@dimen/dim_60"
                         android:layout_height="@dimen/dim_60"
@@ -171,13 +170,13 @@
                         android:layout_marginRight="@dimen/dim_10"
                         android:src="@drawable/player" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/ivNext"
                         android:layout_width="@dimen/topheight"
                         android:layout_height="@dimen/topheight"
                         android:src="@drawable/down" />
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/ivDownLoad"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/dim_20"

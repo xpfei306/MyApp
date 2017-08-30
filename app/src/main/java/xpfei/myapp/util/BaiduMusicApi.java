@@ -112,10 +112,21 @@ public class BaiduMusicApi {
          * @param songid 歌曲id
          * @return
          */
+        public static String songPlayInfo(String songid) {
+            StringBuffer sb = new StringBuffer(BASE);
+            sb.append("&method=").append("baidu.ting.song.play").append("&songid=").append(songid);
+            return sb.toString();
+        }
+
+        /**
+         * 歌曲基本信息
+         *
+         * @param songid 歌曲id
+         * @return
+         */
         public static String songBaseInfo(String songid) {
             StringBuffer sb = new StringBuffer(BASE);
-            sb.append("&method=").append("baidu.ting.song.baseInfos")
-                    .append("&song_id=").append(songid);
+            sb.append("&method=").append("baidu.ting.song.baseInfos").append("&song_id=").append(songid);
             return sb.toString();
         }
 
