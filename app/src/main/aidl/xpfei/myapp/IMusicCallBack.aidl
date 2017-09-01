@@ -9,4 +9,6 @@ interface IMusicCallBack {
     void doSome(boolean isPaused);
 
     void getCurrent(in Song song);
+
+     void onError();
 }

@@ -42,11 +42,11 @@ public class XRefreshViewHeader extends LinearLayout implements IHeaderCallBack 
 
     private void initView(Context context) {
         mContent = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.xrefreshview_header, this);
-        mArrowImageView = findViewById(R.id.xrefreshview_header_arrow);
-        mOkImageView = findViewById(R.id.xrefreshview_header_ok);
-        mHintTextView = findViewById(R.id.xrefreshview_header_hint_textview);
-        mHeaderTimeTextView = findViewById(R.id.xrefreshview_header_time);
-        mProgressBar = findViewById(R.id.xrefreshview_header_progressbar);
+        mArrowImageView = (ImageView) findViewById(R.id.xrefreshview_header_arrow);
+        mOkImageView = (ImageView) findViewById(R.id.xrefreshview_header_ok);
+        mHintTextView = (TextView) findViewById(R.id.xrefreshview_header_hint_textview);
+        mHeaderTimeTextView = (TextView) findViewById(R.id.xrefreshview_header_time);
+        mProgressBar = (ProgressBar) findViewById(R.id.xrefreshview_header_progressbar);
 
         mRotateUpAnim = new RotateAnimation(0.0f, -180.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);

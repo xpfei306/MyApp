@@ -87,10 +87,10 @@ public class MainActivity extends MyBaseActivity {
         final UserInfo userInfo = (UserInfo) aCache.getAsObject(ContentValue.ACACHE_USER);
         if (userInfo != null) {
             View headerView = navigationView.getHeaderView(0);
-            TextView txtName = headerView.findViewById(R.id.txtName);
+            TextView txtName = (TextView) headerView.findViewById(R.id.txtName);
             txtName.setText(userInfo.getUsername());
             if (!StringUtil.isEmpty(userInfo.getHeadimage())) {
-                final ImageView imgHeader = headerView.findViewById(R.id.imgHeader);
+                final ImageView imgHeader = (ImageView) headerView.findViewById(R.id.imgHeader);
                 imgHeader.postDelayed(new Runnable() {
                     @Override
                     public void run() {

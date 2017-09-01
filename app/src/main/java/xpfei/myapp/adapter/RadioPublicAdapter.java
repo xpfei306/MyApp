@@ -54,8 +54,8 @@ public class RadioPublicAdapter extends RecyclerView.Adapter<RadioPublicAdapter.
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtRadioName = itemView.findViewById(R.id.txtRadioName);
-            imgRadio = itemView.findViewById(R.id.imgRadio);
+            txtRadioName = (TextView) itemView.findViewById(R.id.txtRadioName);
+            imgRadio = (ImageView) itemView.findViewById(R.id.imgRadio);
         }
     }
 }

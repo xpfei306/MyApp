@@ -31,9 +31,7 @@
         <activity android:name=".activity.SingerListActivity" />
         <activity android:name=".activity.RankingActivity" />
         <activity android:name=".activity.RadioListActivity" />
-        <activity
-            android:name=".activity.PlayerActivity"
-            android:launchMode="singleTask" />
+        <activity android:name=".activity.PlayerActivity" />
         <activity android:name=".activity.WebActivity" />
         <activity android:name=".activity.SearchActivity" />
 

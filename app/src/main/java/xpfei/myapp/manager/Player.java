@@ -1,5 +1,6 @@
 package xpfei.myapp.manager;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -17,13 +18,14 @@ import xpfei.mylibrary.utils.StringUtil;
  * Author: xpfei
  * Date:   2017/08/30
  */
-public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
+public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
     private static volatile Player sInstance;
     private MediaPlayer mPlayer;
     private SongDbManager manager;
     private boolean isPaused;
     private int playingIndex = 0;
     private playChangeListener listener;
+    private Context context;
     private Handler handler = new Handler();
     private Runnable runnable = new Runnable() {
         @Override
@@ -37,25 +39,29 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     public interface playChangeListener {
         void onChange(int CurrentPosition, int duration);
+
+        void onError();
     }
 
     public void setOnPlayChangeListener(playChangeListener listener) {
         this.listener = listener;
     }
 
-    private Player() {
+    private Player(Context context) {
+        this.context = context;
         mPlayer = new MediaPlayer();
         manager = new SongDbManager();
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);// 设置媒体流类型
         mPlayer.setOnPreparedListener(this);
         mPlayer.setOnCompletionListener(this);
+        mPlayer.setOnErrorListener(this);
     }
 
-    public static Player getInstance() {
+    public static Player getInstance(Context context) {
         if (sInstance == null) {
             synchronized (Player.class) {
                 if (sInstance == null) {
-                    sInstance = new Player();
+                    sInstance = new Player(context);
                 }
             }
         }
@@ -81,14 +87,11 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
     public void playLast() {
         isPaused = false;
         int size = manager.loadAll().size();
-        AppLog.Logd("前：" + playingIndex);
         if (size > 0) {
             playingIndex--;
-            AppLog.Logd("中：" + playingIndex);
             if (playingIndex < 0) {
                 playingIndex = size - 1;
             }
-            AppLog.Logd("后：" + playingIndex);
             Song info = getPlayingSong();
             if (info != null) {
                 play(info.getFile_link());
@@ -131,17 +134,16 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
             if (StringUtil.isEmpty(path)) {
                 List<Song> list = manager.loadAll();
                 if (list.size() == 0) {
-                    AppLog.Logd("本地没有歌曲");
                     return;
                 }
                 path = list.get(0).getFile_link();
+                if (StringUtil.isEmpty(path)) {
+                    return;
+                }
             }
             mPlayer.reset();
             mPlayer.setDataSource(path);
-            mPlayer.prepare();
-            mPlayer.start();
-            handler.removeCallbacks(runnable);
-            handler.postDelayed(runnable, 1000);
+            mPlayer.prepareAsync();
         } catch (IOException e) {
             AppLog.Logd(e.getMessage());
         }
@@ -180,5 +182,17 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         mediaPlayer.start();
+        handler.removeCallbacks(runnable);
+        handler.postDelayed(runnable, 1000);
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        if (listener != null) {
+            listener.onError();
+        }
+        mPlayer.reset();
+        mPlayer.release();
+        return true;
     }
 }

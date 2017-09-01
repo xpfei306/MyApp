@@ -45,11 +45,11 @@ public class MyProgressDialog extends AlertDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_progress_dialog);
-        mProgress = findViewById(R.id.progress);
-        mProgressNumber = findViewById(R.id.progress_number);
-        mProgressPercent = findViewById(R.id.progress_percent);
-        mProgressMessage = findViewById(R.id.progress_message);
-        mProgressTitle = findViewById(R.id.progress_title);
+        mProgress = (ProgressBar) findViewById(R.id.progress);
+        mProgressNumber = (TextView) findViewById(R.id.progress_number);
+        mProgressPercent = (TextView) findViewById(R.id.progress_percent);
+        mProgressMessage = (TextView) findViewById(R.id.progress_message);
+        mProgressTitle = (TextView) findViewById(R.id.progress_title);
         mViewUpdateHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {

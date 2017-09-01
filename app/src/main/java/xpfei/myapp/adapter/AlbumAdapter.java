@@ -70,8 +70,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imgCategory = itemView.findViewById(R.id.imgCategory);
-            txtName = itemView.findViewById(R.id.txtName);
+            imgCategory = (ImageView) itemView.findViewById(R.id.imgCategory);
+            txtName = (TextView) itemView.findViewById(R.id.txtName);
         }
     }
 }

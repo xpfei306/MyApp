@@ -110,7 +110,7 @@ public class RadiaoAdapter extends RecyclerView.Adapter {
 
         public SingerHolder(View itemView) {
             super(itemView);
-            recyclerView = itemView.findViewById(R.id.itemRv);
+            recyclerView = (RecyclerView) itemView.findViewById(R.id.itemRv);
         }
     }
 
@@ -121,9 +121,9 @@ public class RadiaoAdapter extends RecyclerView.Adapter {
 
         public PublicHolder(View itemView) {
             super(itemView);
-            recyclerView = itemView.findViewById(R.id.itemRv);
-            txtTitle = itemView.findViewById(R.id.txtTitle);
-            llMore = itemView.findViewById(R.id.llMore);
+            recyclerView = (RecyclerView) itemView.findViewById(R.id.itemRv);
+            txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
+            llMore = (LinearLayout) itemView.findViewById(R.id.llMore);
         }
     }
 }

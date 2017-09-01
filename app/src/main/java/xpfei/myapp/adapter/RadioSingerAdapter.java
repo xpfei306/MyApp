@@ -55,9 +55,9 @@ public class RadioSingerAdapter extends RecyclerView.Adapter<RadioSingerAdapter.
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtRadioName = itemView.findViewById(R.id.txtRadioName);
-            txtSinger = itemView.findViewById(R.id.txtSinger);
-            imgSinger = itemView.findViewById(R.id.imgSinger);
+            txtRadioName = (TextView) itemView.findViewById(R.id.txtRadioName);
+            txtSinger = (TextView) itemView.findViewById(R.id.txtSinger);
+            imgSinger = (RoundImageView) itemView.findViewById(R.id.imgSinger);
         }
     }
 }

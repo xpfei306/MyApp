@@ -72,9 +72,9 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imgSong = itemView.findViewById(R.id.imgSong);
-            txtAlbum = itemView.findViewById(R.id.txtAlbum);
-            txtSong = itemView.findViewById(R.id.txtSong);
+            imgSong = (ImageView) itemView.findViewById(R.id.imgSong);
+            txtAlbum = (TextView) itemView.findViewById(R.id.txtAlbum);
+            txtSong = (TextView) itemView.findViewById(R.id.txtSong);
         }
     }
 }

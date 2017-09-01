@@ -31,9 +31,9 @@ public class CustomGifHeader extends LinearLayout implements IHeaderCallBack {
 
     private void initView(Context context) {
         LayoutInflater.from(context).inflate(R.layout.gif_header, this);
-        gifView1 = findViewById(R.id.gif1);
-        mHintTextView = findViewById(R.id.gif_header_hint);
-        gifView2 = findViewById(R.id.gif2);
+        gifView1 = (GifView) findViewById(R.id.gif1);
+        mHintTextView = (TextView) findViewById(R.id.gif_header_hint);
+        gifView2 = (GifView) findViewById(R.id.gif2);
         gifView1.setMovieResource(R.raw.vertical);
         gifView2.setMovieResource(R.raw.horizontal);
         gifView2.setVisibility(View.GONE);

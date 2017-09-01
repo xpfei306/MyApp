@@ -110,8 +110,8 @@ public class XRefreshViewFooter extends LinearLayout implements IFooterCallBack 
         moreView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         mContentView = moreView.findViewById(R.id.xrefreshview_footer_content);
         mProgressBar = moreView.findViewById(R.id.xrefreshview_footer_relativeLayout);
-        mHintView = moreView.findViewById(R.id.xrefreshview_footer_hint_textview);
-        mClickView = moreView.findViewById(R.id.xrefreshview_footer_click_textview);
+        mHintView = (TextView) moreView.findViewById(R.id.xrefreshview_footer_hint_textview);
+        mClickView = (TextView) moreView.findViewById(R.id.xrefreshview_footer_click_textview);
     }
 
     @Override

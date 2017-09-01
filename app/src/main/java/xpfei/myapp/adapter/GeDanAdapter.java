@@ -59,9 +59,9 @@ public class GeDanAdapter extends BaseMyReclyViewAdapter<GeDanInfo, GeDanAdapter
         public ViewHolder(View itemView, boolean isItem) {
             super(itemView);
             if (isItem) {
-                imgGeDan = itemView.findViewById(R.id.imgGeDan);
-                txtName = itemView.findViewById(R.id.txtName);
-                txtListenum = itemView.findViewById(R.id.txtListenum);
+                imgGeDan = (ImageView) itemView.findViewById(R.id.imgGeDan);
+                txtName = (TextView) itemView.findViewById(R.id.txtName);
+                txtListenum = (TextView) itemView.findViewById(R.id.txtListenum);
             }
         }
     }

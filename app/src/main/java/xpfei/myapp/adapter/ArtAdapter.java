@@ -57,8 +57,8 @@ public class ArtAdapter extends BaseMyReclyViewAdapter<ArtInfo, ArtAdapter.ViewH
         public ViewHolder(View itemView, boolean isItem) {
             super(itemView);
             if (isItem) {
-                imgArt = itemView.findViewById(R.id.imgArt);
-                txtArtName = itemView.findViewById(R.id.txtArtName);
+                imgArt = (ImageView) itemView.findViewById(R.id.imgArt);
+                txtArtName = (TextView) itemView.findViewById(R.id.txtArtName);
             }
         }
     }

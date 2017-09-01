@@ -314,7 +314,7 @@ public class MainAdapter extends RecyclerView.Adapter {
 
         HeaderHold(View view) {
             super(view);
-            banner = view.findViewById(R.id.banner);
+            banner = (Banner) view.findViewById(R.id.banner);
         }
     }
 
@@ -323,7 +323,7 @@ public class MainAdapter extends RecyclerView.Adapter {
 
         CategoryHold(View view) {
             super(view);
-            recyclerView = view.findViewById(R.id.itemRv);
+            recyclerView = (RecyclerView) view.findViewById(R.id.itemRv);
         }
     }
 
@@ -334,9 +334,9 @@ public class MainAdapter extends RecyclerView.Adapter {
 
         SongHold(View view) {
             super(view);
-            recyclerView = view.findViewById(R.id.itemRv);
-            txtTitle = view.findViewById(R.id.txtTitle);
-            llMore = view.findViewById(R.id.llMore);
+            recyclerView = (RecyclerView) view.findViewById(R.id.itemRv);
+            txtTitle = (TextView) view.findViewById(R.id.txtTitle);
+            llMore = (LinearLayout) view.findViewById(R.id.llMore);
         }
     }
 
@@ -347,9 +347,9 @@ public class MainAdapter extends RecyclerView.Adapter {
 
         AlbumHold(View view) {
             super(view);
-            recyclerView = view.findViewById(R.id.itemRv);
-            txtTitle = view.findViewById(R.id.txtTitle);
-            llMore = view.findViewById(R.id.llMore);
+            recyclerView = (RecyclerView) view.findViewById(R.id.itemRv);
+            txtTitle = (TextView) view.findViewById(R.id.txtTitle);
+            llMore = (LinearLayout) view.findViewById(R.id.llMore);
         }
     }
 }

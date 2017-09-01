@@ -6,7 +6,7 @@
 
     </data>
 
-    <xpfei.myapp.view.BackgourndAnimationLinerLayout
+    <LinearLayout
         android:id="@+id/llMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/llBottoms"
-                android:layout_marginBottom="@dimen/dim_20"
+                android:layout_marginBottom="@dimen/dim_10"
                 android:paddingBottom="@dimen/dim_10"
                 app:lrcCurrentTextColor="@android:color/white"
                 app:lrcDividerHeight="24dp"
@@ -52,37 +52,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/dim_5"
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/ivCollection"
-                        android:layout_width="0dp"
-                        android:layout_height="25dp"
-                        android:layout_weight="1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/dim_5"
+                        android:scaleType="fitXY"
                         android:src="@drawable/nocollection" />
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/ivDownLoad"
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="@dimen/dim_20"
-                        android:layout_weight="1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="@dimen/dim_10"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/dim_5"
+                        android:scaleType="fitXY"
                         android:src="@drawable/download" />
 
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="@dimen/dim_20"
-                        android:layout_weight="1"
+                    <ImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="@dimen/dim_10"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/dim_5"
+                        android:scaleType="fitXY"
                         android:src="@drawable/share" />
 
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="@dimen/dim_20"
-                        android:layout_weight="1"
+                    <ImageButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/dim_5"
+                        android:scaleType="fitXY"
                         android:src="@drawable/menu_point" />
                 </LinearLayout>
 
@@ -135,43 +141,55 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/ivPlayState"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/dim_20"
-                        android:layout_weight="1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/dim_5"
+                        android:scaleType="fitXY"
                         android:src="@drawable/lbxh" />
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/ivUp"
                         android:layout_width="@dimen/topheight"
                         android:layout_height="@dimen/topheight"
-                        android:layout_marginLeft="@dimen/dim_20"
+                        android:layout_marginLeft="@dimen/dim_10"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/dim_5"
+                        android:scaleType="fitXY"
                         android:src="@drawable/up" />
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/ivPlay"
                         android:layout_width="@dimen/dim_60"
                         android:layout_height="@dimen/dim_60"
-                        android:layout_marginLeft="@dimen/dim_10"
-                        android:layout_marginRight="@dimen/dim_10"
+
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/dim_5"
+                        android:scaleType="fitXY"
                         android:src="@drawable/player" />
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/ivNext"
                         android:layout_width="@dimen/topheight"
                         android:layout_height="@dimen/topheight"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/dim_5"
+                        android:scaleType="fitXY"
                         android:src="@drawable/down" />
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/ivPlayList"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/dim_20"
-                        android:layout_marginLeft="@dimen/dim_20"
-                        android:layout_weight="1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="@dimen/dim_10"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="@dimen/dim_5"
+                        android:scaleType="fitXY"
                         android:src="@drawable/playlist" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
-    </xpfei.myapp.view.BackgourndAnimationLinerLayout>
+    </LinearLayout>
 </layout>

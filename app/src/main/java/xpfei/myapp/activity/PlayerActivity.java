@@ -1,24 +1,12 @@
 package xpfei.myapp.activity;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.SeekBar;
 
 import com.alibaba.fastjson.JSON;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.json.JSONObject;
 
@@ -26,7 +14,7 @@ import java.io.File;
 
 import xpfei.myapp.IMusicCallBack;
 import xpfei.myapp.IMusicPlayerInterface;
-import xpfei.myapp.MusicPlayService;
+import xpfei.myapp.MyBaseApplication;
 import xpfei.myapp.R;
 import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.databinding.ActivityPlayerBinding;
@@ -34,12 +22,11 @@ import xpfei.myapp.db.SongDbManager;
 import xpfei.myapp.model.Song;
 import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
-import xpfei.myapp.util.DisplayUtil;
-import xpfei.myapp.util.FastBlurUtil;
 import xpfei.mylibrary.net.MyOkHttp;
 import xpfei.mylibrary.net.MyVolley;
 import xpfei.mylibrary.net.response.DownloadResponseHandler;
 import xpfei.mylibrary.utils.AppLog;
+import xpfei.mylibrary.utils.CommonUtil;
 import xpfei.mylibrary.utils.StringUtil;
 
 /**
@@ -51,32 +38,7 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
     private ActivityPlayerBinding binding;
     private String Song_id;
     private IMusicPlayerInterface mService;
-    private boolean ispaused, isBind;
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            if (mService == null) {
-                mService = IMusicPlayerInterface.Stub.asInterface(iBinder);
-            }
-            try {
-                isBind = true;
-                mService.registerCallBack(callBack);
-                startBaseReqTask(PlayerActivity.this, null);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
-            try {
-                mService.unregisterCallBack(callBack);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-            mService = null;
-        }
-    };
+    private boolean ispaused;
     private IMusicCallBack callBack = new IMusicCallBack.Stub() {
         @Override
         public void callBack(int CurrentPosition, int duration) throws RemoteException {
@@ -100,12 +62,12 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
         public void getCurrent(Song song) throws RemoteException {
             play(song, false);
         }
-    };
 
-    private void bindService() {
-        Intent intent = new Intent(this, MusicPlayService.class);
-        bindService(intent, connection, BIND_AUTO_CREATE);
-    }
+        @Override
+        public void onError() throws RemoteException {
+            CommonUtil.showToast(PlayerActivity.this, "播放失败");
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +75,19 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
         binding = DataBindingUtil.setContentView(this, R.layout.activity_player);
         setSupportActionBar(binding.toolBar);
         binding.toolBar.setNavigationIcon(R.drawable.back);
-        binding.SkbPlayer.setPadding(0, 0, 0, 0);
+        Song_id = getIntent().getStringExtra(ContentValue.IntentKeyStr);
         onSetLeft(true);
+        mService = MyBaseApplication.application.getmService();
+        init();
+    }
+
+    private void init() {
+        try {
+            mService.registerCallBack(callBack);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        binding.SkbPlayer.setPadding(0, 0, 0, 0);
         binding.ivPlay.setOnClickListener(this);
         binding.ivUp.setOnClickListener(this);
         binding.ivNext.setOnClickListener(this);
@@ -138,17 +111,7 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
                 }
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (isBind) {
-            startBaseReqTask(this, null);
-        } else {
-            bindService();
-        }
-        Song_id = getIntent().getStringExtra(ContentValue.IntentKeyStr);
+        startBaseReqTask(this, null);
     }
 
     @Override
@@ -172,12 +135,12 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
                                 play(info, true);
                             }
                         } else {
-                            onFailure("播放失败，即将播放下一首");
+                            onFailure("播放失败");
                         }
                     }
                 } catch (Exception e) {
                     AppLog.Loge(e.getMessage());
-                    onFailure("播放失败，即将播放下一首");
+                    onFailure("播放失败");
                 }
             }
 
@@ -197,12 +160,23 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
                 return false;
             } catch (RemoteException e) {
                 e.printStackTrace();
-                onDialogSuccess(null);
+                onDialogFailure("播放失败，请检查网络设置");
                 return true;
             }
         }
-        onDialogSuccess(null);
+        onDialogFailure("播放失败，请检查网络设置");
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            mService.unregisterCallBack(callBack);
+            callBack = null;
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     private void play(Song info, boolean isPlay) throws RemoteException {
@@ -212,24 +186,6 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
         downLrc(info);
         getSupportActionBar().setTitle(info.getTitle());
         getSupportActionBar().setSubtitle(info.getAuthor());
-        Glide.with(PlayerActivity.this).load(info.getPic_small()).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(final Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                final Drawable foregroundDrawable = getForegroundDrawable(resource);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                binding.llMain.setForeground(foregroundDrawable);
-                                binding.llMain.beginAnimation();
-                            }
-                        });
-                    }
-                }).start();
-            }
-        });
         binding.SkbPlayer.setProgress(0);
         binding.txtSongTime.setText("00:00");
         binding.txtPlayerTime.setText("00:00");
@@ -259,28 +215,6 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
             });
         }
     }
-
-    private Drawable getForegroundDrawable(Bitmap bitmap) {
-        /*得到屏幕的宽高比，以便按比例切割图片一部分*/
-        final float widthHeightSize = (float) (DisplayUtil.getScreenWidth(this)
-                * 1.0 / DisplayUtil.getScreenHeight(this) * 1.0);
-        int cropBitmapWidth = (int) (widthHeightSize * bitmap.getHeight());
-        int cropBitmapWidthX = (int) ((bitmap.getWidth() - cropBitmapWidth) / 2.0);
-
-        /*切割部分图片*/
-        Bitmap cropBitmap = Bitmap.createBitmap(bitmap, cropBitmapWidthX, 0, cropBitmapWidth,
-                bitmap.getHeight());
-        /*缩小图片*/
-        Bitmap scaleBitmap = Bitmap.createScaledBitmap(cropBitmap, bitmap.getWidth() / 50, bitmap
-                .getHeight() / 50, false);
-        /*模糊化*/
-        Bitmap blurBitmap = FastBlurUtil.doBlur(scaleBitmap, 8, true);
-        Drawable foregroundDrawable = new BitmapDrawable(blurBitmap);
-        /*加入灰色遮罩层，避免图片过亮影响其他控件*/
-        foregroundDrawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-        return foregroundDrawable;
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -322,5 +256,4 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
                 break;
         }
     }
-
 }

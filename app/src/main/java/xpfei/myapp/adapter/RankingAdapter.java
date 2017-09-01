@@ -59,12 +59,12 @@ public class RankingAdapter extends BaseMyReclyViewAdapter<RankingInfo, RankingA
         public ViewHolder(View itemView, boolean isItem) {
             super(itemView);
             if (isItem) {
-                imgRanking = itemView.findViewById(R.id.imgRanking);
-                txtRankingName = itemView.findViewById(R.id.txtRankingName);
-                txtName = itemView.findViewById(R.id.txtName);
-                txtName1 = itemView.findViewById(R.id.txtName1);
-                txtName2 = itemView.findViewById(R.id.txtName2);
-                txtName3 = itemView.findViewById(R.id.txtName3);
+                imgRanking = (ImageView) itemView.findViewById(R.id.imgRanking);
+                txtRankingName = (TextView) itemView.findViewById(R.id.txtRankingName);
+                txtName = (TextView) itemView.findViewById(R.id.txtName);
+                txtName1 = (TextView) itemView.findViewById(R.id.txtName1);
+                txtName2 = (TextView) itemView.findViewById(R.id.txtName2);
+                txtName3 = (TextView) itemView.findViewById(R.id.txtName3);
             }
         }
     }

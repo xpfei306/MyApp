@@ -114,14 +114,31 @@ public class MusicPlayService extends Service {
         mCallBacks.finishBroadcast();
     }
 
+    private void notifyError() {
+        int len = mCallBacks.beginBroadcast();
+        for (int i = 0; i < len; i++) {
+            try {
+                mCallBacks.getBroadcastItem(i).onError();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        mCallBacks.finishBroadcast();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-        player = Player.getInstance();
+        player = Player.getInstance(getApplicationContext());
         player.setOnPlayChangeListener(new Player.playChangeListener() {
             @Override
             public void onChange(int CurrentPosition, int duration) {
                 notifyCallBack(CurrentPosition, duration);
+            }
+
+            @Override
+            public void onError() {
+                notifyError();
             }
         });
     }
@@ -146,7 +163,6 @@ public class MusicPlayService extends Service {
         public CustomerClient(IBinder mToken, String mCustomerName) {
             this.mToken = mToken;
             this.mCustomerName = mCustomerName;
-
         }
 
         @Override

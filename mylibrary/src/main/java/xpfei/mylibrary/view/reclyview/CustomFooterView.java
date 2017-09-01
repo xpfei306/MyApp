@@ -116,8 +116,8 @@ public class CustomFooterView extends LinearLayout implements IFooterCallBack {
         moreView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         mContentView = moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_content);
         mProgressBar = moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_relativeLayout);
-        mHintView = moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_hint_textview);
-        mClickView = moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_click_textview);
+        mHintView = (TextView) moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_hint_textview);
+        mClickView = (TextView) moreView.findViewById(xpfei.mylibrary.R.id.xrefreshview_footer_click_textview);
     }
 
     @Override

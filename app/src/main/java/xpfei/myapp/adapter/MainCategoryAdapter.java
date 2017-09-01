@@ -70,8 +70,8 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imgCategory = itemView.findViewById(R.id.imgCategory);
-            txtCategory = itemView.findViewById(R.id.txtCategory);
+            imgCategory = (ImageView) itemView.findViewById(R.id.imgCategory);
+            txtCategory = (TextView) itemView.findViewById(R.id.txtCategory);
         }
     }
 }
