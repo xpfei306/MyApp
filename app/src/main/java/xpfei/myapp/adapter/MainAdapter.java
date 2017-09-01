@@ -18,8 +18,8 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-import xpfei.myapp.activity.GeDanListActivity;
 import xpfei.myapp.R;
+import xpfei.myapp.activity.GeDanListActivity;
 import xpfei.myapp.activity.PlayerActivity;
 import xpfei.myapp.activity.RadioListActivity;
 import xpfei.myapp.activity.RankingActivity;
@@ -30,6 +30,7 @@ import xpfei.myapp.model.BannerInfo;
 import xpfei.myapp.model.CategoryInfo;
 import xpfei.myapp.model.Song;
 import xpfei.myapp.util.ContentValue;
+import xpfei.myapp.util.GlideUtils;
 import xpfei.myapp.view.banner.Banner;
 import xpfei.myapp.view.banner.BannerAdapter;
 
@@ -46,6 +47,7 @@ public class MainAdapter extends RecyclerView.Adapter {
     private List<CategoryInfo> categoryInfos;
     private List<Song> songInfos;
     private List<AlbumInfo> albumInfos;
+    private Banner banner;
 
     public MainAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -125,8 +127,14 @@ public class MainAdapter extends RecyclerView.Adapter {
                 //如果快速滑动， 不加载图片
                 if (newState == 2) {
                     Glide.with(context).pauseRequests();
+                    if (banner != null) {
+                        banner.pauseScroll();
+                    }
                 } else {
                     Glide.with(context).resumeRequests();
+                    if (banner != null) {
+                        banner.goScroll();
+                    }
                 }
             }
 
@@ -144,6 +152,7 @@ public class MainAdapter extends RecyclerView.Adapter {
      * @param list       绑定的数据
      */
     private void initHeader(HeaderHold headerHold, final List<BannerInfo> list) {
+        banner = headerHold.banner;
         BannerAdapter adapter = new BannerAdapter<BannerInfo>(list) {
             @Override
             protected void bindTips(TextView tv, BannerInfo bannerInfo) {
@@ -151,11 +160,12 @@ public class MainAdapter extends RecyclerView.Adapter {
             }
 
             @Override
-            public void bindImage(ImageView imageView, final BannerInfo bannerInfo) {
-                Glide.with(context).load(bannerInfo.getRandpic()).error(R.mipmap.nopic).into(imageView);
+            public void bindImage(ImageView imageView, BannerInfo bannerInfo) {
+                GlideUtils.loadImage(context, bannerInfo.getRandpic(), R.mipmap.nopic, imageView);
             }
         };
         headerHold.banner.setBannerAdapter(adapter);
+        headerHold.banner.goScroll();
         headerHold.banner.setOnBannerItemClickListener(new Banner.OnBannerItemClickListener() {
             @Override
             public void onItemClick(int position) {

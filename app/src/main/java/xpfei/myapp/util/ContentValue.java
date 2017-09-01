@@ -25,6 +25,12 @@ public class ContentValue {
     public static final String ACACHEkEY_VIEWTHEME = "VIEWTHEME";
     public static final String ACACHE_USER = "ACache_USER";
 
+    public static final class AcacheKey {
+        public static final String ACACHEKEY_BANNER = "ACACHEKEY_BANNER";
+        public static final String ACACHEKEY_NEWSONG = "ACACHEKEY_NEWSONG";
+        public static final String ACACHEKEY_ALBUM = "ACACHEKEY_ALBUM";
+    }
+
     //首页布局分类
     public static final int ViewHeader = 1;
     public static final int ViewCategory = 2;
@@ -50,5 +56,7 @@ public class ContentValue {
     public static final class PlayAction {
         public static final String Play = "xpfei.music.play";
         public static final String Pause = "xpfei.music.pause";
+        public static final String Last = "xpfei.music.last";
+        public static final String Next = "xpfei.music.Next";
     }
 }

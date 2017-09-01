@@ -12,7 +12,7 @@ import java.util.List;
 
 import xpfei.myapp.model.Song;
 import xpfei.myapp.util.ContentValue;
-import xpfei.myapp.util.play.Player;
+import xpfei.myapp.manager.Player;
 
 /**
  * Description: 音乐播放的service
@@ -49,10 +49,17 @@ public class MusicPlayService extends Service {
         public void doAction(String action) throws RemoteException {
             if (ContentValue.PlayAction.Play.equals(action)) {
                 player.start();
+                notifyPlayState(player.isPaused());
             } else if (ContentValue.PlayAction.Pause.equals(action)) {
                 player.pause();
+                notifyPlayState(player.isPaused());
+            } else if (ContentValue.PlayAction.Last.equals(action)) {
+                player.playLast();
+                notifySong(player.getPlayingSong());
+            } else if (ContentValue.PlayAction.Next.equals(action)) {
+                player.playNext();
+                notifySong(player.getPlayingSong());
             }
-            notifyPlayState(player.isPaused());
         }
 
         @Override
@@ -88,6 +95,18 @@ public class MusicPlayService extends Service {
         for (int i = 0; i < len; i++) {
             try {
                 mCallBacks.getBroadcastItem(i).doSome(isPaused);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        mCallBacks.finishBroadcast();
+    }
+
+    private void notifySong(Song song) {
+        int len = mCallBacks.beginBroadcast();
+        for (int i = 0; i < len; i++) {
+            try {
+                mCallBacks.getBroadcastItem(i).getCurrent(song);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

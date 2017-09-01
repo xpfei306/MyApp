@@ -1,4 +1,4 @@
-package xpfei.myapp.util.play;
+package xpfei.myapp.manager;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -79,8 +79,21 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
     }
 
     public void playLast() {
-        playingIndex--;
         isPaused = false;
+        int size = manager.loadAll().size();
+        AppLog.Logd("前：" + playingIndex);
+        if (size > 0) {
+            playingIndex--;
+            AppLog.Logd("中：" + playingIndex);
+            if (playingIndex < 0) {
+                playingIndex = size - 1;
+            }
+            AppLog.Logd("后：" + playingIndex);
+            Song info = getPlayingSong();
+            if (info != null) {
+                play(info.getFile_link());
+            }
+        }
     }
 
     public void playNext() {
@@ -136,9 +149,6 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     public Song getPlayingSong() {
         List<Song> list = manager.loadAll();
-        if (playingIndex > list.size() - 1) {
-            playingIndex = 0;
-        }
         return list.get(playingIndex);
     }
 

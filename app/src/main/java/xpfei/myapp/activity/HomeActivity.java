@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -66,7 +65,7 @@ public class HomeActivity extends MyBaseActivity {
             public void create(SwipeMenu menu) {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(HomeActivity.this);
                 deleteItem.setBackground(new ColorDrawable(Color.rgb(0xFF, 0x20, 0x20)));
-                deleteItem.setWidth(dp2px(63));
+                deleteItem.setWidth(CommonUtil.dp2px(HomeActivity.this, 63));
                 deleteItem.setIcon(CommonUtil.getDrawble(HomeActivity.this, R.mipmap.del));
                 deleteItem.setTitleSize(14);
                 deleteItem.setTitleColor(Color.WHITE);
@@ -128,17 +127,6 @@ public class HomeActivity extends MyBaseActivity {
             data.put("message", message[i]);
             datas.add(data);
         }
-    }
-
-    /**
-     * dp转px
-     *
-     * @param dp
-     * @return
-     */
-    private int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                getResources().getDisplayMetrics());
     }
 
     @Override

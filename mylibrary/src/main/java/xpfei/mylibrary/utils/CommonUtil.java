@@ -104,25 +104,23 @@ public class CommonUtil {
     }
 
     /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     * dp转px
+     *
+     * @param dpValue 待转化的值
      */
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    public static int dp2px(Context context, float dpValue) {
+        float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
     /**
-     * 像素转dp
+     * sp转px
      *
-     * @param context 上下文
-     * @param px      像素值
-     * @return
+     * @param spValue 待转化的值
      */
-    public static float pxToDp(Context context, float px) {
-        if (context == null) {
-            return -1;
-        }
-        return px / context.getResources().getDisplayMetrics().density;
+    public static int sp2px(Context context, float spValue) {
+        float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
     }
 
     /**

@@ -7,12 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.model.RadioListInfo;
+import xpfei.myapp.util.GlideUtils;
 import xpfei.myapp.view.RoundImageView;
 
 /**
@@ -40,7 +39,7 @@ public class RadioSingerAdapter extends RecyclerView.Adapter<RadioSingerAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         RadioListInfo info = list.get(position);
-        Glide.with(context).load(info.getAvatar()).error(R.mipmap.header).into(holder.imgSinger);
+        GlideUtils.loadImage(context, info.getAvatar(), R.mipmap.header, holder.imgSinger);
         holder.txtRadioName.setText("歌手电台");
         holder.txtSinger.setText(info.getName());
     }

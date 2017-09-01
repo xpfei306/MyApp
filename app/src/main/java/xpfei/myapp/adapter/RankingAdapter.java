@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.adapter.base.BaseMyReclyViewAdapter;
 import xpfei.myapp.model.RankingInfo;
 import xpfei.myapp.model.Song;
+import xpfei.myapp.util.GlideUtils;
 
 /**
  * Description: 排行榜adapter
@@ -30,7 +29,7 @@ public class RankingAdapter extends BaseMyReclyViewAdapter<RankingInfo, RankingA
     @Override
     public void onBindData(ViewHolder holder, int position, boolean isItem) {
         RankingInfo info = data.get(position);
-        Glide.with(context).load(info.getPic_s260()).error(R.mipmap.nopic).into(holder.imgRanking);
+        GlideUtils.loadImage(context, info.getPic_s260(), R.mipmap.nopic, holder.imgRanking);
         holder.txtRankingName.setText(info.getName());
         Song songinfo = info.getContent().get(0);
         Song songinfo1 = info.getContent().get(1);

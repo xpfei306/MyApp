@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.model.RadioListInfo;
+import xpfei.myapp.util.GlideUtils;
 
 /**
  * Description: 电台公共
@@ -40,9 +39,9 @@ public class RadioPublicAdapter extends RecyclerView.Adapter<RadioPublicAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         RadioListInfo info = list.get(position);
-        Glide.with(context).load(info.getThumb()).error(R.mipmap.header).into(holder.imgRadio);
+        GlideUtils.loadImage(context, info.getThumb(), R.mipmap.header, holder.imgRadio);
         holder.txtRadioName.setText(info.getName());
-}
+    }
 
     @Override
     public int getItemCount() {

@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.adapter.base.BaseMyReclyViewAdapter;
 import xpfei.myapp.model.GeDanInfo;
+import xpfei.myapp.util.GlideUtils;
 import xpfei.mylibrary.utils.StringUtil;
 
 /**
@@ -48,7 +47,7 @@ public class GeDanAdapter extends BaseMyReclyViewAdapter<GeDanInfo, GeDanAdapter
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, boolean isItem) {
         GeDanInfo info = data.get(position);
-        Glide.with(context).load(info.getPic()).error(R.mipmap.nopic).into(holder.imgGeDan);
+        GlideUtils.loadImage(context, info.getPic(), R.mipmap.nopic, holder.imgGeDan);
         holder.txtName.setText(info.getTitle());
         holder.txtListenum.setText(StringUtil.int2double(info.getListenum()));
     }

@@ -8,7 +8,6 @@ import android.provider.MediaStore;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.databinding.ActivityPersonalcenterBinding;
 import xpfei.myapp.model.UserInfo;
 import xpfei.myapp.util.ContentValue;
+import xpfei.myapp.util.GlideUtils;
 import xpfei.myapp.view.SelectPicturePopupWindow;
 import xpfei.mylibrary.manager.ACache;
 import xpfei.mylibrary.net.MyOkHttp;
@@ -148,7 +148,7 @@ public class PersonalCenterActivity extends MyBaseActivity {
                             public void onSuccess(Boolean response) {
                                 if (response) {
                                     onDialogSuccess("上传成功");
-                                    Glide.with(PersonalCenterActivity.this).load(path).error(R.mipmap.header).into(binding.imgHeader);
+                                    GlideUtils.loadImage(PersonalCenterActivity.this, path, R.mipmap.nopic, binding.imgHeader);
                                 }
                             }
 

@@ -5,10 +5,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * bannerAdapter
- * Created by sivin on 2016/5/1.
- */
 public abstract class BannerAdapter<T> {
     private List<T> mDataList;
 

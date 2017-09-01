@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.model.CategoryInfo;
+import xpfei.myapp.util.GlideUtils;
 
 /**
  * Description:首页分类的适配器
@@ -40,7 +39,7 @@ public class MainCategoryAdapter extends RecyclerView.Adapter<MainCategoryAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         CategoryInfo info = list.get(position);
-        Glide.with(context).load(info.getDrawableId()).error(R.mipmap.nopic).into(holder.imgCategory);
+        GlideUtils.loadImage(context, info.getDrawableId(), R.mipmap.nopic, holder.imgCategory);
         holder.txtCategory.setText(info.getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

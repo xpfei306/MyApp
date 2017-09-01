@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.model.AlbumInfo;
+import xpfei.myapp.util.GlideUtils;
 
 /**
  * Description:专辑分类的适配器
@@ -40,7 +39,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         AlbumInfo info = list.get(position);
-        Glide.with(context).load(info.getPic_small()).error(R.mipmap.nopic).into(holder.imgCategory);
+        GlideUtils.loadImage(context, info.getPic_small(), R.mipmap.nopic, holder.imgCategory);
         holder.txtName.setText(info.getTitle());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

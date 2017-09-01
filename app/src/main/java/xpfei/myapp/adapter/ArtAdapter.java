@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.adapter.base.BaseMyReclyViewAdapter;
 import xpfei.myapp.model.ArtInfo;
+import xpfei.myapp.util.GlideUtils;
 
 /**
  * Description:歌手列表
@@ -41,7 +40,7 @@ public class ArtAdapter extends BaseMyReclyViewAdapter<ArtInfo, ArtAdapter.ViewH
     @Override
     public void onBindData(ViewHolder holder, int position, boolean isItem) {
         ArtInfo info = data.get(position);
-        Glide.with(context).load(info.getAvatar_big()).error(R.mipmap.header).into(holder.imgArt);
+        GlideUtils.loadImage(context, info.getAvatar_big(), R.mipmap.header, holder.imgArt);
         holder.txtArtName.setText(info.getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

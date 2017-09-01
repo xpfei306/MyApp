@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import xpfei.myapp.R;
+import xpfei.mylibrary.utils.CommonUtil;
 
 
 public class LrcView extends View {
@@ -56,8 +57,8 @@ public class LrcView extends View {
 
     private void init(AttributeSet attrs) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.LrcView);
-        float textSize = ta.getDimension(R.styleable.LrcView_lrcTextSize, LrcUtils.sp2px(getContext(), 12));
-        mDividerHeight = ta.getDimension(R.styleable.LrcView_lrcDividerHeight, LrcUtils.dp2px(getContext(), 16));
+        float textSize = ta.getDimension(R.styleable.LrcView_lrcTextSize, CommonUtil.sp2px(getContext(), 12));
+        mDividerHeight = ta.getDimension(R.styleable.LrcView_lrcDividerHeight, CommonUtil.dp2px(getContext(), 16));
         mAnimationDuration = ta.getInt(R.styleable.LrcView_lrcAnimationDuration, 200);
         mNormalColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, 0xFFFFFFFF);
         mCurrentColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextColor, 0xFFFF4081);
@@ -223,6 +224,7 @@ public class LrcView extends View {
             public void run() {
                 // 避免重复绘制
                 if (time < mNextTime) {
+                    onDrag(time);
                     return;
                 }
                 for (int i = mCurrentLine; i < mLrcEntryList.size(); i++) {
@@ -299,7 +301,7 @@ public class LrcView extends View {
         if (mAnimator != null && mAnimator.isRunning()) {
             mAnimator.resume();
         }
-        onDrag(time);
+        updateTime(time);
     }
 
     private void initEntryList() {

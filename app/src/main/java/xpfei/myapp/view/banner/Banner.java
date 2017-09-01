@@ -31,6 +31,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import xpfei.myapp.R;
+import xpfei.mylibrary.utils.CommonUtil;
 
 
 /**
@@ -51,7 +52,6 @@ public class Banner extends RelativeLayout {
      * 循环轮播的Viewpager
      */
     private SLooperViewPager mViewPager;
-
 
     //下面这两个控件，存放到一个相对布局中，由于不需要设置成员变量，故此没写
     /**
@@ -155,23 +155,15 @@ public class Banner extends RelativeLayout {
     private void initDefaultAttrs(Context context) {
 
         //默认点指示器的左右Margin3dp
-        mPointLeftRightMargin = dp2px(context, 3);
+        mPointLeftRightMargin = CommonUtil.dp2px(context, 3);
         //默认点指示器的上下margin为6dp
-        mPointTopBottomMargin = dp2px(context, 6);
+        mPointTopBottomMargin = CommonUtil.dp2px(context, 6);
         //默认点容器的左右padding为10dp
-        mPointContainerLeftRightPadding = dp2px(context, 10);
+        mPointContainerLeftRightPadding = CommonUtil.dp2px(context, 10);
         //默认指示器提示文字大小8sp
-        mTipTextSize = sp2px(context, 8);
+        mTipTextSize = CommonUtil.sp2px(context, 8);
         //默认指示器容器的背景图片
         mPointContainerBackgroundDrawable = new ColorDrawable(Color.parseColor("#33aaaaaa"));
-    }
-
-    private int dp2px(Context context, float dpValue) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, context.getResources().getDisplayMetrics());
-    }
-
-    private int sp2px(Context context, float spValue) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, context.getResources().getDisplayMetrics());
     }
 
     /**

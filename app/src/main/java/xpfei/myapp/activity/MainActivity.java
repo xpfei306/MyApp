@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,6 +32,7 @@ import xpfei.myapp.model.Song;
 import xpfei.myapp.model.UserInfo;
 import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
+import xpfei.myapp.util.GlideUtils;
 import xpfei.myapp.view.MyStaggerGrildLayoutManger;
 import xpfei.mylibrary.manager.ACache;
 import xpfei.mylibrary.manager.AppManager;
@@ -51,6 +51,7 @@ public class MainActivity extends MyBaseActivity {
     private NavigationView navigationView;
     private RecyclerView recyclerView;
     private MainAdapter adapter;
+    private ACache aCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class MainActivity extends MyBaseActivity {
                 getAlbum();
             }
         }, 100);
-        ACache aCache = ACache.get(this);
+        aCache = ACache.get(this);
         final UserInfo userInfo = (UserInfo) aCache.getAsObject(ContentValue.ACACHE_USER);
         if (userInfo != null) {
             View headerView = navigationView.getHeaderView(0);
@@ -94,11 +95,12 @@ public class MainActivity extends MyBaseActivity {
                     @Override
                     public void run() {
                         String tempPath = userInfo.getHeadimage().replace("\\", "/");
-                        Glide.with(MainActivity.this).load("http://192.168.10.20:8911" + tempPath).error(R.mipmap.header).into(imgHeader);
+                        GlideUtils.loadImage(MainActivity.this, "http://192.168.10.20:8911" + tempPath, R.mipmap.header, imgHeader);
                     }
                 }, 1000);
             }
         }
+        aCache = ACache.get(this);
     }
 
     private void initEvent() {
@@ -151,8 +153,8 @@ public class MainActivity extends MyBaseActivity {
                 if (code == ContentValue.Json.Successcode) {
                     try {
                         JSONArray jsonArray = jsonObject.optJSONArray(ContentValue.Json.Banner);
-                        List<BannerInfo> bannerList = JSON.parseArray(jsonArray.toString(), BannerInfo.class);
-                        adapter.setHeaderData(bannerList);
+                        aCache.put(ContentValue.AcacheKey.ACACHEKEY_BANNER, jsonArray);
+                        getBinner(jsonArray);
                     } catch (Exception e) {
                         AppLog.Loge("Error:" + e.getMessage());
                         onFailure("未查询到相关数据！");
@@ -165,9 +167,21 @@ public class MainActivity extends MyBaseActivity {
 
             @Override
             public void onFailure(String msg) {
+                JSONArray jsonArray = aCache.getAsJSONArray(ContentValue.AcacheKey.ACACHEKEY_BANNER);
+                getBinner(jsonArray);
                 onDialogFailure(msg);
             }
         });
+    }
+
+    public void Error() {
+        JSONArray jsonArray = aCache.getAsJSONArray(ContentValue.AcacheKey.ACACHEKEY_BANNER);
+        getBinner(jsonArray);
+    }
+
+    private void getBinner(JSONArray jsonArray) {
+        List<BannerInfo> bannerList = JSON.parseArray(jsonArray.toString(), BannerInfo.class);
+        adapter.setHeaderData(bannerList);
     }
 
     /**
@@ -182,8 +196,9 @@ public class MainActivity extends MyBaseActivity {
                     try {
                         JSONArray jsonArray = jsonObject.optJSONArray(ContentValue.Json.Content);
                         JSONObject jsonSong = jsonArray.getJSONObject(0);
-                        List<Song> bannerList = JSON.parseArray(jsonSong.optJSONArray(ContentValue.Json.SongList).toString(), Song.class);
-                        adapter.setSongData(bannerList);
+                        JSONArray arraySong = jsonSong.optJSONArray(ContentValue.Json.SongList);
+                        aCache.put(ContentValue.AcacheKey.ACACHEKEY_NEWSONG, arraySong);
+                        getSong(arraySong);
                     } catch (Exception e) {
                         AppLog.Loge("Error:" + e.getMessage());
                         onFailure("未查询到相关数据！");
@@ -196,9 +211,16 @@ public class MainActivity extends MyBaseActivity {
 
             @Override
             public void onFailure(String msg) {
+                JSONArray jsonArray = aCache.getAsJSONArray(ContentValue.AcacheKey.ACACHEKEY_NEWSONG);
+                getSong(jsonArray);
                 onDialogFailure(msg);
             }
         });
+    }
+
+    private void getSong(JSONArray jsonArray) {
+        List<Song> bannerList = JSON.parseArray(jsonArray.toString(), Song.class);
+        adapter.setSongData(bannerList);
     }
 
     /**
@@ -215,8 +237,8 @@ public class MainActivity extends MyBaseActivity {
                         JSONObject jsonRM = json.optJSONObject(ContentValue.Json.RM);
                         JSONObject AlbumList = jsonRM.optJSONObject(ContentValue.Json.AlbumList);
                         JSONArray jsonArray = AlbumList.optJSONArray(ContentValue.Json.List);
-                        List<AlbumInfo> bannerList = JSON.parseArray(jsonArray.toString(), AlbumInfo.class);
-                        adapter.setAlbumData(bannerList);
+                        aCache.put(ContentValue.AcacheKey.ACACHEKEY_ALBUM, jsonArray);
+                        getalbum(jsonArray);
                     } catch (Exception e) {
                         AppLog.Loge("Error:" + e.getMessage());
                         onFailure("未查询到相关数据！");
@@ -230,9 +252,16 @@ public class MainActivity extends MyBaseActivity {
 
             @Override
             public void onFailure(String msg) {
+                JSONArray jsonArray = aCache.getAsJSONArray(ContentValue.AcacheKey.ACACHEKEY_ALBUM);
+                getalbum(jsonArray);
                 onDialogFailure(msg);
             }
         });
+    }
+
+    private void getalbum(JSONArray jsonArray) {
+        List<AlbumInfo> bannerList = JSON.parseArray(jsonArray.toString(), AlbumInfo.class);
+        adapter.setAlbumData(bannerList);
     }
 
     @Override

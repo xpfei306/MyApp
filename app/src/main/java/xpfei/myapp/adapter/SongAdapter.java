@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.model.Song;
+import xpfei.myapp.util.GlideUtils;
 
 /**
  * Description:歌曲分类的适配器
@@ -41,7 +40,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         int index = holder.getAdapterPosition();
         final Song info = list.get(index);
-        Glide.with(context).load(info.getPic_small()).error(R.mipmap.nopic).into(holder.imgSong);
+        GlideUtils.loadImage(context, info.getPic_small(), R.mipmap.nopic, holder.imgSong);
         holder.txtSong.setText(info.getTitle());
         holder.txtAlbum.setText(info.getAuthor() + "-" + info.getAlbum_title());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

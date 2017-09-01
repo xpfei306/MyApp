@@ -18,6 +18,7 @@ import android.util.TypedValue;
 import android.widget.ImageView;
 
 import xpfei.myapp.R;
+import xpfei.mylibrary.utils.CommonUtil;
 
 
 public class RoundImageView extends ImageView {
@@ -189,7 +190,7 @@ public class RoundImageView extends ImageView {
     }
 
     public void setBorderRadius(int borderRadius) {
-        int pxVal = dp2px(borderRadius);
+        int pxVal = CommonUtil.dp2px(getContext(),borderRadius);
         if (this.mBorderRadius != pxVal) {
             this.mBorderRadius = pxVal;
             invalidate();
@@ -206,10 +207,4 @@ public class RoundImageView extends ImageView {
         }
 
     }
-
-    public int dp2px(int dpVal) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                dpVal, getResources().getDisplayMetrics());
-    }
-
 }
