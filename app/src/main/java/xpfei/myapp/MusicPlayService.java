@@ -22,9 +22,7 @@ import xpfei.myapp.manager.Player;
 public class MusicPlayService extends Service {
     private List<CustomerClient> mClientsList = new ArrayList<>();
     private RemoteCallbackList<IMusicCallBack> mCallBacks = new RemoteCallbackList<>();
-    private List<Song> list = new ArrayList<>();
     private Player player;
-    private int musicMode, playIndex;
     private IMusicPlayerInterface.Stub mBinder = new IMusicPlayerInterface.Stub() {
         @Override
         public void registerCallBack(IMusicCallBack cb) throws RemoteException {
@@ -38,6 +36,7 @@ public class MusicPlayService extends Service {
 
         @Override
         public void setSongList(List<Song> list, boolean isPlay) throws RemoteException {
+
         }
 
         @Override
@@ -64,12 +63,17 @@ public class MusicPlayService extends Service {
 
         @Override
         public void setPlayMode(int mode) throws RemoteException {
-            musicMode = mode;
+            player.setPlayMode(mode);
+        }
+
+        @Override
+        public int getPlayMode() throws RemoteException {
+            return player.getPlayMode();
         }
 
         @Override
         public List<Song> getSongList() throws RemoteException {
-            return list;
+            return player.getSongList();
         }
 
         @Override
@@ -129,7 +133,7 @@ public class MusicPlayService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        player = Player.getInstance(getApplicationContext());
+        player = Player.getInstance();
         player.setOnPlayChangeListener(new Player.playChangeListener() {
             @Override
             public void onChange(int CurrentPosition, int duration) {

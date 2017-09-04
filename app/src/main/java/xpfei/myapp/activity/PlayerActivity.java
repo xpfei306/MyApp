@@ -22,6 +22,7 @@ import xpfei.myapp.db.SongDbManager;
 import xpfei.myapp.model.Song;
 import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
+import xpfei.myapp.view.MusicListPopupWindow;
 import xpfei.mylibrary.net.MyOkHttp;
 import xpfei.mylibrary.net.MyVolley;
 import xpfei.mylibrary.net.response.DownloadResponseHandler;
@@ -34,7 +35,7 @@ import xpfei.mylibrary.utils.StringUtil;
  * Author: xpfei
  * Date:   2017/08/11
  */
-public class PlayerActivity extends MyBaseActivity implements View.OnClickListener {
+public class PlayerActivity extends MyBaseActivity {
     private ActivityPlayerBinding binding;
     private String Song_id;
     private IMusicPlayerInterface mService;
@@ -65,9 +66,10 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
 
         @Override
         public void onError() throws RemoteException {
-            CommonUtil.showToast(PlayerActivity.this, "播放失败");
+            CommonUtil.showToast(PlayerActivity.this, "未找到播放地址");
         }
     };
+    private MusicListPopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,15 +84,25 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
     }
 
     private void init() {
+        int mode = 0;
         try {
             mService.registerCallBack(callBack);
+            mode = mService.getPlayMode();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        switch (mode) {
+            case 1:
+                binding.ivPlayState.setImageResource(R.drawable.dqxh);
+                break;
+            case 2:
+                binding.ivPlayState.setImageResource(R.drawable.sjbf);
+                break;
+            default:
+                binding.ivPlayState.setImageResource(R.drawable.lbxh);
+                break;
+        }
         binding.SkbPlayer.setPadding(0, 0, 0, 0);
-        binding.ivPlay.setOnClickListener(this);
-        binding.ivUp.setOnClickListener(this);
-        binding.ivNext.setOnClickListener(this);
         binding.SkbPlayer.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -108,6 +120,85 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
                     mService.seekTo(seekBar.getProgress());
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                }
+            }
+        });
+        binding.setOnMyClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.ivCollection:
+                        break;
+                    case R.id.ivDownLoad:
+                        break;
+                    case R.id.ivShare:
+                        break;
+                    case R.id.ivDel:
+                        break;
+                    case R.id.ivPlayList:
+                        if (popupWindow == null) {
+                            popupWindow = new MusicListPopupWindow(PlayerActivity.this);
+                        }
+                        try {
+                            popupWindow.show(binding.llMain, mService.getSongList(), mService.getPlayMode());
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                            popupWindow.show(binding.llMain, null, 0);
+                        }
+                        break;
+                    case R.id.ivPlayState:
+                        try {
+                            int mode = mService.getPlayMode();
+                            switch (mode) {
+                                case 1:
+                                    mode = 2;
+                                    binding.ivPlayState.setImageResource(R.drawable.sjbf);
+                                    break;
+                                case 2:
+                                    mode = 0;
+                                    binding.ivPlayState.setImageResource(R.drawable.lbxh);
+                                    break;
+                                default:
+                                    mode = 1;
+                                    binding.ivPlayState.setImageResource(R.drawable.dqxh);
+                                    break;
+                            }
+                            mService.setPlayMode(mode);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case R.id.ivUp:
+                        try {
+                            mService.doAction(ContentValue.PlayAction.Last);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case R.id.ivPlay:
+                        String action;
+                        int drawbleId;
+                        if (ispaused) {
+                            action = ContentValue.PlayAction.Play;
+                            drawbleId = R.drawable.player;
+                        } else {
+                            action = ContentValue.PlayAction.Pause;
+                            drawbleId = R.drawable.paused;
+                        }
+                        try {
+                            mService.doAction(action);
+                            binding.ivPlay.setImageResource(drawbleId);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case R.id.ivNext:
+                        try {
+                            mService.doAction(ContentValue.PlayAction.Next);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                        break;
                 }
             }
         });
@@ -180,12 +271,18 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
     }
 
     private void play(Song info, boolean isPlay) throws RemoteException {
-        if (isPlay) {
-            mService.setSong(info, true);
+
+        if (info == null) {
+            if (isPlay) {
+                mService.setSong(info, true);
+            }
+            downLrc(info);
+            getSupportActionBar().setTitle(info.getTitle());
+            getSupportActionBar().setSubtitle(info.getAuthor());
+        } else {
+            getSupportActionBar().setTitle("未知");
+            getSupportActionBar().setSubtitle("未知");
         }
-        downLrc(info);
-        getSupportActionBar().setTitle(info.getTitle());
-        getSupportActionBar().setSubtitle(info.getAuthor());
         binding.SkbPlayer.setProgress(0);
         binding.txtSongTime.setText("00:00");
         binding.txtPlayerTime.setText("00:00");
@@ -195,7 +292,7 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
         if (!StringUtil.isEmpty(info.getLrclink_local())) {
             binding.lrcView.loadLrc(new File(info.getLrclink_local()));
         } else {
-            MyOkHttp.getInstance().download(this, info.getLrclink(), new DownloadResponseHandler() {
+            MyOkHttp.getInstance().download(this, info.getLrclink(), info.getSong_id(), new DownloadResponseHandler() {
                 @Override
                 public void onFinish(File download_file) {
                     info.setLrclink_local(download_file.getAbsolutePath());
@@ -213,47 +310,6 @@ public class PlayerActivity extends MyBaseActivity implements View.OnClickListen
 
                 }
             });
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.ivCollection:
-                break;
-            case R.id.ivUp:
-                try {
-                    mService.doAction(ContentValue.PlayAction.Last);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.ivPlay:
-                String action;
-                int drawbleId;
-                if (ispaused) {
-                    action = ContentValue.PlayAction.Play;
-                    drawbleId = R.drawable.player;
-                } else {
-                    action = ContentValue.PlayAction.Pause;
-                    drawbleId = R.drawable.paused;
-                }
-                try {
-                    mService.doAction(action);
-                    binding.ivPlay.setImageResource(drawbleId);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.ivNext:
-                try {
-                    mService.doAction(ContentValue.PlayAction.Next);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.ivDownLoad:
-                break;
         }
     }
 }

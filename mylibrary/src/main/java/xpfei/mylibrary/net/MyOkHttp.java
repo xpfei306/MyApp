@@ -217,11 +217,24 @@ public class MyOkHttp {
     /**
      * 下载文件
      *
+     * @param context                 context
      * @param url                     下载地址
      * @param downloadResponseHandler 下载回调
      */
     public void download(Context context, @NonNull String url, DownloadResponseHandler downloadResponseHandler) {
         download(context, url, null, null, downloadResponseHandler);
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param context                 context
+     * @param url                     下载地址
+     * @param filename                下载目的文件名
+     * @param downloadResponseHandler 下载回调
+     */
+    public void download(Context context, @NonNull String url, String filename, DownloadResponseHandler downloadResponseHandler) {
+        download(context, url, null, filename, downloadResponseHandler);
     }
 
     /**
@@ -243,7 +256,7 @@ public class MyOkHttp {
             filename = url.substring(url.lastIndexOf("/"));
         }
         if (StringUtil.isEmpty(filedir)) {
-            filedir = CommonUtil.getCachePath(context)+ "/Myapp";
+            filedir = CommonUtil.getCachePath(context) + "/Myapp";
         }
         Request request = builders.build();
         client.newBuilder().addNetworkInterceptor(new Interceptor() {      //设置拦截器

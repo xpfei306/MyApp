@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="OnMyClickListener"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <LinearLayout
@@ -46,6 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -60,6 +65,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{OnMyClickListener}"
                         android:padding="@dimen/dim_5"
                         android:scaleType="fitXY"
                         android:src="@drawable/nocollection" />
@@ -68,28 +74,34 @@
                         android:id="@+id/ivDownLoad"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="@dimen/dim_10"
+                        android:layout_marginLeft="@dimen/dim_20"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{OnMyClickListener}"
                         android:padding="@dimen/dim_5"
                         android:scaleType="fitXY"
                         android:src="@drawable/download" />
 
                     <ImageButton
+                        android:id="@+id/ivShare"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginLeft="@dimen/dim_10"
+                        android:layout_marginLeft="@dimen/dim_20"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{OnMyClickListener}"
                         android:padding="@dimen/dim_5"
                         android:scaleType="fitXY"
                         android:src="@drawable/share" />
 
                     <ImageButton
+                        android:id="@+id/ivDel"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_marginLeft="@dimen/dim_20"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{OnMyClickListener}"
                         android:padding="@dimen/dim_5"
                         android:scaleType="fitXY"
-                        android:src="@drawable/menu_point" />
+                        android:src="@drawable/del_64" />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -146,6 +158,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{OnMyClickListener}"
                         android:padding="@dimen/dim_5"
                         android:scaleType="fitXY"
                         android:src="@drawable/lbxh" />
@@ -156,6 +169,7 @@
                         android:layout_height="@dimen/topheight"
                         android:layout_marginLeft="@dimen/dim_10"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{OnMyClickListener}"
                         android:padding="@dimen/dim_5"
                         android:scaleType="fitXY"
                         android:src="@drawable/up" />
@@ -164,8 +178,8 @@
                         android:id="@+id/ivPlay"
                         android:layout_width="@dimen/dim_60"
                         android:layout_height="@dimen/dim_60"
-
                         android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{OnMyClickListener}"
                         android:padding="@dimen/dim_5"
                         android:scaleType="fitXY"
                         android:src="@drawable/player" />
@@ -175,6 +189,7 @@
                         android:layout_width="@dimen/topheight"
                         android:layout_height="@dimen/topheight"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{OnMyClickListener}"
                         android:padding="@dimen/dim_5"
                         android:scaleType="fitXY"
                         android:src="@drawable/down" />
@@ -185,6 +200,7 @@
                         android:layout_height="30dp"
                         android:layout_marginLeft="@dimen/dim_10"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{OnMyClickListener}"
                         android:padding="@dimen/dim_5"
                         android:scaleType="fitXY"
                         android:src="@drawable/playlist" />

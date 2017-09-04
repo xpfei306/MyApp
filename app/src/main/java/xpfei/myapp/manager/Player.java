@@ -1,12 +1,12 @@
 package xpfei.myapp.manager;
 
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import xpfei.myapp.db.SongDbManager;
 import xpfei.myapp.model.Song;
@@ -23,10 +23,10 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
     private MediaPlayer mPlayer;
     private SongDbManager manager;
     private boolean isPaused;
-    private int playingIndex = 0;
+    private int playingIndex = -1;
     private playChangeListener listener;
-    private Context context;
     private Handler handler = new Handler();
+    private int musicMode;
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -47,8 +47,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         this.listener = listener;
     }
 
-    private Player(Context context) {
-        this.context = context;
+    private Player() {
         mPlayer = new MediaPlayer();
         manager = new SongDbManager();
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);// 设置媒体流类型
@@ -57,11 +56,11 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         mPlayer.setOnErrorListener(this);
     }
 
-    public static Player getInstance(Context context) {
+    public static Player getInstance() {
         if (sInstance == null) {
             synchronized (Player.class) {
                 if (sInstance == null) {
-                    sInstance = new Player(context);
+                    sInstance = new Player();
                 }
             }
         }
@@ -88,13 +87,27 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         isPaused = false;
         int size = manager.loadAll().size();
         if (size > 0) {
-            playingIndex--;
-            if (playingIndex < 0) {
-                playingIndex = size - 1;
+            switch (musicMode) {
+                case 1:
+                    SinglesMusic();
+                    break;
+                case 2:
+                    randomMusic();
+                    break;
+                default:
+                    playingIndex--;
+                    if (playingIndex < 0) {
+                        playingIndex = size - 1;
+                    }
+                    Song info = getPlayingSong();
+                    if (info != null) {
+                        play(info.getFile_link());
+                    }
+                    break;
             }
-            Song info = getPlayingSong();
-            if (info != null) {
-                play(info.getFile_link());
+        } else {
+            if (listener != null) {
+                listener.onError();
             }
         }
     }
@@ -103,13 +116,27 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         isPaused = false;
         int size = manager.loadAll().size();
         if (size > 0) {
-            playingIndex++;
-            if (playingIndex > size - 1) {
-                playingIndex = 0;
+            switch (musicMode) {
+                case 1:
+                    SinglesMusic();
+                    break;
+                case 2:
+                    randomMusic();
+                    break;
+                default:
+                    playingIndex++;
+                    if (playingIndex > size - 1) {
+                        playingIndex = 0;
+                    }
+                    Song info = getPlayingSong();
+                    if (info != null) {
+                        play(info.getFile_link());
+                    }
+                    break;
             }
-            Song info = getPlayingSong();
-            if (info != null) {
-                play(info.getFile_link());
+        } else {
+            if (listener != null) {
+                listener.onError();
             }
         }
     }
@@ -134,10 +161,16 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
             if (StringUtil.isEmpty(path)) {
                 List<Song> list = manager.loadAll();
                 if (list.size() == 0) {
+                    if (listener != null) {
+                        listener.onError();
+                    }
                     return;
                 }
                 path = list.get(0).getFile_link();
                 if (StringUtil.isEmpty(path)) {
+                    if (listener != null) {
+                        listener.onError();
+                    }
                     return;
                 }
             }
@@ -151,7 +184,13 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     public Song getPlayingSong() {
         List<Song> list = manager.loadAll();
-        return list.get(playingIndex);
+        if (playingIndex < list.size() - 1)
+            return list.get(playingIndex);
+        return null;
+    }
+
+    public List<Song> getSongList() {
+        return manager.loadAll();
     }
 
     public void seekTo(int progress) {
@@ -169,6 +208,43 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     public boolean isPaused() {
         return mPlayer.isPlaying();
+    }
+
+    public void setPlayMode(int mode) {
+        musicMode = mode;
+    }
+
+    public int getPlayMode() {
+        return musicMode;
+    }
+
+    private void randomMusic() {
+        List<Song> list = manager.loadAll();
+        if (list.size() > 0) {
+            if (list.size() == 1) {
+                playingIndex = 0;
+            } else if (list.size() > 1) {
+                Random random = new Random();
+                playingIndex = random.nextInt(list.size() - 1);
+            }
+            Song song = list.get(playingIndex);
+            play(song.getFile_link());
+        } else {
+            if (listener != null) {
+                listener.onError();
+            }
+        }
+    }
+
+    private void SinglesMusic() {
+        Song song = getPlayingSong();
+        if (song != null) {
+            play(song.getFile_link());
+        } else {
+            if (listener != null) {
+                listener.onError();
+            }
+        }
     }
 
     @Override

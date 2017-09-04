@@ -66,6 +66,13 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
         this.listener = listener;
     }
 
+    public void setData(List<Song> list) {
+        if (list != null) {
+            this.list = list;
+            notifyDataSetChanged();
+        }
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgSong;
         TextView txtAlbum, txtSong;
