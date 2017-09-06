@@ -133,25 +133,8 @@ public class SwipeMenuLayout extends FrameLayout {
 		mMenuView.setId(MENU_VIEW_ID);
 		mMenuView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
-
 		addView(mContentView);
 		addView(mMenuView);
-
-		// if (mContentView.getBackground() == null) {
-		// mContentView.setBackgroundColor(Color.WHITE);
-		// }
-
-		// in android 2.x, MenuView height is MATCH_PARENT is not work.
-		// getViewTreeObserver().addOnGlobalLayoutListener(
-		// new OnGlobalLayoutListener() {
-		// @Override
-		// public void onGlobalLayout() {
-		// setMenuHeight(mContentView.getHeight());
-		// // getViewTreeObserver()
-		// // .removeGlobalOnLayoutListener(this);
-		// }
-		// });
-
 	}
 
 	@Override
@@ -175,7 +158,7 @@ public class SwipeMenuLayout extends FrameLayout {
 			// Log.i("byz", "downX = " + mDownX + ", moveX = " + event.getX());
 			int dis = (int) (mDownX - event.getX());
 			if (state == STATE_OPEN) {
-				dis += mMenuView.getWidth()*mSwipeDirection;;
+				dis += mMenuView.getWidth()*mSwipeDirection;
 			}
 			swipe(dis);
 			break;

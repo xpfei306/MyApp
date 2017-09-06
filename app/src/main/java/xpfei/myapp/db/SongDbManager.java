@@ -10,10 +10,10 @@ import xpfei.myapp.model.Song;
  * Author: xpfei
  * Date:   2017/08/30
  */
-public class SongDbManager extends AbstractDatabaseManager<Song, String> {
+public class SongDbManager extends AbstractDatabaseManager<Song, Long> {
 
     @Override
-    protected AbstractDao<Song, String> getAbstractDao() {
+    protected AbstractDao<Song, Long> getAbstractDao() {
         return daoSession.getSongDao();
     }
 }

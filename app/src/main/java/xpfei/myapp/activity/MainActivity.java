@@ -33,6 +33,7 @@ import xpfei.myapp.model.UserInfo;
 import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
 import xpfei.myapp.util.GlideUtils;
+import xpfei.myapp.view.MultiStateView;
 import xpfei.myapp.view.MyStaggerGrildLayoutManger;
 import xpfei.mylibrary.manager.ACache;
 import xpfei.mylibrary.manager.AppManager;
@@ -132,7 +133,13 @@ public class MainActivity extends MyBaseActivity {
                 return true;
             }
         });
-        startBaseReqTask(this, null);
+        mMultiStateView.setOnRetryClickListener(new MultiStateView.OnRetryClickListener() {
+            @Override
+            public void onRetry() {
+                startBaseMSVReqTask(MainActivity.this, null);
+            }
+        });
+        startBaseMSVReqTask(this, null);
     }
 
     private List<CategoryInfo> initCategory() {
@@ -162,21 +169,20 @@ public class MainActivity extends MyBaseActivity {
                 } else {
                     onFailure("服务器繁忙，请稍后再试！");
                 }
-                onDialogSuccess(null);
+                onMSVSuccess(null);
             }
 
             @Override
             public void onFailure(String msg) {
                 JSONArray jsonArray = aCache.getAsJSONArray(ContentValue.AcacheKey.ACACHEKEY_BANNER);
-                getBinner(jsonArray);
-                onDialogFailure(msg);
+                if (jsonArray != null && jsonArray.length() > 0) {
+                    getBinner(jsonArray);
+                    onMSVSuccess(null);
+                } else {
+                    onMSVFailure(msg);
+                }
             }
         });
-    }
-
-    public void Error() {
-        JSONArray jsonArray = aCache.getAsJSONArray(ContentValue.AcacheKey.ACACHEKEY_BANNER);
-        getBinner(jsonArray);
     }
 
     private void getBinner(JSONArray jsonArray) {
@@ -219,8 +225,10 @@ public class MainActivity extends MyBaseActivity {
     }
 
     private void getSong(JSONArray jsonArray) {
-        List<Song> bannerList = JSON.parseArray(jsonArray.toString(), Song.class);
-        adapter.setSongData(bannerList);
+        if (jsonArray != null) {
+            List<Song> bannerList = JSON.parseArray(jsonArray.toString(), Song.class);
+            adapter.setSongData(bannerList);
+        }
     }
 
     /**
@@ -260,8 +268,10 @@ public class MainActivity extends MyBaseActivity {
     }
 
     private void getalbum(JSONArray jsonArray) {
-        List<AlbumInfo> bannerList = JSON.parseArray(jsonArray.toString(), AlbumInfo.class);
-        adapter.setAlbumData(bannerList);
+        if (jsonArray != null) {
+            List<AlbumInfo> bannerList = JSON.parseArray(jsonArray.toString(), AlbumInfo.class);
+            adapter.setAlbumData(bannerList);
+        }
     }
 
     @Override

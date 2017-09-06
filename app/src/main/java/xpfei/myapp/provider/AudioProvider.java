@@ -7,10 +7,11 @@ import android.provider.MediaStore;
 import java.util.ArrayList;
 import java.util.List;
 
-import xpfei.myapp.model.Audio;
+import xpfei.myapp.db.SongDbManager;
+import xpfei.myapp.model.Song;
 
 /**
- * Description: (这里用一句话描述这个类的作用)
+ * Description: 获取本地音乐
  * Author: xpfei
  * Date:   2017/08/10
  */
@@ -23,36 +24,32 @@ public class AudioProvider implements AbstructProvider {
     }
 
     @Override
-    public List<Audio> getList() {
-        List<Audio> list = null;
+    public List<Song> getList() {
+        List<Song> list = null;
         if (context != null) {
             Cursor cursor = context.getContentResolver().query(
                     MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
             if (cursor != null) {
                 list = new ArrayList<>();
                 while (cursor.moveToNext()) {
-                    int id = cursor.getInt(
-                            cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
-                    String title = cursor.getString(
-                            cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
-                    String album = cursor.getString(
-                            cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
-                    String artist = cursor.getString(
-                            cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
-                    String path = cursor.getString(
-                            cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
-                    String displayName = cursor.getString(
-                            cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
-                    String mimeType = cursor.getString(
-                            cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE));
-                    long duration = cursor.getInt(
-                            cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
-                    long size = cursor.getLong(
-                            cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE));
-                    Audio audio = new Audio(id, title, album, artist, path, displayName, mimeType, duration, size);
-                    list.add(audio);
+                    long id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
+                    String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
+                    String album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
+                    String artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
+                    String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+                    Song song = new Song();
+                    song.setSong_id(id);
+                    song.setAuthor(artist);
+                    song.setAlbum_title(album);
+                    song.setTitle(title);
+                    song.setFile_link_local(path);
+                    song.setIsLocal(1);
+                    list.add(song);
                 }
                 cursor.close();
+                if (list.size() > 0) {
+                    new SongDbManager().insertOrReplaceList(list);
+                }
             }
         }
         return list;

@@ -10,5 +10,5 @@ interface IMusicCallBack {
 
     void getCurrent(in Song song);
 
-     void onError();
+    void onError();
 }

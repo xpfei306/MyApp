@@ -32,8 +32,8 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         public void run() {
             if (listener != null && !isPaused) {
                 listener.onChange(mPlayer.getCurrentPosition(), mPlayer.getDuration());
+                handler.postDelayed(this, 1000);
             }
-            handler.postDelayed(this, 1000);
         }
     };
 
@@ -67,25 +67,17 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         return sInstance;
     }
 
-    public void addMusic(Song info, boolean isPlay) {
-        manager.insert(info);
+    public void addMusic(final Song info, boolean isPlay) {
+        manager.insertOrReplace(info);
         if (isPlay) {
             play(info.getFile_link());
         }
     }
 
-    public void addMusic(List<Song> infos, boolean isPlay) {
-        if (infos != null && infos.size() > 0) {
-            manager.insertList(infos);
-            if (isPlay) {
-                play(infos.get(0).getFile_link());
-            }
-        }
-    }
-
     public void playLast() {
         isPaused = false;
-        int size = manager.loadAll().size();
+        List<Song> list = manager.loadAll();
+        int size = list.size();
         if (size > 0) {
             switch (musicMode) {
                 case 1:
@@ -99,7 +91,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
                     if (playingIndex < 0) {
                         playingIndex = size - 1;
                     }
-                    Song info = getPlayingSong();
+                    Song info = list.get(playingIndex);
                     if (info != null) {
                         play(info.getFile_link());
                     }
@@ -114,7 +106,8 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     public void playNext() {
         isPaused = false;
-        int size = manager.loadAll().size();
+        List<Song> list = manager.loadAll();
+        int size = list.size();
         if (size > 0) {
             switch (musicMode) {
                 case 1:
@@ -128,7 +121,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
                     if (playingIndex > size - 1) {
                         playingIndex = 0;
                     }
-                    Song info = getPlayingSong();
+                    Song info = list.get(playingIndex);
                     if (info != null) {
                         play(info.getFile_link());
                     }
@@ -157,6 +150,11 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     public void play(String path) {
         try {
+            if (mPlayer.isPlaying()) {
+                mPlayer.stop();
+            }
+            handler.removeCallbacks(runnable);
+            mPlayer.reset();
             isPaused = false;
             if (StringUtil.isEmpty(path)) {
                 List<Song> list = manager.loadAll();
@@ -174,7 +172,6 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
                     return;
                 }
             }
-            mPlayer.reset();
             mPlayer.setDataSource(path);
             mPlayer.prepareAsync();
         } catch (IOException e) {
@@ -184,7 +181,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     public Song getPlayingSong() {
         List<Song> list = manager.loadAll();
-        if (playingIndex < list.size() - 1)
+        if (playingIndex >= 0 && playingIndex <= list.size() - 1)
             return list.get(playingIndex);
         return null;
     }
@@ -200,10 +197,13 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
     }
 
     public void releasePlayer() {
+        mPlayer.stop();
         mPlayer.reset();
         mPlayer.release();
+        handler.removeCallbacksAndMessages(null);
         mPlayer = null;
         sInstance = null;
+        handler = null;
     }
 
     public boolean isPaused() {
@@ -216,6 +216,16 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     public int getPlayMode() {
         return musicMode;
+    }
+
+    public void delAllSong() {
+        manager.deleteAll();
+    }
+
+    public void delSong() {
+        Song song = getPlayingSong();
+        manager.deleteByKey(song.getSong_id());
+        playNext();
     }
 
     private void randomMusic() {
@@ -257,7 +267,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        mediaPlayer.start();
+        mPlayer.start();
         handler.removeCallbacks(runnable);
         handler.postDelayed(runnable, 1000);
     }
@@ -267,8 +277,8 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         if (listener != null) {
             listener.onError();
         }
+        handler.removeCallbacks(runnable);
         mPlayer.reset();
-        mPlayer.release();
         return true;
     }
 }

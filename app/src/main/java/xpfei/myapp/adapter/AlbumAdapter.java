@@ -39,7 +39,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         AlbumInfo info = list.get(position);
-        GlideUtils.loadImage(context, info.getPic_small(), R.mipmap.nopic, holder.imgCategory);
+        GlideUtils.loadImage(context, info.getPic_small(), R.drawable.noalbum, holder.imgCategory);
         holder.txtName.setText(info.getTitle());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

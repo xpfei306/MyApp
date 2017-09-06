@@ -40,7 +40,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         int index = holder.getAdapterPosition();
         final Song info = list.get(index);
-        GlideUtils.loadImage(context, info.getPic_small(), R.mipmap.nopic, holder.imgSong);
+        GlideUtils.loadImage(context, info.getPic_small(), R.drawable.noalbum, holder.imgSong);
         holder.txtSong.setText(info.getTitle());
         holder.txtAlbum.setText(info.getAuthor() + "-" + info.getAlbum_title());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -11,7 +11,7 @@ interface IMusicPlayerInterface {
      void unregisterCallBack(IMusicCallBack cb);
      //添加多首歌曲
      void setSongList(in List<Song> list,boolean isPlay);
-     //添加单单首歌曲
+     //添加单首歌曲
      void setSong(in Song song,boolean isPlay);
      //动作 （播放、上一曲、下一曲等）
      void doAction(String action);
@@ -19,8 +19,14 @@ interface IMusicPlayerInterface {
      void setPlayMode(int mode);
      //获取当前播放模式（0列表循环1单曲循环2随机）
      int getPlayMode();
+     //删除播放列表中所有歌曲
+     void delAllSong();
+     //删除播放正在播放的歌曲
+     void delSong();
      //获取当前播放列表
      List<Song> getSongList();
+     //获取当前播放歌曲
+     Song getSong();
      //滑动seekbar
      void seekTo(int progress);
 }

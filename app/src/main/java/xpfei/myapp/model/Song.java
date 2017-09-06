@@ -14,8 +14,8 @@ import org.greenrobot.greendao.annotation.Generated;
  */
 @Entity
 public class Song implements Parcelable {
-    @Id
-    private String song_id;//歌曲id
+    @Id(autoincrement = true)
+    private Long song_id;//歌曲id
     private String album_title;//专辑名称
     private String title;//歌曲名称
     private String author;//作者
@@ -25,12 +25,10 @@ public class Song implements Parcelable {
     private String file_link;//歌曲播放地址
     private String lrclink_local;//歌词本地地址
     private String file_link_local;//歌曲播放本地地址
-
-    public Song() {
-    }
+    private int isLocal;//是否是本地歌曲
 
     protected Song(Parcel in) {
-        song_id = in.readString();
+        song_id = in.readLong();
         album_title = in.readString();
         title = in.readString();
         author = in.readString();
@@ -40,12 +38,13 @@ public class Song implements Parcelable {
         file_link = in.readString();
         lrclink_local = in.readString();
         file_link_local = in.readString();
+        isLocal = in.readInt();
     }
 
-    @Generated(hash = 1794492670)
-    public Song(String song_id, String album_title, String title, String author,
+    @Generated(hash = 639761546)
+    public Song(Long song_id, String album_title, String title, String author,
             String pic_small, String pic_huge, String lrclink, String file_link,
-            String lrclink_local, String file_link_local) {
+            String lrclink_local, String file_link_local, int isLocal) {
         this.song_id = song_id;
         this.album_title = album_title;
         this.title = title;
@@ -56,6 +55,11 @@ public class Song implements Parcelable {
         this.file_link = file_link;
         this.lrclink_local = lrclink_local;
         this.file_link_local = file_link_local;
+        this.isLocal = isLocal;
+    }
+
+    @Generated(hash = 87031450)
+    public Song() {
     }
 
     public static final Creator<Song> CREATOR = new Creator<Song>() {
@@ -76,24 +80,25 @@ public class Song implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(song_id);
-        parcel.writeString(album_title);
-        parcel.writeString(title);
-        parcel.writeString(author);
-        parcel.writeString(pic_small);
-        parcel.writeString(pic_huge);
-        parcel.writeString(lrclink);
-        parcel.writeString(file_link);
-        parcel.writeString(lrclink_local);
-        parcel.writeString(file_link_local);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(song_id);
+        dest.writeString(album_title);
+        dest.writeString(title);
+        dest.writeString(author);
+        dest.writeString(pic_small);
+        dest.writeString(pic_huge);
+        dest.writeString(lrclink);
+        dest.writeString(file_link);
+        dest.writeString(lrclink_local);
+        dest.writeString(file_link_local);
+        dest.writeInt(isLocal);
     }
 
-    public String getSong_id() {
+    public Long getSong_id() {
         return this.song_id;
     }
 
-    public void setSong_id(String song_id) {
+    public void setSong_id(Long song_id) {
         this.song_id = song_id;
     }
 
@@ -167,5 +172,13 @@ public class Song implements Parcelable {
 
     public void setFile_link_local(String file_link_local) {
         this.file_link_local = file_link_local;
+    }
+
+    public int getIsLocal() {
+        return this.isLocal;
+    }
+
+    public void setIsLocal(int isLocal) {
+        this.isLocal = isLocal;
     }
 }

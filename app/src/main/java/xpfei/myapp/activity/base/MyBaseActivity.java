@@ -43,9 +43,6 @@ public abstract class MyBaseActivity extends AppCompatActivity {
      */
     public abstract void onRequestData();
 
-    public void Error() {
-    }
-
     protected Handler mLoadHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -55,7 +52,6 @@ public abstract class MyBaseActivity extends AppCompatActivity {
                 case ContentValue.NET_LOAD:
                     if (!CommonUtil.isNetworkAvailable(activity)) {
                         CommonUtil.showToast(activity, "网路故障！请检查网络设置");
-                        Error();
                         return;
                     }
                     message = msg.getData().getString("MSG", "正在获取信息，请稍等...");
@@ -66,7 +62,6 @@ public abstract class MyBaseActivity extends AppCompatActivity {
                 case ContentValue.NET_MSV_LOAD:
                     if (!CommonUtil.isNetworkAvailable(activity)) {
                         mMultiStateView.setViewState(MultiStateView.STATE_NETWORK);
-                        Error();
                         return;
                     }
                     message = msg.getData().getString("MSG", "正在获取信息，请稍等...");

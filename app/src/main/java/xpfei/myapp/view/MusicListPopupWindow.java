@@ -2,6 +2,7 @@ package xpfei.myapp.view;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,6 +31,24 @@ public class MusicListPopupWindow {
     private TextView txtPlayMode, txtMusicNum, btnClear, txtEmpty;
     private RecyclerView itemRv;
     private SongAdapter adapter;
+    private onPopItemClickListener listener;
+    private onClearClickListener clearClickListener;
+
+    public interface onPopItemClickListener {
+        void popItemClick(Song info);
+    }
+
+    public interface onClearClickListener {
+        void clearClick();
+    }
+
+    public void setonClearClickListener(onClearClickListener clearClickListener) {
+        this.clearClickListener = clearClickListener;
+    }
+
+    public void setOnPopItemClickListener(onPopItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public MusicListPopupWindow(Context context) {
         this.mContext = context;
@@ -47,6 +66,21 @@ public class MusicListPopupWindow {
         itemRv = (RecyclerView) contentView.findViewById(R.id.itemRv);
         adapter = new SongAdapter(mContext, new ArrayList<Song>());
         itemRv.setAdapter(adapter);
+        itemRv.setLayoutManager(new LinearLayoutManager(mContext));
+        adapter.setOnMyItemClickListener(new SongAdapter.onMyItemClickListener() {
+            @Override
+            public void onMyItemClick(Song info) {
+                if (listener != null) {
+                    listener.popItemClick(info);
+                }
+            }
+        });
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearClickListener.clearClick();
+            }
+        });
         //设置SelectPicPopupWindow弹出窗体的宽
         popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         //设置SelectPicPopupWindow弹出窗体的高

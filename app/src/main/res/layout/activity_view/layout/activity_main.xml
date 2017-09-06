@@ -13,11 +13,17 @@
 
         <include layout="@layout/view_topview" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/MyRv"
+        <xpfei.myapp.view.MultiStateView
+            android:id="@+id/mMultiStateView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/MyRv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white" />
+        </xpfei.myapp.view.MultiStateView>
     </LinearLayout>
 
     <!-- 导航栏的设置 此处可设置导航栏头部布局及菜单布局-->

@@ -1279,12 +1279,12 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
      * @param scrollValue - Position to scroll to
      * @param duration    - Duration of animation in milliseconds
      */
-    private final void smoothScrollTo(int scrollValue, long duration) {
+    private void smoothScrollTo(int scrollValue, long duration) {
         smoothScrollTo(scrollValue, duration, 0, null);
     }
 
-    private final void smoothScrollTo(int newScrollValue, long duration,
-                                      long delayMillis, OnSmoothScrollFinishedListener listener) {
+    private void smoothScrollTo(int newScrollValue, long duration,
+                                long delayMillis, OnSmoothScrollFinishedListener listener) {
         if (null != mCurrentSmoothScrollRunnable) {
             mCurrentSmoothScrollRunnable.stop();
         }
@@ -1315,7 +1315,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
         }
     }
 
-    private final void smoothScrollToAndBack(int y) {
+    private void smoothScrollToAndBack(int y) {
         smoothScrollTo(y, SMOOTH_SCROLL_DURATION_MS, 0,
                 new OnSmoothScrollFinishedListener() {
 
@@ -1409,6 +1409,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
          * {@link PullToRefreshBase#setRefreshing() setRefreshing()}.
          */
         MANUAL_REFRESH_ONLY(0x4);
+
         /**
          * Maps an int to a specific mode. This is needed when saving state, or
          * inflating the view from XML where the mode is given through a attr
@@ -1558,7 +1559,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout
 
 
     public enum Orientation {
-        VERTICAL, HORIZONTAL;
+        VERTICAL, HORIZONTAL
     }
 
     public enum State {

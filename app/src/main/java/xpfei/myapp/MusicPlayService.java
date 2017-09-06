@@ -72,8 +72,23 @@ public class MusicPlayService extends Service {
         }
 
         @Override
+        public void delAllSong() throws RemoteException {
+            player.delAllSong();
+        }
+
+        @Override
+        public void delSong() throws RemoteException {
+            player.delSong();
+        }
+
+        @Override
         public List<Song> getSongList() throws RemoteException {
             return player.getSongList();
+        }
+
+        @Override
+        public Song getSong() throws RemoteException {
+            return player.getPlayingSong();
         }
 
         @Override
@@ -81,6 +96,37 @@ public class MusicPlayService extends Service {
             player.seekTo(progress);
         }
     };
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        player = Player.getInstance();
+        player.setOnPlayChangeListener(new Player.playChangeListener() {
+            @Override
+            public void onChange(int CurrentPosition, int duration) {
+                notifyCallBack(CurrentPosition, duration);
+            }
+
+            @Override
+            public void onError() {
+                notifyError();
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        //销毁回调资源否则要内存泄露
+        mCallBacks.kill();
+        player.releasePlayer();
+        super.onDestroy();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
+    }
 
     private void notifyCallBack(int CurrentPosition, int duration) {
         int len = mCallBacks.beginBroadcast();
@@ -128,36 +174,6 @@ public class MusicPlayService extends Service {
             }
         }
         mCallBacks.finishBroadcast();
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        player = Player.getInstance();
-        player.setOnPlayChangeListener(new Player.playChangeListener() {
-            @Override
-            public void onChange(int CurrentPosition, int duration) {
-                notifyCallBack(CurrentPosition, duration);
-            }
-
-            @Override
-            public void onError() {
-                notifyError();
-            }
-        });
-    }
-
-    @Override
-    public void onDestroy() {
-        //销毁回调资源否则要内存泄露
-        mCallBacks.kill();
-        super.onDestroy();
-    }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mBinder;
     }
 
     class CustomerClient implements IBinder.DeathRecipient {

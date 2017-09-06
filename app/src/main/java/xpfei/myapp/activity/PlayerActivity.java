@@ -37,7 +37,7 @@ import xpfei.mylibrary.utils.StringUtil;
  */
 public class PlayerActivity extends MyBaseActivity {
     private ActivityPlayerBinding binding;
-    private String Song_id;
+    private long Song_id;
     private IMusicPlayerInterface mService;
     private boolean ispaused;
     private IMusicCallBack callBack = new IMusicCallBack.Stub() {
@@ -45,11 +45,7 @@ public class PlayerActivity extends MyBaseActivity {
         public void callBack(int CurrentPosition, int duration) throws RemoteException {
             binding.SkbPlayer.setMax(duration);
             binding.SkbPlayer.setProgress(CurrentPosition);
-            if (CurrentPosition > 0) {
-                binding.lrcView.updateTime(CurrentPosition);
-            } else {
-                binding.lrcView.onDrag(CurrentPosition);
-            }
+            binding.lrcView.updateTime(CurrentPosition);
             binding.txtPlayerTime.setText(StringUtil.timeParse(CurrentPosition));
             binding.txtSongTime.setText(StringUtil.timeParse(duration));
         }
@@ -77,7 +73,7 @@ public class PlayerActivity extends MyBaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_player);
         setSupportActionBar(binding.toolBar);
         binding.toolBar.setNavigationIcon(R.drawable.back);
-        Song_id = getIntent().getStringExtra(ContentValue.IntentKeyStr);
+        Song_id = getIntent().getLongExtra(ContentValue.IntentKeyStr, 0);
         onSetLeft(true);
         mService = MyBaseApplication.application.getmService();
         init();
@@ -134,10 +130,35 @@ public class PlayerActivity extends MyBaseActivity {
                     case R.id.ivShare:
                         break;
                     case R.id.ivDel:
+                        try {
+                            mService.delSong();
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case R.id.ivPlayList:
                         if (popupWindow == null) {
                             popupWindow = new MusicListPopupWindow(PlayerActivity.this);
+                            popupWindow.setonClearClickListener(new MusicListPopupWindow.onClearClickListener() {
+                                @Override
+                                public void clearClick() {
+                                    try {
+                                        mService.delAllSong();
+                                    } catch (RemoteException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                            popupWindow.setOnPopItemClickListener(new MusicListPopupWindow.onPopItemClickListener() {
+                                @Override
+                                public void popItemClick(Song info) {
+                                    try {
+                                        play(info, true);
+                                    } catch (RemoteException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
                         }
                         try {
                             popupWindow.show(binding.llMain, mService.getSongList(), mService.getPlayMode());
@@ -210,7 +231,7 @@ public class PlayerActivity extends MyBaseActivity {
         if (!isRequest()) {
             return;
         }
-        MyVolley.getInstance(this).get(BaiduMusicApi.Song.songPlayInfo(Song_id), new MyVolley.MyCallBack() {
+        MyVolley.getInstance(this).get(BaiduMusicApi.Song.songPlayInfo(Song_id + ""), new MyVolley.MyCallBack() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 onDialogSuccess(null);
@@ -238,6 +259,11 @@ public class PlayerActivity extends MyBaseActivity {
             @Override
             public void onFailure(String msg) {
                 onDialogFailure(msg);
+                getSupportActionBar().setTitle("未知");
+                getSupportActionBar().setSubtitle("未知");
+                binding.SkbPlayer.setProgress(0);
+                binding.txtSongTime.setText("00:00");
+                binding.txtPlayerTime.setText("00:00");
             }
         });
     }
@@ -250,12 +276,11 @@ public class PlayerActivity extends MyBaseActivity {
                 onDialogSuccess(null);
                 return false;
             } catch (RemoteException e) {
-                e.printStackTrace();
+                AppLog.Loge("Error:" + e.getMessage());
                 onDialogFailure("播放失败，请检查网络设置");
                 return true;
             }
         }
-        onDialogFailure("播放失败，请检查网络设置");
         return true;
     }
 
@@ -271,8 +296,7 @@ public class PlayerActivity extends MyBaseActivity {
     }
 
     private void play(Song info, boolean isPlay) throws RemoteException {
-
-        if (info == null) {
+        if (info != null) {
             if (isPlay) {
                 mService.setSong(info, true);
             }
@@ -292,7 +316,7 @@ public class PlayerActivity extends MyBaseActivity {
         if (!StringUtil.isEmpty(info.getLrclink_local())) {
             binding.lrcView.loadLrc(new File(info.getLrclink_local()));
         } else {
-            MyOkHttp.getInstance().download(this, info.getLrclink(), info.getSong_id(), new DownloadResponseHandler() {
+            MyOkHttp.getInstance().download(this, info.getLrclink(), info.getSong_id() + "", new DownloadResponseHandler() {
                 @Override
                 public void onFinish(File download_file) {
                     info.setLrclink_local(download_file.getAbsolutePath());
