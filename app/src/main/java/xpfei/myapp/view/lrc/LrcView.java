@@ -1,4 +1,4 @@
-package xpfei.myapp.view.Lrc;
+package xpfei.myapp.view.lrc;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;

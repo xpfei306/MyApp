@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 import xpfei.myapp.manager.AbstractDatabaseManager;
+import xpfei.myapp.service.MusicPlayService;
 import xpfei.myapp.util.ContentValue;
 import xpfei.mylibrary.manager.ACache;
 import xpfei.mylibrary.utils.CommonUtil;

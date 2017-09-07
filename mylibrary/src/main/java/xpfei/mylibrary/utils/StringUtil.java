@@ -90,6 +90,16 @@ public class StringUtil {
         }
     }
 
+    public static String int2double(long value) {
+        if (value > 10000) {
+            double tempvalue = value / (1024 * 1024);
+            DecimalFormat df = new DecimalFormat("#.#");
+            return df.format(tempvalue) + "M";
+        } else {
+            return String.valueOf(value);
+        }
+    }
+
     @SuppressLint("DefaultLocale")
     public static String timeParse(int duration) {
         duration /= 1000;

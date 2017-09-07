@@ -113,23 +113,11 @@ public class MainActivity extends MyBaseActivity {
                         startActivity(new Intent(MainActivity.this, PersonalCenterActivity.class));
                         break;
                     case R.id.item2:
-                        startActivity(new Intent(MainActivity.this, HomeActivity.class));
                         break;
                     case R.id.item3:
-                        startActivity(new Intent(MainActivity.this, GeDanListActivity.class));
-                        break;
-                    case R.id.item4:
                         CommonUtil.showToast(MainActivity.this, "退出登陆");
                         break;
                 }
-                navigationView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDrawer.closeDrawers();
-                        getNewSong();
-                        getAlbum();
-                    }
-                }, 100);
                 return true;
             }
         });
@@ -140,6 +128,17 @@ public class MainActivity extends MyBaseActivity {
             }
         });
         startBaseMSVReqTask(this, null);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        navigationView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDrawer.closeDrawers();
+            }
+        }, 100);
     }
 
     private List<CategoryInfo> initCategory() {

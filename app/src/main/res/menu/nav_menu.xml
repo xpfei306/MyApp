@@ -4,19 +4,15 @@
     <group android:checkableBehavior="none">
         <item
             android:id="@+id/item1"
-            android:icon="@mipmap/header"
+            android:icon="@drawable/grzx"
             android:title="个人中心" />
         <item
             android:id="@+id/item2"
-            android:icon="@mipmap/header"
+            android:icon="@drawable/sz"
             android:title="设置" />
         <item
             android:id="@+id/item3"
-            android:icon="@mipmap/header"
-            android:title="歌曲列表" />
-        <item
-            android:id="@+id/item4"
-            android:icon="@mipmap/header"
+            android:icon="@drawable/tc"
             android:title="退出登陆" />
     </group>
 </menu>

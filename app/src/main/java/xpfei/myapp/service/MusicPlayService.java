@@ -1,4 +1,4 @@
-package xpfei.myapp;
+package xpfei.myapp.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import xpfei.myapp.IMusicCallBack;
+import xpfei.myapp.IMusicPlayerInterface;
 import xpfei.myapp.model.Song;
 import xpfei.myapp.util.ContentValue;
 import xpfei.myapp.manager.Player;

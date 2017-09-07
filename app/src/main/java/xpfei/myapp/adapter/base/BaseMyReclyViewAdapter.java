@@ -12,7 +12,7 @@ import java.util.List;
 import xpfei.mylibrary.view.reclyview.recyclerview.BaseRecyclerAdapter;
 
 /**
- * Description: (这里用一句话描述这个类的作用)
+ * Description: Recyclerview adapter的基类
  * Author: xpfei
  * Date:   2017/08/25
  */
@@ -77,10 +77,8 @@ public abstract class BaseMyReclyViewAdapter<T, V extends RecyclerView.ViewHolde
 
     public void clear() {
         if (data != null) {
-            int start = getStart();
-            int size = data.size();
             data.clear();
-            notifyItemRangeRemoved(start, size);
+            notifyDataSetChanged();
         }
     }
 }

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="#70000000"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -10,7 +11,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#80000000"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -18,43 +18,35 @@
             android:id="@+id/picture_selector_take_photo_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
             android:layout_marginTop="10dp"
-            android:background="#4d69ff"
-            android:padding="10dp"
+            android:background="@android:color/white"
             android:text="拍照"
-            android:textColor="#CEC9E7"
-            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:textSize="?normalSize"
             android:textStyle="bold" />
+
+        <View style="@style/View_Line_H" />
 
         <Button
             android:id="@+id/picture_selector_pick_picture_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:layout_marginTop="5dp"
-            android:background="#4d69ff"
-            android:padding="10dp"
+            android:background="@android:color/white"
             android:text="从相册选择"
-            android:textColor="#CEC9E7"
-            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:textSize="?normalSize"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/picture_selector_cancel_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:layout_marginTop="20dp"
             android:background="@android:color/white"
             android:padding="10dp"
+            android:layout_marginTop="@dimen/dim_10"
             android:text="取消"
-            android:textColor="#373447"
-            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            android:textSize="?normalSize"
             android:textStyle="bold" />
     </LinearLayout>
 

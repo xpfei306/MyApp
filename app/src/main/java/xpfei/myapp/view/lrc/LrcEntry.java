@@ -1,4 +1,4 @@
-package xpfei.myapp.view.Lrc;
+package xpfei.myapp.view.lrc;
 
 import android.text.Layout;
 import android.text.StaticLayout;

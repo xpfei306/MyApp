@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dim_70"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <xpfei.myapp.view.progresslayout.ProgressLayout
+        android:id="@+id/mProgressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:autoProgress="true"
+        app:emptyColor="@android:color/white"
+        app:loadedColor="#80FF4081" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_5">
+
+        <ImageView
+            android:id="@+id/imgSong"
+            android:layout_width="@dimen/dim_60"
+            android:layout_height="@dimen/dim_60"
+            android:src="@drawable/noalbum" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:gravity="center|left"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="丑八怪"
+                android:textColor="@android:color/black"
+                android:textSize="?largeSize" />
+
+            <TextView
+                android:id="@+id/txtState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_5"
+                android:maxLines="1"
+                android:text="0.0M/5.1M"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="?smallSize" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</FrameLayout>

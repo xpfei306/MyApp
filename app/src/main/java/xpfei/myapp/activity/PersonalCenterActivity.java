@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
@@ -15,20 +16,20 @@ import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.activity.base.MyBaseActivity;
+import xpfei.myapp.adapter.SongAdapter;
 import xpfei.myapp.databinding.ActivityPersonalcenterBinding;
 import xpfei.myapp.model.UserInfo;
+import xpfei.myapp.provider.AudioProvider;
 import xpfei.myapp.util.ContentValue;
 import xpfei.myapp.util.GlideUtils;
+import xpfei.myapp.view.MultiStateView;
 import xpfei.myapp.view.SelectPicturePopupWindow;
 import xpfei.mylibrary.manager.ACache;
 import xpfei.mylibrary.net.MyOkHttp;
 import xpfei.mylibrary.net.response.FastJsonResponseHandler;
-import xpfei.mylibrary.utils.AppLog;
 import xpfei.mylibrary.utils.CommonUtil;
 import xpfei.mylibrary.utils.imageutil.ImageUtils;
 import xpfei.mylibrary.utils.imageutil.OnCompressListener;
-
-import static xpfei.myapp.R.id.imgHeader;
 
 /**
  * Description: (这里用一句话描述这个类的作用)
@@ -40,7 +41,7 @@ public class PersonalCenterActivity extends MyBaseActivity {
     private SelectPicturePopupWindow mSelectPicturePopupWindow;
     public static final int TAKE_PICTURE = 0x000001;
     private String path;
-
+    private List<File> files = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,21 @@ public class PersonalCenterActivity extends MyBaseActivity {
 
     private void initView() {
         mSelectPicturePopupWindow = new SelectPicturePopupWindow(this);
+        binding.mMultiStateView.setViewState(MultiStateView.STATE_LOADING);
+        binding.mRecvclerview.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AudioProvider provider = new AudioProvider(PersonalCenterActivity.this);
+                if (provider.getList() != null && provider.getList().size() > 0) {
+                    SongAdapter adapter = new SongAdapter(PersonalCenterActivity.this, provider.getList());
+                    binding.mRecvclerview.setAdapter(adapter);
+                    binding.mRecvclerview.setLayoutManager(new LinearLayoutManager(PersonalCenterActivity.this));
+                    binding.mMultiStateView.setViewState(MultiStateView.STATE_CONTENT);
+                } else {
+                    binding.mMultiStateView.setViewState(MultiStateView.STATE_EMPTY, "暂无歌曲(&gt;_&lt;)");
+                }
+            }
+        }, 1000);
     }
 
     private void initEvent() {
@@ -77,20 +93,12 @@ public class PersonalCenterActivity extends MyBaseActivity {
             @Override
             public void onClick(View view) {
                 switch (view.getId()) {
-                    case imgHeader:
+                    case R.id.imgHeader:
                         mSelectPicturePopupWindow.showPopupWindow(PersonalCenterActivity.this);
                         break;
-                    case R.id.llMusic:
-                        break;
-                    case R.id.llPic:
-                        break;
-                    case R.id.llVideo:
-                        break;
-                    case R.id.llSetting:
-                        break;
-                    case R.id.btnExit:
-                        startBaseReqTask(PersonalCenterActivity.this, "正在上传头像...");
-                        break;
+//                    case R.id.imgHeader:
+//                        startBaseReqTask(PersonalCenterActivity.this, "正在上传头像...");
+//                        break;
                 }
             }
         });
@@ -117,15 +125,12 @@ public class PersonalCenterActivity extends MyBaseActivity {
         startActivityForResult(openCameraIntent, TAKE_PICTURE);
     }
 
-    List<File> files = new ArrayList<>();
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case TAKE_PICTURE:
                 files.add(new File(path));
-                AppLog.Logd(files.size() + "  " + path);
                 break;
 
         }

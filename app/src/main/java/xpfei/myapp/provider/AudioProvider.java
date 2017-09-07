@@ -2,12 +2,12 @@ package xpfei.myapp.provider;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import xpfei.myapp.db.SongDbManager;
 import xpfei.myapp.model.Song;
 
 /**
@@ -16,7 +16,8 @@ import xpfei.myapp.model.Song;
  * Date:   2017/08/10
  */
 public class AudioProvider implements AbstructProvider {
-
+    //获取专辑封面的Uri
+    private static final Uri albumArtUri = Uri.parse("content://media/external/audio/albumart");
     private Context context;
 
     public AudioProvider(Context context) {
@@ -47,12 +48,8 @@ public class AudioProvider implements AbstructProvider {
                     list.add(song);
                 }
                 cursor.close();
-                if (list.size() > 0) {
-                    new SongDbManager().insertOrReplaceList(list);
-                }
             }
         }
         return list;
     }
-
 }

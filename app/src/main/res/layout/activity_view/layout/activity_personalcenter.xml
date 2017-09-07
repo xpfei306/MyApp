@@ -25,165 +25,170 @@
 
             <xpfei.myapp.view.RoundImageView
                 android:id="@+id/imgHeader"
-                android:layout_width="@dimen/dim_60"
-                android:layout_height="@dimen/dim_60"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
                 android:onClick="@{OnMyClickListener}"
                 android:src="@mipmap/header" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/txtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dim_10"
                 android:layout_toRightOf="@+id/imgHeader"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:singleLine="true"
+                android:text="许鹏飞"
+                android:textColor="@android:color/black" />
+        </RelativeLayout>
+
+        <View
+            style="@style/View_Line_H"
+            android:layout_marginLeft="@dimen/dim_10"
+            android:layout_marginRight="@dimen/dim_10" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/dim_5"
+            android:paddingTop="@dimen/dim_5"
+            android:weightSum="4">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="left"
-                    android:singleLine="true"
-                    android:text="许鹏飞"
-                    android:textColor="@android:color/black" />
+                <ImageView
+                    android:layout_width="@dimen/dim_30"
+                    android:layout_height="@dimen/dim_30"
+                    android:src="@drawable/zj" />
 
                 <TextView
-                    android:id="@+id/txtAccount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dim_5"
-                    android:ellipsize="end"
-                    android:gravity="left"
-                    android:singleLine="true"
-                    android:text="账号：xpf"
-                    android:textColor="@android:color/black" />
+                    android:text="最近播放"
+                    android:textColor="@android:color/black"
+                    android:textSize="?smallSize" />
             </LinearLayout>
-        </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/llMusic"
+            <View
+                style="@style/View_Line_S"
+                android:layout_marginBottom="@dimen/dim_5"
+                android:layout_marginTop="@dimen/dim_5" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dim_30"
+                    android:layout_height="@dimen/dim_30"
+                    android:src="@drawable/xzgl" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_5"
+                    android:text="我的下载"
+                    android:textColor="@android:color/black"
+                    android:textSize="?smallSize" />
+            </LinearLayout>
+
+            <View
+                style="@style/View_Line_S"
+                android:layout_marginBottom="@dimen/dim_5"
+                android:layout_marginTop="@dimen/dim_5" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dim_30"
+                    android:layout_height="@dimen/dim_30"
+                    android:src="@drawable/sc" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_5"
+                    android:text="我的收藏"
+                    android:textColor="@android:color/black"
+                    android:textSize="?smallSize" />
+            </LinearLayout>
+
+            <View
+                style="@style/View_Line_S"
+                android:layout_marginBottom="@dimen/dim_5"
+                android:layout_marginTop="@dimen/dim_5" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dim_30"
+                    android:layout_height="@dimen/dim_30"
+                    android:src="@drawable/mygd" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_5"
+                    android:text="我的歌单"
+                    android:textColor="@android:color/black"
+                    android:textSize="?smallSize" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <xpfei.myapp.view.MultiStateView
+            android:id="@+id/mMultiStateView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/dim_10"
-            android:background="@android:color/white"
-            android:gravity="center|left"
-            android:onClick="@{OnMyClickListener}"
-            android:orientation="horizontal"
-            android:padding="@dimen/dim_10">
+            android:background="@android:color/white">
 
-            <ImageView
-                android:layout_width="@dimen/dim_20"
-                android:layout_height="@dimen/dim_20"
-                android:src="@drawable/music" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dim_10"
-                android:gravity="center"
-                android:text="本地音乐"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dim_10"
+                    android:text="本地音乐"
+                    android:textColor="@android:color/black"
+                    android:textSize="?normalSize" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="@dimen/dim_10"
-            android:layout_marginRight="@dimen/dim_10"
-            android:background="@color/colorGray_cc" />
+                <View style="@style/View_Line_H" />
 
-        <LinearLayout
-            android:id="@+id/llVideo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:gravity="center|left"
-            android:onClick="@{OnMyClickListener}"
-            android:orientation="horizontal"
-            android:padding="@dimen/dim_10">
-
-            <ImageView
-                android:layout_width="@dimen/dim_20"
-                android:layout_height="@dimen/dim_20"
-                android:src="@drawable/video" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dim_10"
-                android:gravity="center"
-                android:text="本地视频"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="@dimen/dim_10"
-            android:layout_marginRight="@dimen/dim_10"
-            android:background="@color/colorGray_cc" />
-
-        <LinearLayout
-            android:id="@+id/llPic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:gravity="center|left"
-            android:onClick="@{OnMyClickListener}"
-            android:orientation="horizontal"
-            android:padding="@dimen/dim_10">
-
-            <ImageView
-                android:layout_width="@dimen/dim_20"
-                android:layout_height="@dimen/dim_20"
-                android:src="@drawable/pic" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dim_10"
-                android:gravity="center"
-                android:text="本地图片"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llSetting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_10"
-            android:background="@android:color/white"
-            android:gravity="center|left"
-            android:onClick="@{OnMyClickListener}"
-            android:orientation="horizontal"
-            android:padding="@dimen/dim_10">
-
-            <ImageView
-                android:layout_width="@dimen/dim_20"
-                android:layout_height="@dimen/dim_20"
-                android:src="@drawable/setting" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dim_10"
-                android:gravity="center"
-                android:text="设置"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnExit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dim_30"
-            android:layout_marginRight="@dimen/dim_30"
-            android:layout_marginTop="@dimen/dim_30"
-            android:background="@color/colorBlue"
-            android:onClick="@{OnMyClickListener}"
-            android:text="退出登陆"
-            android:textColor="@android:color/white" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mRecvclerview"
+                    android:layout_width="match_parent"
+                    android:padding="@dimen/dim_10"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </xpfei.myapp.view.MultiStateView>
     </LinearLayout>
 </layout>
