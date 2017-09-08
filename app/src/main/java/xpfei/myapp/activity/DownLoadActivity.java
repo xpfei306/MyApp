@@ -9,14 +9,16 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v7.widget.LinearLayoutManager;
 
-import xpfei.myapp.DownCallBack;
-import xpfei.myapp.DownInterface;
+import java.util.ArrayList;
+
 import xpfei.myapp.R;
 import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.adapter.DownLoadAdapter;
 import xpfei.myapp.databinding.ActivityRecyclerviewBinding;
-import xpfei.myapp.db.DownManager;
-import xpfei.myapp.service.MusicPlayService;
+import xpfei.myapp.model.DownLoadInfo;
+import xpfei.myapp.service.DownCallBack;
+import xpfei.myapp.service.DownInterface;
+import xpfei.myapp.service.DownLoadService;
 
 /**
  * Description: 下载管理
@@ -26,36 +28,52 @@ import xpfei.myapp.service.MusicPlayService;
 public class DownLoadActivity extends MyBaseActivity {
     private ActivityRecyclerviewBinding binding;
     private DownLoadAdapter adapter;
+    private DownInterface mDownService;
     private DownCallBack callBack = new DownCallBack.Stub() {
         @Override
-        public void progress(long id, long currentBytes, long totalBytes) throws RemoteException {
-
+        public void progress(final DownLoadInfo info, long currentBytes, long totalBytes) throws RemoteException {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.setInfo(info);
+                }
+            });
         }
 
         @Override
-        public void success(long id, String path) throws RemoteException {
-
+        public void start(DownLoadInfo info) throws RemoteException {
+            adapter.setInfo(info);
         }
 
         @Override
-        public void fail(long id) throws RemoteException {
-
+        public void success(DownLoadInfo info, String path) throws RemoteException {
+            adapter.setInfo(info);
         }
 
         @Override
-        public void del(long id) throws RemoteException {
+        public void fail(DownLoadInfo info) throws RemoteException {
+            adapter.setInfo(info);
+        }
 
+        @Override
+        public void cancelDown(DownLoadInfo info) throws RemoteException {
+            adapter.setInfo(info);
         }
     };
-    private DownInterface mService;
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             try {
-                if (mService == null) {
-                    mService = DownInterface.Stub.asInterface(iBinder);
+                if (mDownService == null) {
+                    mDownService = DownInterface.Stub.asInterface(iBinder);
                 }
-                mService.registerCallBack(callBack);
+                mDownService.registerCallBack(callBack);
+                DownLoadInfo info = new DownLoadInfo();
+                info.setDownloadUrl("http://p1.exmmw.cn/p1/pp/zksh.apk");
+                mDownService.startDown(info);
+                DownLoadInfo info1 = new DownLoadInfo();
+                info1.setDownloadUrl("http://p1.exmmw.cn/p1/pp/jyyd.apk");
+                mDownService.startDown(info1);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -64,7 +82,7 @@ public class DownLoadActivity extends MyBaseActivity {
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
             try {
-                mService.unregisterCallBack(callBack);
+                mDownService.unregisterCallBack(callBack);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -72,7 +90,7 @@ public class DownLoadActivity extends MyBaseActivity {
     };
 
     private void bindService() {
-        Intent intent = new Intent(this, MusicPlayService.class);
+        Intent intent = new Intent(this, DownLoadService.class);
         bindService(intent, connection, BIND_AUTO_CREATE);
     }
 
@@ -82,25 +100,25 @@ public class DownLoadActivity extends MyBaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recyclerview);
         onSetLeft(true);
         onSetTitle("下载管理");
-        bindService();
         initView();
+        bindService();
     }
 
     private void initView() {
-        adapter = new DownLoadAdapter(this, new DownManager().loadAll(), R.layout.item_download);
+        adapter = new DownLoadAdapter(this, new ArrayList<DownLoadInfo>(), R.layout.item_download);
         binding.mRecvclerview.setAdapter(adapter);
         binding.mRecvclerview.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         unbindService(connection);
-        mService = null;
+        mDownService = null;
         connection = null;
     }
 
     @Override
     public void onRequestData() {
-
     }
 }

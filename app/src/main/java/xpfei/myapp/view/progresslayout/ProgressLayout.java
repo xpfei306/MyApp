@@ -42,8 +42,8 @@ public class ProgressLayout extends View implements Animatable {
 
     private int mHeight;
     private int mWidth;
-    private int maxProgress;
-    private int currentProgress = 0;
+    private long maxProgress;
+    private long currentProgress = 0;
 
     private Handler handlerProgress;
 
@@ -126,8 +126,12 @@ public class ProgressLayout extends View implements Animatable {
         handlerProgress = new Handler();
     }
 
-    private int calculatePositionIndex(int currentProgress) {
-        return (currentProgress * mWidth) / maxProgress;
+    private long calculatePositionIndex(long currentProgress) {
+        if (maxProgress <= 0) {
+            return 0;
+        } else {
+            return (currentProgress * mWidth) / maxProgress;
+        }
     }
 
     public boolean isPlaying() {
@@ -141,12 +145,12 @@ public class ProgressLayout extends View implements Animatable {
         postInvalidate();
     }
 
-    public void setCurrentProgress(int currentProgress) {
+    public void setCurrentProgress(long currentProgress) {
         this.currentProgress = currentProgress * 10;
         postInvalidate();
     }
 
-    public void setMaxProgress(int maxProgress) {
+    public void setMaxProgress(long maxProgress) {
         this.maxProgress = maxProgress * 10;
         postInvalidate();
     }

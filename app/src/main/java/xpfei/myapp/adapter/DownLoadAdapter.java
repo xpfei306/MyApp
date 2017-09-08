@@ -35,10 +35,39 @@ public class DownLoadAdapter extends BaseMyReclyViewAdapter<DownLoadInfo, DownLo
         DownLoadInfo info = data.get(position);
         GlideUtils.loadImage(context, info.getImgPath(), R.drawable.noalbum, holder.imgSong);
         holder.txtName.setText(info.getFileName());
-        holder.mProgressLayout.setCurrentProgress(0);
-        String tempStr = StringUtil.int2double(info.getTotalSize());
-        String tempStr1 = StringUtil.int2double(info.getFileSize());
-        holder.txtState.setText(tempStr + "/" + tempStr1);
+        holder.mProgressLayout.setMaxProgress((int) info.getFileSize());
+        //0未知状态1开始下载2下载中3取消下载4下载错误5下载完成
+        switch (info.getState()) {
+            case 1:
+                holder.txtState.setText("开始下载");
+                holder.mProgressLayout.setCurrentProgress(0);
+                break;
+            case 2:
+                String tempStr = StringUtil.int2double(info.getTotalSize());
+                String tempStr1 = StringUtil.int2double(info.getFileSize());
+                holder.txtState.setText(tempStr + "/" + tempStr1);
+                holder.mProgressLayout.setCurrentProgress(info.getTotalSize());
+                holder.mProgressLayout.setMaxProgress(info.getFileSize());
+                holder.mProgressLayout.start();
+                break;
+            case 3:
+                holder.txtState.setText("下载已取消，点击重新下载");
+                holder.mProgressLayout.setCurrentProgress(info.getTotalSize());
+                holder.mProgressLayout.cancel();
+                break;
+            case 4:
+                holder.txtState.setText("下载出错");
+                holder.mProgressLayout.setCurrentProgress(0);
+                holder.mProgressLayout.cancel();
+                break;
+            case 5:
+                holder.txtState.setText("下载完成");
+                break;
+            default:
+                holder.txtState.setText("未知状态");
+                holder.mProgressLayout.setCurrentProgress(0);
+                break;
+        }
     }
 
     @Override
@@ -50,6 +79,21 @@ public class DownLoadAdapter extends BaseMyReclyViewAdapter<DownLoadInfo, DownLo
     @Override
     public ViewHolder getViewHolder(View view) {
         return new ViewHolder(view);
+    }
+
+    public void setInfo(DownLoadInfo info) {
+        if (data == null || data.size() == 0) {
+            data.add(0, info);
+        } else {
+            if (data.contains(info)) {
+                int index = data.indexOf(info);
+                data.remove(info);
+                data.add(index, info);
+            } else {
+                data.add(info);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

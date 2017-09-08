@@ -12,14 +12,14 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-import xpfei.myapp.IMusicCallBack;
-import xpfei.myapp.IMusicPlayerInterface;
 import xpfei.myapp.MyBaseApplication;
 import xpfei.myapp.R;
 import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.databinding.ActivityPlayerBinding;
 import xpfei.myapp.db.SongDbManager;
 import xpfei.myapp.model.Song;
+import xpfei.myapp.service.IMusicCallBack;
+import xpfei.myapp.service.IMusicPlayerInterface;
 import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
 import xpfei.myapp.view.MusicListPopupWindow;

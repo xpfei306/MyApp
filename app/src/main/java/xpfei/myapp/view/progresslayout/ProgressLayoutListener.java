@@ -18,5 +18,5 @@ package xpfei.myapp.view.progresslayout;
 public interface ProgressLayoutListener {
     void onProgressCompleted();
 
-    void onProgressChanged(int seconds);
+    void onProgressChanged(long seconds);
 }

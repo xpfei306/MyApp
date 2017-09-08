@@ -21,10 +21,9 @@ public class DownLoadInfo implements Parcelable {
     private long fileSize;//文件大小
     private String filePath;//存储路劲
     private long totalSize;//下载的文件大小
-    private boolean isPause;//是否暂停
-    private boolean isFinish;//是否完成
     private String imgPath;//图片路劲
     private long song_id;//歌曲id
+    private int state;//0未知状态1开始下载2下载中3取消下载4下载错误5下载完成
 
     protected DownLoadInfo(Parcel in) {
         taskId = in.readLong();
@@ -33,26 +32,23 @@ public class DownLoadInfo implements Parcelable {
         fileSize = in.readLong();
         filePath = in.readString();
         totalSize = in.readLong();
-        isPause = in.readByte() != 0;
-        isFinish = in.readByte() != 0;
         imgPath = in.readString();
         song_id = in.readLong();
+        state = in.readInt();
     }
 
-    @Generated(hash = 1034885698)
+    @Generated(hash = 2097532767)
     public DownLoadInfo(Long taskId, String downloadUrl, String fileName, long fileSize,
-                        String filePath, long totalSize, boolean isPause, boolean isFinish,
-                        String imgPath, long song_id) {
+                        String filePath, long totalSize, String imgPath, long song_id, int state) {
         this.taskId = taskId;
         this.downloadUrl = downloadUrl;
         this.fileName = fileName;
         this.fileSize = fileSize;
         this.filePath = filePath;
         this.totalSize = totalSize;
-        this.isPause = isPause;
-        this.isFinish = isFinish;
         this.imgPath = imgPath;
         this.song_id = song_id;
+        this.state = state;
     }
 
     @Generated(hash = 1743687477)
@@ -67,10 +63,9 @@ public class DownLoadInfo implements Parcelable {
         dest.writeLong(fileSize);
         dest.writeString(filePath);
         dest.writeLong(totalSize);
-        dest.writeByte((byte) (isPause ? 1 : 0));
-        dest.writeByte((byte) (isFinish ? 1 : 0));
         dest.writeString(imgPath);
         dest.writeLong(song_id);
+        dest.writeInt(state);
     }
 
     @Override
@@ -126,22 +121,6 @@ public class DownLoadInfo implements Parcelable {
         this.totalSize = totalSize;
     }
 
-    public boolean getIsPause() {
-        return this.isPause;
-    }
-
-    public void setIsPause(boolean isPause) {
-        this.isPause = isPause;
-    }
-
-    public boolean getIsFinish() {
-        return this.isFinish;
-    }
-
-    public void setIsFinish(boolean isFinish) {
-        this.isFinish = isFinish;
-    }
-
     public String getImgPath() {
         return this.imgPath;
     }
@@ -158,6 +137,14 @@ public class DownLoadInfo implements Parcelable {
         this.song_id = song_id;
     }
 
+    public int getState() {
+        return this.state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     public static final Creator<DownLoadInfo> CREATOR = new Creator<DownLoadInfo>() {
         @Override
         public DownLoadInfo createFromParcel(Parcel in) {
@@ -169,4 +156,13 @@ public class DownLoadInfo implements Parcelable {
             return new DownLoadInfo[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof DownLoadInfo) {
+            DownLoadInfo info = (DownLoadInfo) obj;
+            return info.getTaskId() == this.taskId;
+        }
+        return super.equals(obj);
+    }
 }

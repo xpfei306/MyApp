@@ -34,6 +34,7 @@
         <activity android:name=".activity.PlayerActivity" />
         <activity android:name=".activity.WebActivity" />
         <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.DownLoadActivity" />
 
         <service android:name=".service.MusicPlayService" />
         <service android:name=".service.DownLoadService" />

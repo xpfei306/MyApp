@@ -10,11 +10,9 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import xpfei.myapp.IMusicCallBack;
-import xpfei.myapp.IMusicPlayerInterface;
+import xpfei.myapp.manager.Player;
 import xpfei.myapp.model.Song;
 import xpfei.myapp.util.ContentValue;
-import xpfei.myapp.manager.Player;
 
 /**
  * Description: 音乐播放的service

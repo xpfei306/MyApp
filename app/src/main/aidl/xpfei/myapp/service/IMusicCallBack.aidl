@@ -1,5 +1,5 @@
 
-package xpfei.myapp;
+package xpfei.myapp.service;
 import xpfei.myapp.model.Song;
 
 interface IMusicCallBack {

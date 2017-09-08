@@ -87,10 +87,12 @@
                 android:layout_marginTop="@dimen/dim_5" />
 
             <LinearLayout
+                android:id="@+id/llMyDown"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:onClick="@{OnMyClickListener}"
                 android:orientation="vertical">
 
                 <ImageView
@@ -186,8 +188,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/mRecvclerview"
                     android:layout_width="match_parent"
-                    android:padding="@dimen/dim_10"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/dim_10" />
             </LinearLayout>
         </xpfei.myapp.view.MultiStateView>
     </LinearLayout>

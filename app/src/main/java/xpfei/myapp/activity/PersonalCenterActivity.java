@@ -96,9 +96,9 @@ public class PersonalCenterActivity extends MyBaseActivity {
                     case R.id.imgHeader:
                         mSelectPicturePopupWindow.showPopupWindow(PersonalCenterActivity.this);
                         break;
-//                    case R.id.imgHeader:
-//                        startBaseReqTask(PersonalCenterActivity.this, "正在上传头像...");
-//                        break;
+                    case R.id.llMyDown:
+                        startActivity(new Intent(PersonalCenterActivity.this, DownLoadActivity.class));
+                        break;
                 }
             }
         });
