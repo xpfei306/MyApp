@@ -2,7 +2,6 @@ package xpfei.myapp.provider;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.MediaStore;
 
 import java.util.ArrayList;
@@ -16,8 +15,6 @@ import xpfei.myapp.model.Song;
  * Date:   2017/08/10
  */
 public class AudioProvider implements AbstructProvider {
-    //获取专辑封面的Uri
-    private static final Uri albumArtUri = Uri.parse("content://media/external/audio/albumart");
     private Context context;
 
     public AudioProvider(Context context) {
@@ -38,6 +35,7 @@ public class AudioProvider implements AbstructProvider {
                     String album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
                     String artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
                     String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+                    long albumId = cursor.getInt(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
                     Song song = new Song();
                     song.setSong_id(id);
                     song.setAuthor(artist);
@@ -45,6 +43,7 @@ public class AudioProvider implements AbstructProvider {
                     song.setTitle(title);
                     song.setFile_link_local(path);
                     song.setIsLocal(1);
+                    song.setAlbum_id(albumId);
                     list.add(song);
                 }
                 cursor.close();
@@ -52,4 +51,5 @@ public class AudioProvider implements AbstructProvider {
         }
         return list;
     }
+
 }

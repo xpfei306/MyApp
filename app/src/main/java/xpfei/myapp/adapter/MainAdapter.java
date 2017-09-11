@@ -60,19 +60,19 @@ public class MainAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == ContentValue.ViewHeader) {
+        if (viewType == ContentValue.ViewType.ViewHeader) {
             View viewTop = inflater.inflate(R.layout.item_recyclerview_header, parent, false);
             StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) viewTop.getLayoutParams();
             params.setFullSpan(true);//最为重要的一个方法，占满全屏,以下同理
             viewTop.setLayoutParams(params);
             return new HeaderHold(viewTop);
-        } else if (viewType == ContentValue.ViewCategory) {
+        } else if (viewType == ContentValue.ViewType.ViewCategory) {
             View viewCategory = inflater.inflate(R.layout.item_recyclerview_category, parent, false);
             StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) viewCategory.getLayoutParams();
             params.setFullSpan(true);//最为重要的一个方法，占满全屏,以下同理
             viewCategory.setLayoutParams(params);
             return new CategoryHold(viewCategory);
-        } else if (viewType == ContentValue.ViewNewSong) {
+        } else if (viewType == ContentValue.ViewType.ViewNewSong) {
             View viewNewSong = inflater.inflate(R.layout.item_recyclerview_wthtitle, parent, false);
             StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) viewNewSong.getLayoutParams();
             params.setFullSpan(true);//最为重要的一个方法，占满全屏,以下同理
@@ -103,13 +103,13 @@ public class MainAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
-            return ContentValue.ViewHeader;
+            return ContentValue.ViewType.ViewHeader;
         } else if (position == 1) {
-            return ContentValue.ViewCategory;
+            return ContentValue.ViewType.ViewCategory;
         } else if (position == 2) {
-            return ContentValue.ViewNewSong;
+            return ContentValue.ViewType.ViewNewSong;
         } else {
-            return ContentValue.ViewAlbum;
+            return ContentValue.ViewType.ViewAlbum;
         }
     }
 
@@ -172,7 +172,7 @@ public class MainAdapter extends RecyclerView.Adapter {
                 BannerInfo bannerInfo = list.get(position);
                 if (bannerInfo != null && bannerInfo.getCode().contains("http")) {
                     Intent intent = new Intent(context, WebActivity.class);
-                    intent.putExtra(ContentValue.IntentKeyStr, bannerInfo.getCode());
+                    intent.putExtra(ContentValue.IntentKey.IntentKeyStr, bannerInfo.getCode());
                     context.startActivity(intent);
                 }
             }
@@ -193,7 +193,7 @@ public class MainAdapter extends RecyclerView.Adapter {
             public void onMyItemClick(int position) {
                 CategoryInfo info = list.get(position);
                 Intent intent = new Intent();
-                intent.putExtra(ContentValue.IntentKeyStr, info.getName());
+                intent.putExtra(ContentValue.IntentKey.IntentKeyStr, info.getName());
                 switch (info.getType()) {
                     case 1:
                         intent.setClass(context, GeDanListActivity.class);
@@ -232,7 +232,7 @@ public class MainAdapter extends RecyclerView.Adapter {
             @Override
             public void onMyItemClick(Song info) {
                 Intent intent = new Intent(context, PlayerActivity.class);
-                intent.putExtra(ContentValue.IntentKeyStr, info.getSong_id());
+                intent.putExtra(ContentValue.IntentKey.IntentKeyStr, info.getSong_id());
                 context.startActivity(intent);
             }
         });

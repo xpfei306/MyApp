@@ -49,7 +49,7 @@ public abstract class MyBaseActivity extends AppCompatActivity {
             int what = msg.what;
             String message;
             switch (what) {
-                case ContentValue.NET_LOAD:
+                case ContentValue.NET.NET_LOAD:
                     if (!CommonUtil.isNetworkAvailable(activity)) {
                         CommonUtil.showToast(activity, "网路故障！请检查网络设置");
                         return;
@@ -59,7 +59,7 @@ public abstract class MyBaseActivity extends AppCompatActivity {
                     dialog.show();
                     activity.onRequestData();
                     break;
-                case ContentValue.NET_MSV_LOAD:
+                case ContentValue.NET.NET_MSV_LOAD:
                     if (!CommonUtil.isNetworkAvailable(activity)) {
                         mMultiStateView.setViewState(MultiStateView.STATE_NETWORK);
                         return;
@@ -68,7 +68,7 @@ public abstract class MyBaseActivity extends AppCompatActivity {
                     mMultiStateView.setViewState(MultiStateView.STATE_LOADING, message);
                     activity.onRequestData();
                     break;
-                case ContentValue.NET_SUCCESS:
+                case ContentValue.NET.NET_SUCCESS:
                     if (dialog != null) {
                         dialog.dismiss();
                     }
@@ -77,7 +77,7 @@ public abstract class MyBaseActivity extends AppCompatActivity {
                         CommonUtil.showToast(activity, message);
                     }
                     break;
-                case ContentValue.NET_MSV_SUCCESS:
+                case ContentValue.NET.NET_MSV_SUCCESS:
                     if (mMultiStateView != null) {
                         mMultiStateView.setViewState(MultiStateView.STATE_CONTENT);
                     }
@@ -86,27 +86,27 @@ public abstract class MyBaseActivity extends AppCompatActivity {
                         CommonUtil.showToast(activity, message);
                     }
                     break;
-                case ContentValue.NET_FAILURE:
+                case ContentValue.NET.NET_FAILURE:
                     message = msg.getData().getString("MSG", "意外错误，请联系技术人员！");
                     if (dialog != null) {
                         dialog.dismiss();
                         CommonUtil.showToast(activity, message);
                     }
                     break;
-                case ContentValue.NET_MSV_FAILURE:
+                case ContentValue.NET.NET_MSV_FAILURE:
                     message = msg.getData().getString("MSG", "意外错误，请联系技术人员！");
                     if (mMultiStateView != null) {
                         mMultiStateView.setViewState(MultiStateView.STATE_ERROR, message);
                     }
                     break;
-                case ContentValue.NET_EMPTY:
+                case ContentValue.NET.NET_EMPTY:
                     message = msg.getData().getString("MSG", "暂无相关数据");
                     if (dialog != null) {
                         dialog.dismiss();
                         CommonUtil.showToast(activity, message);
                     }
                     break;
-                case ContentValue.NET_MSV_EMPTY:
+                case ContentValue.NET.NET_MSV_EMPTY:
                     message = msg.getData().getString("MSG", "暂无相关数据");
                     if (mMultiStateView != null) {
                         mMultiStateView.setViewState(MultiStateView.STATE_EMPTY, message);
@@ -136,14 +136,14 @@ public abstract class MyBaseActivity extends AppCompatActivity {
      */
     protected void startBaseReqTask(MyBaseActivity baseActivity, String message) {
         activity = baseActivity;
-        mLoadHandler.removeMessages(ContentValue.NET_LOAD);
+        mLoadHandler.removeMessages(ContentValue.NET.NET_LOAD);
         Message msg = mLoadHandler.obtainMessage();
         if (!StringUtil.isEmpty(message)) {
             Bundle bundle = new Bundle();
             bundle.putString("MSG", message);
             msg.setData(bundle);
         }
-        msg.what = ContentValue.NET_LOAD;
+        msg.what = ContentValue.NET.NET_LOAD;
         mLoadHandler.sendMessage(msg);
     }
 
@@ -154,14 +154,14 @@ public abstract class MyBaseActivity extends AppCompatActivity {
      */
     protected void startBaseMSVReqTask(MyBaseActivity baseActivity, String message) {
         activity = baseActivity;
-        mLoadHandler.removeMessages(ContentValue.NET_MSV_LOAD);
+        mLoadHandler.removeMessages(ContentValue.NET.NET_MSV_LOAD);
         Message msg = mLoadHandler.obtainMessage();
         if (!StringUtil.isEmpty(message)) {
             Bundle bundle = new Bundle();
             bundle.putString("MSG", message);
             msg.setData(bundle);
         }
-        msg.what = ContentValue.NET_MSV_LOAD;
+        msg.what = ContentValue.NET.NET_MSV_LOAD;
         mLoadHandler.sendMessage(msg);
     }
 
@@ -175,74 +175,74 @@ public abstract class MyBaseActivity extends AppCompatActivity {
 
 
     public void onDialogSuccess(String message) {
-        mLoadHandler.removeMessages(ContentValue.NET_SUCCESS);
+        mLoadHandler.removeMessages(ContentValue.NET.NET_SUCCESS);
         Message msg = mLoadHandler.obtainMessage();
         if (!StringUtil.isEmpty(message)) {
             Bundle bundle = new Bundle();
             bundle.putString("MSG", message);
             msg.setData(bundle);
         }
-        msg.what = ContentValue.NET_SUCCESS;
+        msg.what = ContentValue.NET.NET_SUCCESS;
         mLoadHandler.sendMessage(msg);
     }
 
     public void onMSVSuccess(String message) {
-        mLoadHandler.removeMessages(ContentValue.NET_MSV_SUCCESS);
+        mLoadHandler.removeMessages(ContentValue.NET.NET_MSV_SUCCESS);
         Message msg = mLoadHandler.obtainMessage();
         if (!StringUtil.isEmpty(message)) {
             Bundle bundle = new Bundle();
             bundle.putString("MSG", message);
             msg.setData(bundle);
         }
-        msg.what = ContentValue.NET_MSV_SUCCESS;
+        msg.what = ContentValue.NET.NET_MSV_SUCCESS;
         mLoadHandler.sendMessage(msg);
     }
 
     protected void onDialogFailure(String message) {
-        mLoadHandler.removeMessages(ContentValue.NET_FAILURE);
+        mLoadHandler.removeMessages(ContentValue.NET.NET_FAILURE);
         Message msg = mLoadHandler.obtainMessage();
         if (!StringUtil.isEmpty(message)) {
             Bundle bundle = new Bundle();
             bundle.putString("MSG", message);
             msg.setData(bundle);
         }
-        msg.what = ContentValue.NET_FAILURE;
+        msg.what = ContentValue.NET.NET_FAILURE;
         mLoadHandler.sendMessage(msg);
     }
 
     protected void onMSVFailure(String message) {
-        mLoadHandler.removeMessages(ContentValue.NET_MSV_FAILURE);
+        mLoadHandler.removeMessages(ContentValue.NET.NET_MSV_FAILURE);
         Message msg = mLoadHandler.obtainMessage();
         if (!StringUtil.isEmpty(message)) {
             Bundle bundle = new Bundle();
             bundle.putString("MSG", message);
             msg.setData(bundle);
         }
-        msg.what = ContentValue.NET_MSV_FAILURE;
+        msg.what = ContentValue.NET.NET_MSV_FAILURE;
         mLoadHandler.sendMessage(msg);
     }
 
     protected void onDialogEmpty(String message) {
-        mLoadHandler.removeMessages(ContentValue.NET_EMPTY);
+        mLoadHandler.removeMessages(ContentValue.NET.NET_EMPTY);
         Message msg = mLoadHandler.obtainMessage();
         if (!StringUtil.isEmpty(message)) {
             Bundle bundle = new Bundle();
             bundle.putString("MSG", message);
             msg.setData(bundle);
         }
-        msg.what = ContentValue.NET_EMPTY;
+        msg.what = ContentValue.NET.NET_EMPTY;
         mLoadHandler.sendMessage(msg);
     }
 
     protected void onMSVEmpty(String message) {
-        mLoadHandler.removeMessages(ContentValue.NET_MSV_EMPTY);
+        mLoadHandler.removeMessages(ContentValue.NET.NET_MSV_EMPTY);
         Message msg = mLoadHandler.obtainMessage();
         if (!StringUtil.isEmpty(message)) {
             Bundle bundle = new Bundle();
             bundle.putString("MSG", message);
             msg.setData(bundle);
         }
-        msg.what = ContentValue.NET_MSV_EMPTY;
+        msg.what = ContentValue.NET.NET_MSV_EMPTY;
         mLoadHandler.sendMessage(msg);
     }
 
@@ -330,7 +330,7 @@ public abstract class MyBaseActivity extends AppCompatActivity {
     @Override
     public void setTheme(@StyleRes int resid) {
         ACache aCache = ACache.get(this);
-        int savedTheme = StringUtil.str2Int(aCache.getAsString(ContentValue.ACACHEkEY_VIEWTHEME));
+        int savedTheme = StringUtil.str2Int(aCache.getAsString(ContentValue.AcacheKey.ACACHEkEY_VIEWTHEME));
         if (savedTheme > 0 && savedTheme != resid) {
             resid = savedTheme;
         }

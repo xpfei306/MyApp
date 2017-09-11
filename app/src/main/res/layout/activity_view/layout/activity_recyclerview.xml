@@ -12,9 +12,15 @@
 
         <include layout="@layout/view_topview" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mRecvclerview"
+        <xpfei.myapp.view.MultiStateView
+            android:id="@+id/mMultiStateView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mRecvclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </xpfei.myapp.view.MultiStateView>
     </LinearLayout>
 </layout>

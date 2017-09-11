@@ -85,7 +85,7 @@ public class MainActivity extends MyBaseActivity {
             }
         }, 100);
         aCache = ACache.get(this);
-        final UserInfo userInfo = (UserInfo) aCache.getAsObject(ContentValue.ACACHE_USER);
+        final UserInfo userInfo = (UserInfo) aCache.getAsObject(ContentValue.AcacheKey.ACACHE_USER);
         if (userInfo != null) {
             View headerView = navigationView.getHeaderView(0);
             TextView txtName = (TextView) headerView.findViewById(R.id.txtName);

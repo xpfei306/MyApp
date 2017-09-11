@@ -11,10 +11,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import xpfei.myapp.db.DownManager;
 import xpfei.myapp.model.DownLoadInfo;
 import xpfei.mylibrary.net.MyOkHttp;
 import xpfei.mylibrary.net.response.DownloadResponseHandler;
-import xpfei.mylibrary.utils.AppLog;
 import xpfei.mylibrary.utils.CommonUtil;
 import xpfei.mylibrary.utils.StringUtil;
 
@@ -24,8 +24,13 @@ import xpfei.mylibrary.utils.StringUtil;
  * Date:   2017/09/07
  */
 public class DownLoadService extends Service {
-    private List<CustomerClient> mClientsList = new ArrayList<>();
-    private RemoteCallbackList<DownCallBack> mCallBacks = new RemoteCallbackList<>();
+    public static final String ServiceAction_Start = "xpfei.myapp.serviceaction.download";
+    public static final String ServiceAction_Cancel = "xpfei.myapp.serviceaction.cancel";
+    public static final String ServiceAction_Del = "xpfei.myapp.serviceaction.del";
+    private List<CustomerClient> mClientsList;
+    private long lastTime;
+    private boolean isInsert=true;
+    private RemoteCallbackList<DownCallBack> mCallBacks;
     private DownInterface.Stub binder = new DownInterface.Stub() {
         @Override
         public void registerCallBack(DownCallBack cb) throws RemoteException {
@@ -39,28 +44,37 @@ public class DownLoadService extends Service {
 
         @Override
         public void startDown(DownLoadInfo info) throws RemoteException {
-            AppLog.Logd("startDown");
             info.setState(1);
             info.setTaskId(System.currentTimeMillis());
             download(info);
+            new DownManager().insertOrReplace(info);
             notifyStart(info);
         }
 
         @Override
         public void cancelDown(DownLoadInfo info) throws RemoteException {
             info.setState(3);
+            new DownManager().insertOrReplace(info);
             notifyCancel(info);
         }
     };
-    private long lastTime;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mClientsList = new ArrayList<>();
+        mCallBacks = new RemoteCallbackList<>();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        String action = intent.getAction();
+        if (ServiceAction_Start.equals(action)) {
+        } else if (ServiceAction_Cancel.equals(action)) {
+
+        } else if (ServiceAction_Del.equals(action)) {
+
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -69,7 +83,7 @@ public class DownLoadService extends Service {
             CommonUtil.showToast(getBaseContext(), "暂无下载链接");
             return;
         }
-        final String url = info.getDownloadUrl();
+        String url = info.getDownloadUrl();
         if (StringUtil.isEmpty(url)) {
             CommonUtil.showToast(getBaseContext(), "暂无下载链接");
             return;
@@ -79,6 +93,7 @@ public class DownLoadService extends Service {
             public void onFinish(File download_file) {
                 info.setState(5);
                 info.setTotalSize(info.getFileSize());
+                new DownManager().insertOrReplace(info);
                 notifySuccess(info, download_file.getAbsolutePath());
             }
 
@@ -90,6 +105,10 @@ public class DownLoadService extends Service {
                     info.setState(2);
                     info.setTotalSize(currentBytes);
                     info.setFileSize(totalBytes);
+                    if (isInsert) {
+                        new DownManager().insertOrReplace(info);
+                        isInsert = false;
+                    }
                     notifyProgress(info, currentBytes, totalBytes);
                 }
             }
@@ -97,6 +116,7 @@ public class DownLoadService extends Service {
             @Override
             public void onFailure(String error_msg) {
                 info.setState(4);
+                new DownManager().insertOrReplace(info);
                 notifyFail(info);
             }
         });

@@ -39,7 +39,7 @@ public class RankingActivity extends MyBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list);
-        title = getIntent().getStringExtra(ContentValue.IntentKeyStr);
+        title = getIntent().getStringExtra(ContentValue.IntentKey.IntentKeyStr);
         onSetTitle(title);
         onSetLeft(true);
         initView();

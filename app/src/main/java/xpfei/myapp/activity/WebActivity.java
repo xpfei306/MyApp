@@ -23,7 +23,7 @@ public class WebActivity extends MyBaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_webview);
         onSetTitle("详情");
         onSetLeft(true);
-        String url = getIntent().getStringExtra(ContentValue.IntentKeyStr);
+        String url = getIntent().getStringExtra(ContentValue.IntentKey.IntentKeyStr);
         binding.webview.loadUrl(url);
     }
 

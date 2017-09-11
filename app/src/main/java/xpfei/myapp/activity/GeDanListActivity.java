@@ -41,7 +41,7 @@ public class GeDanListActivity extends MyBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_list);
-        title = getIntent().getStringExtra(ContentValue.IntentKeyStr);
+        title = getIntent().getStringExtra(ContentValue.IntentKey.IntentKeyStr);
         onSetTitle(title);
         onSetLeft(true);
         initView();
@@ -121,7 +121,7 @@ public class GeDanListActivity extends MyBaseActivity {
                 if (isMsv) {
                     onMSVFailure(msg);
                 } else {
-                    CommonUtil.showToast(GeDanListActivity.this,msg);
+                    CommonUtil.showToast(GeDanListActivity.this, msg);
                 }
                 binding.xrefreshview.stopLoadMore();
             }

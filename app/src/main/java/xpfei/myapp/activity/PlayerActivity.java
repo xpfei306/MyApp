@@ -73,7 +73,7 @@ public class PlayerActivity extends MyBaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_player);
         setSupportActionBar(binding.toolBar);
         binding.toolBar.setNavigationIcon(R.drawable.back);
-        Song_id = getIntent().getLongExtra(ContentValue.IntentKeyStr, 0);
+        Song_id = getIntent().getLongExtra(ContentValue.IntentKey.IntentKeyStr, 0);
         onSetLeft(true);
         mService = MyBaseApplication.application.getmService();
         init();
@@ -290,6 +290,7 @@ public class PlayerActivity extends MyBaseActivity {
         try {
             mService.unregisterCallBack(callBack);
             callBack = null;
+            mService = null;
         } catch (RemoteException e) {
             e.printStackTrace();
         }

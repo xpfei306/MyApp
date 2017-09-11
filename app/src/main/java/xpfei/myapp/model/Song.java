@@ -26,6 +26,7 @@ public class Song implements Parcelable {
     private String lrclink_local;//歌词本地地址
     private String file_link_local;//歌曲播放本地地址
     private int isLocal;//是否是本地歌曲
+    private long album_id;//专辑id
 
     protected Song(Parcel in) {
         song_id = in.readLong();
@@ -39,12 +40,14 @@ public class Song implements Parcelable {
         lrclink_local = in.readString();
         file_link_local = in.readString();
         isLocal = in.readInt();
+        album_id = in.readLong();
     }
 
-    @Generated(hash = 639761546)
+    @Generated(hash = 268770055)
     public Song(Long song_id, String album_title, String title, String author,
             String pic_small, String pic_huge, String lrclink, String file_link,
-            String lrclink_local, String file_link_local, int isLocal) {
+            String lrclink_local, String file_link_local, int isLocal,
+            long album_id) {
         this.song_id = song_id;
         this.album_title = album_title;
         this.title = title;
@@ -56,27 +59,11 @@ public class Song implements Parcelable {
         this.lrclink_local = lrclink_local;
         this.file_link_local = file_link_local;
         this.isLocal = isLocal;
+        this.album_id = album_id;
     }
 
     @Generated(hash = 87031450)
     public Song() {
-    }
-
-    public static final Creator<Song> CREATOR = new Creator<Song>() {
-        @Override
-        public Song createFromParcel(Parcel in) {
-            return new Song(in);
-        }
-
-        @Override
-        public Song[] newArray(int size) {
-            return new Song[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     @Override
@@ -92,6 +79,12 @@ public class Song implements Parcelable {
         dest.writeString(lrclink_local);
         dest.writeString(file_link_local);
         dest.writeInt(isLocal);
+        dest.writeLong(album_id);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public Long getSong_id() {
@@ -181,4 +174,24 @@ public class Song implements Parcelable {
     public void setIsLocal(int isLocal) {
         this.isLocal = isLocal;
     }
+
+    public long getAlbum_id() {
+        return this.album_id;
+    }
+
+    public void setAlbum_id(long album_id) {
+        this.album_id = album_id;
+    }
+
+    public static final Creator<Song> CREATOR = new Creator<Song>() {
+        @Override
+        public Song createFromParcel(Parcel in) {
+            return new Song(in);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
 }

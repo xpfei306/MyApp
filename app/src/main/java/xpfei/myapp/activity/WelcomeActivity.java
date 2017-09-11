@@ -69,7 +69,7 @@ public class WelcomeActivity extends MyBaseActivity {
                         String message = null;
                         if (response != null) {
                             ACache aCache = ACache.get(WelcomeActivity.this);
-                            aCache.put(ContentValue.ACACHE_USER, response);
+                            aCache.put(ContentValue.AcacheKey.ACACHE_USER, response);
                             startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                             finish();
                         } else {

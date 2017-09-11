@@ -7,6 +7,8 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 import xpfei.myapp.manager.AbstractDatabaseManager;
+import xpfei.myapp.service.DownInterface;
+import xpfei.myapp.service.DownLoadService;
 import xpfei.myapp.service.IMusicPlayerInterface;
 import xpfei.myapp.service.MusicPlayService;
 import xpfei.myapp.util.ContentValue;
@@ -21,11 +23,20 @@ import xpfei.mylibrary.utils.CommonUtil;
 public class MyBaseApplication extends Application {
     public static MyBaseApplication application;
     private IMusicPlayerInterface mService;
+    private DownInterface mDownService;
+    private ServiceConnection mDownconnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            if (mDownService == null) {
+                mDownService = DownInterface.Stub.asInterface(iBinder);
+            }
+        }
 
-    public IMusicPlayerInterface getmService() {
-        return mService;
-    }
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
 
+        }
+    };
     private ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -40,9 +51,22 @@ public class MyBaseApplication extends Application {
         }
     };
 
+    public IMusicPlayerInterface getmService() {
+        return mService;
+    }
+
+    public DownInterface getmDownService() {
+        return mDownService;
+    }
+
     private void bindService() {
         Intent intent = new Intent(this, MusicPlayService.class);
         bindService(intent, connection, BIND_AUTO_CREATE);
+    }
+
+    private void bindDownService() {
+        Intent intent = new Intent(this, DownLoadService.class);
+        bindService(intent, mDownconnection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -56,8 +80,9 @@ public class MyBaseApplication extends Application {
 //        if (code != versionCode) {
         AbstractDatabaseManager.UpdateDb();
         ACache aCache = ACache.get(this);
-        aCache.put(ContentValue.ACACHEkEY_VERSION, versionCode);
+        aCache.put(ContentValue.AcacheKey.ACACHEkEY_VERSION, versionCode);
         bindService();
+        bindDownService();
 //        }
     }
 
@@ -65,6 +90,9 @@ public class MyBaseApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         unbindService(connection);
+        unbindService(mDownconnection);
+        mDownService = null;
+        mDownconnection = null;
         mService = null;
         connection = null;
         application = null;

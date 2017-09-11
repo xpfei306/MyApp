@@ -32,7 +32,7 @@ import xpfei.mylibrary.utils.imageutil.ImageUtils;
 import xpfei.mylibrary.utils.imageutil.OnCompressListener;
 
 /**
- * Description: (这里用一句话描述这个类的作用)
+ * Description: 个人中心
  * Author: xpfei
  * Date:   2017/08/10
  */
@@ -144,7 +144,7 @@ public class PersonalCenterActivity extends MyBaseActivity {
                     @Override
                     public void onSuccess(List<String> file) {
                         ACache aCache = ACache.get(PersonalCenterActivity.this);
-                        UserInfo userInfo = (UserInfo) aCache.getAsObject(ContentValue.ACACHE_USER);
+                        UserInfo userInfo = (UserInfo) aCache.getAsObject(ContentValue.AcacheKey.ACACHE_USER);
                         JSONObject params = new JSONObject();
                         params.put("userid", userInfo.getUserid() + "");
                         params.put("imgheader", file);

@@ -46,7 +46,7 @@ public class SingerListActivity extends MyBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_artlist);
-        title = getIntent().getStringExtra(ContentValue.IntentKeyStr);
+        title = getIntent().getStringExtra(ContentValue.IntentKey.IntentKeyStr);
         onSetTitle(title);
         onSetLeft(true);
         initView();
