@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-    <xpfei.myapp.view.progresslayout.ProgressLayout
+    <xpfei.myapp.view.ProgressLayout
         android:id="@+id/mProgressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

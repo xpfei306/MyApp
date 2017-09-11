@@ -46,7 +46,7 @@ public class DownLoadActivity extends MyBaseActivity {
         }
 
         @Override
-        public void success(DownLoadInfo info, String path) throws RemoteException {
+        public void success(final DownLoadInfo info, String path) throws RemoteException {
             adapter.setInfo(info);
         }
 

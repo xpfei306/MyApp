@@ -78,6 +78,7 @@ public class DownLoadService extends Service {
             @Override
             public void onFinish(File download_file) {
                 info.setState(5);
+                info.setTotalSize(info.getFileSize());
                 notifySuccess(info, download_file.getAbsolutePath());
             }
 
@@ -182,7 +183,6 @@ public class DownLoadService extends Service {
     public IBinder onBind(Intent intent) {
         return binder;
     }
-
 
     private class CustomerClient implements IBinder.DeathRecipient {
         public final IBinder mToken;

@@ -91,13 +91,9 @@ public class StringUtil {
     }
 
     public static String int2double(long value) {
-        if (value > 10000) {
-            double tempvalue = value / (1024 * 1024);
-            DecimalFormat df = new DecimalFormat("#.#");
-            return df.format(tempvalue) + "M";
-        } else {
-            return String.valueOf(value);
-        }
+        double tempvalue = value / (1024.0 * 1024.0);
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(tempvalue) + "M";
     }
 
     @SuppressLint("DefaultLocale")

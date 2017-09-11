@@ -15,7 +15,7 @@ import xpfei.myapp.R;
 import xpfei.myapp.adapter.base.BaseMyReclyViewAdapter;
 import xpfei.myapp.model.DownLoadInfo;
 import xpfei.myapp.util.GlideUtils;
-import xpfei.myapp.view.progresslayout.ProgressLayout;
+import xpfei.myapp.view.ProgressLayout;
 import xpfei.mylibrary.utils.StringUtil;
 
 /**
@@ -62,6 +62,8 @@ public class DownLoadAdapter extends BaseMyReclyViewAdapter<DownLoadInfo, DownLo
                 break;
             case 5:
                 holder.txtState.setText("下载完成");
+                holder.mProgressLayout.setCurrentProgress(info.getFileSize());
+                holder.mProgressLayout.stop();
                 break;
             default:
                 holder.txtState.setText("未知状态");

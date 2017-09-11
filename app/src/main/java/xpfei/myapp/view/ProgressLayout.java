@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package xpfei.myapp.view.progresslayout;
+package xpfei.myapp.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -27,6 +27,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import xpfei.myapp.R;
+
 
 public class ProgressLayout extends View implements Animatable {
 
@@ -130,7 +131,11 @@ public class ProgressLayout extends View implements Animatable {
         if (maxProgress <= 0) {
             return 0;
         } else {
-            return (currentProgress * mWidth) / maxProgress;
+            if (currentProgress == maxProgress) {
+                return mWidth;
+            } else {
+                return (currentProgress * mWidth) / maxProgress;
+            }
         }
     }
 
@@ -163,6 +168,12 @@ public class ProgressLayout extends View implements Animatable {
         this.progressLayoutListener = progressLayoutListener;
     }
 
+    public interface ProgressLayoutListener {
+        void onProgressCompleted();
+
+        void onProgressChanged(long seconds);
+    }
+
     private final Runnable mRunnableProgress = new Runnable() {
         @Override
         public void run() {
@@ -171,8 +182,6 @@ public class ProgressLayout extends View implements Animatable {
                     if (progressLayoutListener != null) {
                         progressLayoutListener.onProgressCompleted();
                     }
-                    currentProgress = 0;
-                    setCurrentProgress(currentProgress);
                     stop();
                 } else {
                     postInvalidate();

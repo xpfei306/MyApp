@@ -1,6 +1,7 @@
 package xpfei.mylibrary.net;
 
 import android.content.Context;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
@@ -264,6 +265,33 @@ public class MyOkHttp {
     }
 
     /**
+     * 下载文件
+     *
+     * @param url                     下载地址
+     * @param downloadResponseHandler 下载回调
+     */
+    public void download(String tag, @NonNull String url, final DownloadResponseHandler downloadResponseHandler) {
+        Request.Builder builders = new Request.Builder();
+        builders.url(url);
+        builders.tag(tag);
+        String filename = url.substring(url.lastIndexOf("/"));
+        String filedir = new File(Environment.getExternalStorageDirectory().getPath()+"/MyApp").getAbsolutePath();
+        Request request = builders.build();
+        client.newBuilder().addNetworkInterceptor(new Interceptor() {      //设置拦截器
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Response originalResponse = chain.proceed(chain.request());
+                return originalResponse.newBuilder()
+                        .body(new ResponseProgressBody(originalResponse.body(), downloadResponseHandler))
+                        .build();
+            }
+        })
+                .build()
+                .newCall(request)
+                .enqueue(new MyDownloadCallback(new Handler(), downloadResponseHandler, filedir, filename));
+    }
+
+    /**
      * 取消当前context的所有请求
      *
      * @param context
@@ -276,6 +304,24 @@ public class MyOkHttp {
             }
             for (Call call : client.dispatcher().runningCalls()) {
                 if (call.request().tag().equals(context))
+                    call.cancel();
+            }
+        }
+    }
+
+    /**
+     * 取消当前context的所有请求
+     *
+     * @param tag
+     */
+    public void cancel(String tag) {
+        if (client != null) {
+            for (Call call : client.dispatcher().queuedCalls()) {
+                if (call.request().tag().equals(tag))
+                    call.cancel();
+            }
+            for (Call call : client.dispatcher().runningCalls()) {
+                if (call.request().tag().equals(tag))
                     call.cancel();
             }
         }
