@@ -25,7 +25,7 @@ public class Song implements Parcelable {
     private String file_link;//歌曲播放地址
     private String lrclink_local;//歌词本地地址
     private String file_link_local;//歌曲播放本地地址
-    private int isLocal;//是否是本地歌曲
+    private int isLocal;//是否是本地歌曲1是0否
     private long album_id;//专辑id
 
     protected Song(Parcel in) {

@@ -35,8 +35,8 @@ public class MusicPlayService extends Service {
         }
 
         @Override
-        public void setSongList(List<Song> list, boolean isPlay) throws RemoteException {
-
+        public void setSongList(List<Song> list, boolean isPlay, boolean isClear) throws RemoteException {
+            player.addMusic(list, isPlay, isClear);
         }
 
         @Override
@@ -74,11 +74,13 @@ public class MusicPlayService extends Service {
         @Override
         public void delAllSong() throws RemoteException {
             player.delAllSong();
+            notifySong(null);
         }
 
         @Override
         public void delSong() throws RemoteException {
             player.delSong();
+            notifySong(player.getPlayingSong());
         }
 
         @Override
@@ -103,8 +105,8 @@ public class MusicPlayService extends Service {
         player = Player.getInstance();
         player.setOnPlayChangeListener(new Player.playChangeListener() {
             @Override
-            public void onChange(int CurrentPosition, int duration) {
-                notifyCallBack(CurrentPosition, duration);
+            public void onChange(Song song, int CurrentPosition, int duration) {
+                notifyCallBack(song, CurrentPosition, duration);
             }
 
             @Override
@@ -128,11 +130,11 @@ public class MusicPlayService extends Service {
         return mBinder;
     }
 
-    private void notifyCallBack(int CurrentPosition, int duration) {
+    private void notifyCallBack(Song song, int CurrentPosition, int duration) {
         int len = mCallBacks.beginBroadcast();
         for (int i = 0; i < len; i++) {
             try {
-                mCallBacks.getBroadcastItem(i).callBack(CurrentPosition, duration);
+                mCallBacks.getBroadcastItem(i).callBack(song, CurrentPosition, duration);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

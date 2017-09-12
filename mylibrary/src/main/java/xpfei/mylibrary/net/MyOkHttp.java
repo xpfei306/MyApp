@@ -238,6 +238,9 @@ public class MyOkHttp {
      * @param downloadResponseHandler 下载回调
      */
     public void download(Context context, @NonNull String url, String filedir, String filename, final DownloadResponseHandler downloadResponseHandler) {
+        if (StringUtil.isEmpty(url)) {
+            return;
+        }
         Request.Builder builders = new Request.Builder();
         builders.url(url);
         if (context != null) {
@@ -275,7 +278,7 @@ public class MyOkHttp {
         builders.url(url);
         builders.tag(tag);
         String filename = url.substring(url.lastIndexOf("/"));
-        String filedir = new File(Environment.getExternalStorageDirectory().getPath()+"/MyApp").getAbsolutePath();
+        String filedir = new File(Environment.getExternalStorageDirectory().getPath() + "/MyApp").getAbsolutePath();
         Request request = builders.build();
         client.newBuilder().addNetworkInterceptor(new Interceptor() {      //设置拦截器
             @Override

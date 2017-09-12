@@ -1,6 +1,7 @@
 package xpfei.myapp.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.model.Song;
+import xpfei.myapp.util.CoverLoader;
 import xpfei.myapp.util.GlideUtils;
 
 /**
@@ -40,7 +42,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         int index = holder.getAdapterPosition();
         final Song info = list.get(index);
-        GlideUtils.loadImage(context, info.getPic_small(), R.drawable.noalbum, holder.imgSong);
+        if (info.getIsLocal() == 1) {
+            Bitmap cover = CoverLoader.getInstance(context).loadThumbnail(info);
+            holder.imgSong.setImageBitmap(cover);
+        } else {
+            GlideUtils.loadImage(context, info.getPic_small(), R.drawable.noalbum, holder.imgSong);
+        }
         holder.txtSong.setText(info.getTitle());
         holder.txtAlbum.setText(info.getAuthor() + "-" + info.getAlbum_title());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

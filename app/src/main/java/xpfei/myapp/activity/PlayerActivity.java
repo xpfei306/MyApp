@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import xpfei.myapp.MyBaseApplication;
 import xpfei.myapp.R;
@@ -42,13 +43,18 @@ public class PlayerActivity extends MyBaseActivity {
     private boolean ispaused;
     private IMusicCallBack callBack = new IMusicCallBack.Stub() {
         @Override
-        public void callBack(int CurrentPosition, int duration) throws RemoteException {
+        public void callBack(Song song, int CurrentPosition, int duration) throws RemoteException {
+            if (song != null) {
+                getSupportActionBar().setTitle(song.getTitle());
+                getSupportActionBar().setSubtitle(song.getAuthor());
+            }
             binding.SkbPlayer.setMax(duration);
             binding.SkbPlayer.setProgress(CurrentPosition);
             binding.lrcView.updateTime(CurrentPosition);
             binding.txtPlayerTime.setText(StringUtil.timeParse(CurrentPosition));
             binding.txtSongTime.setText(StringUtil.timeParse(duration));
         }
+
 
         @Override
         public void doSome(boolean isPaused) throws RemoteException {
@@ -66,6 +72,7 @@ public class PlayerActivity extends MyBaseActivity {
         }
     };
     private MusicListPopupWindow popupWindow;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +80,6 @@ public class PlayerActivity extends MyBaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_player);
         setSupportActionBar(binding.toolBar);
         binding.toolBar.setNavigationIcon(R.drawable.back);
-        Song_id = getIntent().getLongExtra(ContentValue.IntentKey.IntentKeyStr, 0);
         onSetLeft(true);
         mService = MyBaseApplication.application.getmService();
         init();
@@ -223,7 +229,23 @@ public class PlayerActivity extends MyBaseActivity {
                 }
             }
         });
-        startBaseReqTask(this, null);
+        type = getIntent().getIntExtra(ContentValue.IntentKey.IntentKeyInt, 0);
+        if (type == 1) {
+            Song_id = getIntent().getLongExtra(ContentValue.IntentKey.IntentKeyStr, 0);
+            startBaseReqTask(this, null);
+        } else if (type == 2) {
+            ArrayList<Song> list = getIntent().getParcelableArrayListExtra(ContentValue.IntentKey.IntentKeyList);
+            try {
+                mService.setSongList(list, true, true);
+                if (list != null && list.size() > 0) {
+                    Song info = list.get(0);
+                    getSupportActionBar().setTitle(info.getTitle());
+                    getSupportActionBar().setSubtitle(info.getAuthor());
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

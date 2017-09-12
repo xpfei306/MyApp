@@ -31,14 +31,18 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         @Override
         public void run() {
             if (listener != null && !isPaused) {
-                listener.onChange(mPlayer.getCurrentPosition(), mPlayer.getDuration());
+                Song info = getPlayingSong();
+                listener.onChange(info, mPlayer.getCurrentPosition(), mPlayer.getDuration());
                 handler.postDelayed(this, 1000);
             }
         }
     };
 
+    /**
+     * 当前音乐的播放的监听事件
+     */
     public interface playChangeListener {
-        void onChange(int CurrentPosition, int duration);
+        void onChange(Song song, int CurrentPosition, int duration);
 
         void onError();
     }
@@ -67,10 +71,39 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         return sInstance;
     }
 
-    public void addMusic(final Song info, boolean isPlay) {
+    /**
+     * 添加单首音乐
+     *
+     * @param info   歌曲信息
+     * @param isPlay 是否立即播放
+     */
+    public void addMusic(Song info, boolean isPlay) {
         manager.insertOrReplace(info);
         if (isPlay) {
-            play(info.getFile_link());
+            play(info);
+        }
+    }
+
+    public void addMusic(List<Song> list) {
+        addMusic(list, false);
+    }
+
+    public void addMusic(List<Song> list, boolean isPlay) {
+        addMusic(list, isPlay, false);
+    }
+
+    public void addMusic(List<Song> list, boolean isPlay, boolean isClear) {
+        if (list == null || list.size() == 0) {
+            return;
+        }
+        if (isClear) {
+            manager.deleteAll();
+        }
+        manager.insertOrReplaceList(list);
+        if (isPlay) {
+            playingIndex = 0;
+            Song info = list.get(playingIndex);
+            play(info);
         }
     }
 
@@ -93,7 +126,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
                     }
                     Song info = list.get(playingIndex);
                     if (info != null) {
-                        play(info.getFile_link());
+                        play(info);
                     }
                     break;
             }
@@ -123,7 +156,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
                     }
                     Song info = list.get(playingIndex);
                     if (info != null) {
-                        play(info.getFile_link());
+                        play(info);
                     }
                     break;
             }
@@ -148,7 +181,25 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
-    public void play(String path) {
+    public void play(Song info) {
+        if (info == null) {
+            if (listener != null) {
+                listener.onError();
+                return;
+            }
+        }
+        String path;
+        if (info.getIsLocal() == 1) {
+            path = info.getFile_link_local();
+        } else {
+            path = info.getFile_link();
+        }
+        if (StringUtil.isEmpty(path)) {
+            if (listener != null) {
+                listener.onError();
+                return;
+            }
+        }
         try {
             if (mPlayer.isPlaying()) {
                 mPlayer.stop();
@@ -156,22 +207,6 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
             handler.removeCallbacks(runnable);
             mPlayer.reset();
             isPaused = false;
-            if (StringUtil.isEmpty(path)) {
-                List<Song> list = manager.loadAll();
-                if (list.size() == 0) {
-                    if (listener != null) {
-                        listener.onError();
-                    }
-                    return;
-                }
-                path = list.get(0).getFile_link();
-                if (StringUtil.isEmpty(path)) {
-                    if (listener != null) {
-                        listener.onError();
-                    }
-                    return;
-                }
-            }
             mPlayer.setDataSource(path);
             mPlayer.prepareAsync();
         } catch (IOException e) {
@@ -220,6 +255,9 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     public void delAllSong() {
         manager.deleteAll();
+        if (mPlayer.isPlaying()) {
+            mPlayer.stop();
+        }
     }
 
     public void delSong() {
@@ -238,7 +276,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
                 playingIndex = random.nextInt(list.size() - 1);
             }
             Song song = list.get(playingIndex);
-            play(song.getFile_link());
+            play(song);
         } else {
             if (listener != null) {
                 listener.onError();
@@ -249,7 +287,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
     private void SinglesMusic() {
         Song song = getPlayingSong();
         if (song != null) {
-            play(song.getFile_link());
+            play(song);
         } else {
             if (listener != null) {
                 listener.onError();
@@ -259,10 +297,11 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        if (listener != null) {
-            listener.onChange(0, mediaPlayer.getDuration());
-        }
         playNext();
+        Song info = getPlayingSong();
+        if (listener != null) {
+            listener.onChange(info, 0, 0);
+        }
     }
 
     @Override

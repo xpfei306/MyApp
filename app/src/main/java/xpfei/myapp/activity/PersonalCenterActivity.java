@@ -18,6 +18,7 @@ import xpfei.myapp.R;
 import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.adapter.SongAdapter;
 import xpfei.myapp.databinding.ActivityPersonalcenterBinding;
+import xpfei.myapp.model.Song;
 import xpfei.myapp.model.UserInfo;
 import xpfei.myapp.provider.AudioProvider;
 import xpfei.myapp.util.ContentValue;
@@ -30,6 +31,7 @@ import xpfei.mylibrary.net.response.FastJsonResponseHandler;
 import xpfei.mylibrary.utils.CommonUtil;
 import xpfei.mylibrary.utils.imageutil.ImageUtils;
 import xpfei.mylibrary.utils.imageutil.OnCompressListener;
+import xpfei.mylibrary.view.reclyview.RecyclerViewDivider;
 
 /**
  * Description: 个人中心
@@ -61,10 +63,22 @@ public class PersonalCenterActivity extends MyBaseActivity {
             public void run() {
                 AudioProvider provider = new AudioProvider(PersonalCenterActivity.this);
                 if (provider.getList() != null && provider.getList().size() > 0) {
+                    final ArrayList<Song> songs = provider.getList();
                     SongAdapter adapter = new SongAdapter(PersonalCenterActivity.this, provider.getList());
-                    binding.mRecvclerview.setAdapter(adapter);
                     binding.mRecvclerview.setLayoutManager(new LinearLayoutManager(PersonalCenterActivity.this));
+                    binding.mRecvclerview.addItemDecoration(new RecyclerViewDivider(PersonalCenterActivity.this,
+                            LinearLayoutManager.HORIZONTAL, 1, getResources().getColor(R.color.colorGray)));
+                    binding.mRecvclerview.setAdapter(adapter);
                     binding.mMultiStateView.setViewState(MultiStateView.STATE_CONTENT);
+                    adapter.setOnMyItemClickListener(new SongAdapter.onMyItemClickListener() {
+                        @Override
+                        public void onMyItemClick(Song info) {
+                            Intent intent = new Intent(PersonalCenterActivity.this, PlayerActivity.class);
+                            intent.putExtra(ContentValue.IntentKey.IntentKeyInt, 2);
+                            intent.putParcelableArrayListExtra(ContentValue.IntentKey.IntentKeyList, songs);
+                            startActivity(intent);
+                        }
+                    });
                 } else {
                     binding.mMultiStateView.setViewState(MultiStateView.STATE_EMPTY, "暂无歌曲(&gt;_&lt;)");
                 }

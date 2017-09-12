@@ -233,6 +233,7 @@ public class MainAdapter extends RecyclerView.Adapter {
             public void onMyItemClick(Song info) {
                 Intent intent = new Intent(context, PlayerActivity.class);
                 intent.putExtra(ContentValue.IntentKey.IntentKeyStr, info.getSong_id());
+                intent.putExtra(ContentValue.IntentKey.IntentKeyInt, 1);
                 context.startActivity(intent);
             }
         });

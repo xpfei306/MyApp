@@ -4,7 +4,7 @@ import xpfei.myapp.model.Song;
 
 interface IMusicCallBack {
     //播放回调接口
-    void callBack(int CurrentPosition,int duration);
+    void callBack(in Song song,int CurrentPosition,int duration);
 
     void doSome(boolean isPaused);
 

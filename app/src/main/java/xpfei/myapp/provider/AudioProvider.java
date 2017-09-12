@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import xpfei.myapp.model.Song;
 
@@ -22,8 +21,8 @@ public class AudioProvider implements AbstructProvider {
     }
 
     @Override
-    public List<Song> getList() {
-        List<Song> list = null;
+    public ArrayList<Song> getList() {
+        ArrayList<Song> list = null;
         if (context != null) {
             Cursor cursor = context.getContentResolver().query(
                     MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
