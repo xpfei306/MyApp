@@ -41,6 +41,8 @@ public class PlayerActivity extends MyBaseActivity {
     private long Song_id;
     private IMusicPlayerInterface mService;
     private boolean ispaused;
+    private MusicListPopupWindow popupWindow;
+    private int type;
     private IMusicCallBack callBack = new IMusicCallBack.Stub() {
         @Override
         public void callBack(Song song, int CurrentPosition, int duration) throws RemoteException {
@@ -69,10 +71,18 @@ public class PlayerActivity extends MyBaseActivity {
         @Override
         public void onError() throws RemoteException {
             CommonUtil.showToast(PlayerActivity.this, "未找到播放地址");
+            binding.SkbPlayer.setMax(0);
+            binding.SkbPlayer.setProgress(0);
+            binding.lrcView.updateTime(0);
+            binding.lrcView.setLabel(null);
+            binding.txtPlayerTime.setText(StringUtil.timeParse(0));
+            binding.txtSongTime.setText(StringUtil.timeParse(0));
+            getSupportActionBar().setTitle("未知");
+            getSupportActionBar().setSubtitle("未知");
+            binding.ivPlay.setImageResource(R.drawable.player);
+
         }
     };
-    private MusicListPopupWindow popupWindow;
-    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +103,12 @@ public class PlayerActivity extends MyBaseActivity {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+        binding.toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         switch (mode) {
             case 1:
                 binding.ivPlayState.setImageResource(R.drawable.dqxh);
@@ -206,10 +222,10 @@ public class PlayerActivity extends MyBaseActivity {
                         String action;
                         int drawbleId;
                         if (ispaused) {
-                            action = ContentValue.PlayAction.Play;
+                            action = ContentValue.PlayAction.Pause;
                             drawbleId = R.drawable.player;
                         } else {
-                            action = ContentValue.PlayAction.Pause;
+                            action = ContentValue.PlayAction.Play;
                             drawbleId = R.drawable.paused;
                         }
                         try {
@@ -235,10 +251,11 @@ public class PlayerActivity extends MyBaseActivity {
             startBaseReqTask(this, null);
         } else if (type == 2) {
             ArrayList<Song> list = getIntent().getParcelableArrayListExtra(ContentValue.IntentKey.IntentKeyList);
+            int index = getIntent().getIntExtra(ContentValue.IntentKey.IntentKeyIndex, 0);
             try {
-                mService.setSongList(list, true, true);
+                mService.setSongList(list, true, true,index);
                 if (list != null && list.size() > 0) {
-                    Song info = list.get(0);
+                    Song info = list.get(index);
                     getSupportActionBar().setTitle(info.getTitle());
                     getSupportActionBar().setSubtitle(info.getAuthor());
                 }

@@ -125,6 +125,8 @@ public class MainActivity extends MyBaseActivity {
             @Override
             public void onRetry() {
                 startBaseMSVReqTask(MainActivity.this, null);
+                getAlbum();
+                getNewSong();
             }
         });
         startBaseMSVReqTask(this, null);

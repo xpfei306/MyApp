@@ -69,7 +69,7 @@ public class MusicListPopupWindow {
         itemRv.setLayoutManager(new LinearLayoutManager(mContext));
         adapter.setOnMyItemClickListener(new SongAdapter.onMyItemClickListener() {
             @Override
-            public void onMyItemClick(Song info) {
+            public void onMyItemClick(Song info, int postion) {
                 if (listener != null) {
                     listener.popItemClick(info);
                 }

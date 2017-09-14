@@ -39,7 +39,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         int index = holder.getAdapterPosition();
         final Song info = list.get(index);
         if (info.getIsLocal() == 1) {
@@ -54,7 +54,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 if (listener != null) {
-                    listener.onMyItemClick(info);
+                    listener.onMyItemClick(info, position);
                 }
             }
         });
@@ -66,7 +66,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     }
 
     public interface onMyItemClickListener {
-        void onMyItemClick(Song info);
+        void onMyItemClick(Song info, int postion);
     }
 
     public void setOnMyItemClickListener(onMyItemClickListener listener) {

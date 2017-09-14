@@ -29,7 +29,7 @@ public class DownLoadService extends Service {
     public static final String ServiceAction_Del = "xpfei.myapp.serviceaction.del";
     private List<CustomerClient> mClientsList;
     private long lastTime;
-    private boolean isInsert=true;
+    private boolean isInsert = true;
     private RemoteCallbackList<DownCallBack> mCallBacks;
     private DownInterface.Stub binder = new DownInterface.Stub() {
         @Override
@@ -79,12 +79,7 @@ public class DownLoadService extends Service {
     }
 
     public void download(final DownLoadInfo info) {
-        if (info == null) {
-            CommonUtil.showToast(getBaseContext(), "暂无下载链接");
-            return;
-        }
-        String url = info.getDownloadUrl();
-        if (StringUtil.isEmpty(url)) {
+        if (info == null || StringUtil.isEmpty(info.getDownloadUrl())) {
             CommonUtil.showToast(getBaseContext(), "暂无下载链接");
             return;
         }

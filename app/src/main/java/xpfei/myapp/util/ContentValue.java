@@ -22,6 +22,7 @@ public class ContentValue {
         public static final String IntentKeySer = "IntentKeySer";
         public static final String IntentKeyStr = "IntentKeyStr";
         public static final String IntentKeyInt = "IntentKeyInt";
+        public static final String IntentKeyIndex = "IntentKeyIndex";
     }
 
     public static final class AcacheKey {
@@ -39,6 +40,10 @@ public class ContentValue {
         public static final int ViewCategory = 2;
         public static final int ViewNewSong = 3;
         public static final int ViewAlbum = 4;
+
+        public static final int ViewDetail = 1;
+        public static final int ViewButton = 2;
+        public static final int ViewList = 3;
     }
 
 

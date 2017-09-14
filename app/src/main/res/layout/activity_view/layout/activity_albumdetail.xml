@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/MyRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/llAlbumDeatailTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBlue_1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/topheight"
+                android:layout_marginTop="@dimen/dim_20"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/btn_left"
+                    android:layout_width="@dimen/dim_30"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:src="@mipmap/btn_title_back" />
+
+                <TextView
+                    android:id="@+id/txt_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="未知"
+                    android:textColor="@android:color/white"
+                    android:textSize="?largeSize" />
+            </RelativeLayout>
+        </LinearLayout>
+    </FrameLayout>
+</layout>

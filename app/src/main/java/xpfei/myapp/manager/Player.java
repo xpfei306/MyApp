@@ -14,7 +14,7 @@ import xpfei.mylibrary.utils.AppLog;
 import xpfei.mylibrary.utils.StringUtil;
 
 /**
- * Description: (这里用一句话描述这个类的作用)
+ * Description: 音乐播放工具类
  * Author: xpfei
  * Date:   2017/08/30
  */
@@ -47,6 +47,11 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         void onError();
     }
 
+    /**
+     * 设置监听事件
+     *
+     * @param listener 事件监听
+     */
     public void setOnPlayChangeListener(playChangeListener listener) {
         this.listener = listener;
     }
@@ -84,15 +89,15 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
-    public void addMusic(List<Song> list) {
-        addMusic(list, false);
-    }
-
-    public void addMusic(List<Song> list, boolean isPlay) {
-        addMusic(list, isPlay, false);
-    }
-
-    public void addMusic(List<Song> list, boolean isPlay, boolean isClear) {
+    /**
+     * 添加单首音乐
+     *
+     * @param list    播放列表
+     * @param isPlay  是否播放
+     * @param isClear 是否清空当前播放列表
+     * @param index   播放下标
+     */
+    public void addMusic(List<Song> list, boolean isPlay, boolean isClear, int index) {
         if (list == null || list.size() == 0) {
             return;
         }
@@ -101,12 +106,15 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
         manager.insertOrReplaceList(list);
         if (isPlay) {
-            playingIndex = 0;
+            playingIndex = index;
             Song info = list.get(playingIndex);
             play(info);
         }
     }
 
+    /**
+     * 播放上一首
+     */
     public void playLast() {
         isPaused = false;
         List<Song> list = manager.loadAll();
@@ -137,6 +145,9 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
+    /**
+     * 播放下一首
+     */
     public void playNext() {
         isPaused = false;
         List<Song> list = manager.loadAll();
@@ -167,6 +178,9 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
+    /**
+     * 暂停
+     */
     public void pause() {
         if (mPlayer.isPlaying()) {
             mPlayer.pause();
@@ -174,6 +188,9 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
+    /**
+     * 播放
+     */
     public void start() {
         if (isPaused) {
             mPlayer.start();
@@ -181,6 +198,11 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
+    /**
+     * 播放歌曲
+     *
+     * @param info 要播放的歌曲
+     */
     public void play(Song info) {
         if (info == null) {
             if (listener != null) {
@@ -214,6 +236,11 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
+    /**
+     * 获取当前播放的音乐信息
+     *
+     * @return
+     */
     public Song getPlayingSong() {
         List<Song> list = manager.loadAll();
         if (playingIndex >= 0 && playingIndex <= list.size() - 1)
@@ -221,16 +248,29 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         return null;
     }
 
+    /**
+     * 获取当前播放列表
+     *
+     * @return
+     */
     public List<Song> getSongList() {
         return manager.loadAll();
     }
 
+    /**
+     * 拖动播放
+     *
+     * @param progress
+     */
     public void seekTo(int progress) {
         if (mPlayer.isPlaying()) {
             mPlayer.seekTo(progress);
         }
     }
 
+    /**
+     * 重置mPlayer类
+     */
     public void releasePlayer() {
         mPlayer.stop();
         mPlayer.reset();
@@ -241,18 +281,36 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         handler = null;
     }
 
+    /**
+     * 是否是暂停
+     *
+     * @return
+     */
     public boolean isPaused() {
         return mPlayer.isPlaying();
     }
 
+    /**
+     * 播放模式
+     *
+     * @param mode 0列表循环1单曲循环2随机
+     */
     public void setPlayMode(int mode) {
         musicMode = mode;
     }
 
+    /**
+     * 获取当前播放模式
+     *
+     * @return
+     */
     public int getPlayMode() {
         return musicMode;
     }
 
+    /**
+     * 清空播放列表
+     */
     public void delAllSong() {
         manager.deleteAll();
         if (mPlayer.isPlaying()) {
@@ -260,12 +318,18 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
+    /**
+     * 删除某首歌曲
+     */
     public void delSong() {
         Song song = getPlayingSong();
         manager.deleteByKey(song.getSong_id());
         playNext();
     }
 
+    /**
+     * 随机播放
+     */
     private void randomMusic() {
         List<Song> list = manager.loadAll();
         if (list.size() > 0) {
@@ -284,6 +348,9 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
+    /**
+     * 单曲循环
+     */
     private void SinglesMusic() {
         Song song = getPlayingSong();
         if (song != null) {
@@ -295,6 +362,11 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         }
     }
 
+    /**
+     * 播放完成后自动播放下一首
+     *
+     * @param mediaPlayer
+     */
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         playNext();

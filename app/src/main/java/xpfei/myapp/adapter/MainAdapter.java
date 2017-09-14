@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xpfei.myapp.R;
+import xpfei.myapp.activity.AlbumDetailActivity;
 import xpfei.myapp.activity.GeDanListActivity;
 import xpfei.myapp.activity.PlayerActivity;
 import xpfei.myapp.activity.RadioListActivity;
@@ -230,7 +231,7 @@ public class MainAdapter extends RecyclerView.Adapter {
         hold.recyclerView.setAdapter(adapter);
         adapter.setOnMyItemClickListener(new SongAdapter.onMyItemClickListener() {
             @Override
-            public void onMyItemClick(Song info) {
+            public void onMyItemClick(Song info, int postion) {
                 Intent intent = new Intent(context, PlayerActivity.class);
                 intent.putExtra(ContentValue.IntentKey.IntentKeyStr, info.getSong_id());
                 intent.putExtra(ContentValue.IntentKey.IntentKeyInt, 1);
@@ -251,16 +252,20 @@ public class MainAdapter extends RecyclerView.Adapter {
      * @param hold viewhold
      * @param list 绑定的数据
      */
-    private void initAlbum(AlbumHold hold, List<AlbumInfo> list) {
+    private void initAlbum(AlbumHold hold, final List<AlbumInfo> list) {
         hold.txtTitle.setText("新碟上架");
         AlbumAdapter adapter = new AlbumAdapter(context, list);
         hold.recyclerView.setAdapter(adapter);
         adapter.setOnMyItemClickListener(new AlbumAdapter.onMyItemClickListener() {
             @Override
             public void onMyItemClick(int position) {
+                Intent intent = new Intent(context, AlbumDetailActivity.class);
+                AlbumInfo info = list.get(position);
+                intent.putExtra(ContentValue.IntentKey.IntentKeySer, info);
+                context.startActivity(intent);
             }
         });
-        hold.recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
+        hold.recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         hold.llMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

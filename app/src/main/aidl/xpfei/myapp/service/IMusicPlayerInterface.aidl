@@ -10,7 +10,7 @@ interface IMusicPlayerInterface {
      //注销回调接口
      void unregisterCallBack(IMusicCallBack cb);
      //添加多首歌曲
-     void setSongList(in List<Song> list,boolean isPlay,boolean isClear);
+     void setSongList(in List<Song> list,boolean isPlay,boolean isClear,int index);
      //添加单首歌曲
      void setSong(in Song song,boolean isPlay);
      //动作 （播放、上一曲、下一曲等）

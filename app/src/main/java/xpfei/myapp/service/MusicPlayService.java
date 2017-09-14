@@ -35,8 +35,8 @@ public class MusicPlayService extends Service {
         }
 
         @Override
-        public void setSongList(List<Song> list, boolean isPlay, boolean isClear) throws RemoteException {
-            player.addMusic(list, isPlay, isClear);
+        public void setSongList(List<Song> list, boolean isPlay, boolean isClear,int index) throws RemoteException {
+            player.addMusic(list, isPlay, isClear,index);
         }
 
         @Override

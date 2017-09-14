@@ -1,18 +1,24 @@
 package xpfei.myapp.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.List;
 
 import xpfei.myapp.R;
 import xpfei.myapp.model.AlbumInfo;
-import xpfei.myapp.util.GlideUtils;
 
 /**
  * Description:专辑分类的适配器
@@ -39,8 +45,23 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         AlbumInfo info = list.get(position);
-        GlideUtils.loadImage(context, info.getPic_small(), R.drawable.noalbum, holder.imgCategory);
+        Glide.with(context).load(info.getPic_radio()).asBitmap().error(R.drawable.noalbum).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                holder.imgCategory.setImageBitmap(resource);
+                Palette.Builder builder = Palette.from(resource);
+                builder.generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        Palette.Swatch vibrant = palette.getLightVibrantSwatch();
+                        if (vibrant != null)
+                            holder.llBottom.setBackgroundColor(vibrant.getRgb());
+                    }
+                });
+            }
+        });
         holder.txtName.setText(info.getTitle());
+        holder.txtCountry.setText(info.getCountry());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,12 +87,15 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imgCategory;
-        private TextView txtName;
+        private TextView txtName, txtCountry;
+        private RelativeLayout llBottom;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imgCategory = (ImageView) itemView.findViewById(R.id.imgCategory);
             txtName = (TextView) itemView.findViewById(R.id.txtName);
+            txtCountry = (TextView) itemView.findViewById(R.id.txtCountry);
+            llBottom = (RelativeLayout) itemView.findViewById(R.id.llBottom);
         }
     }
 }

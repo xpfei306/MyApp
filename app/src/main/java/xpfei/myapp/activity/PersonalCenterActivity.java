@@ -72,9 +72,10 @@ public class PersonalCenterActivity extends MyBaseActivity {
                     binding.mMultiStateView.setViewState(MultiStateView.STATE_CONTENT);
                     adapter.setOnMyItemClickListener(new SongAdapter.onMyItemClickListener() {
                         @Override
-                        public void onMyItemClick(Song info) {
+                        public void onMyItemClick(Song info, int postion) {
                             Intent intent = new Intent(PersonalCenterActivity.this, PlayerActivity.class);
                             intent.putExtra(ContentValue.IntentKey.IntentKeyInt, 2);
+                            intent.putExtra(ContentValue.IntentKey.IntentKeyIndex, postion);
                             intent.putParcelableArrayListExtra(ContentValue.IntentKey.IntentKeyList, songs);
                             startActivity(intent);
                         }

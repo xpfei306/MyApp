@@ -182,7 +182,7 @@
                         android:onClick="@{OnMyClickListener}"
                         android:padding="@dimen/dim_5"
                         android:scaleType="fitXY"
-                        android:src="@drawable/player" />
+                        android:src="@drawable/paused" />
 
                     <ImageButton
                         android:id="@+id/ivNext"
