@@ -8,21 +8,25 @@ import android.widget.SeekBar;
 
 import com.alibaba.fastjson.JSON;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import xpfei.myapp.MyBaseApplication;
 import xpfei.myapp.R;
 import xpfei.myapp.activity.base.MyBaseActivity;
 import xpfei.myapp.databinding.ActivityPlayerBinding;
 import xpfei.myapp.db.SongDbManager;
+import xpfei.myapp.model.DownInfo;
 import xpfei.myapp.model.Song;
 import xpfei.myapp.service.IMusicCallBack;
 import xpfei.myapp.service.IMusicPlayerInterface;
 import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
+import xpfei.myapp.view.DownListPopupWindow;
 import xpfei.myapp.view.MusicListPopupWindow;
 import xpfei.mylibrary.net.MyOkHttp;
 import xpfei.mylibrary.net.MyVolley;
@@ -42,6 +46,7 @@ public class PlayerActivity extends MyBaseActivity {
     private IMusicPlayerInterface mService;
     private boolean ispaused;
     private MusicListPopupWindow popupWindow;
+    private DownListPopupWindow downListPop;
     private int type;
     private IMusicCallBack callBack = new IMusicCallBack.Stub() {
         @Override
@@ -154,10 +159,15 @@ public class PlayerActivity extends MyBaseActivity {
                             break;
                         case R.id.ivDownLoad:
                             Song info = mService.getSong();
-                            if (info.getIsLocal() == 1) {
-                                CommonUtil.showToast(PlayerActivity.this, "本地歌曲不需要下载");
-                                return;
-                            }
+//                            if (info == null) {
+//                                CommonUtil.showToast(PlayerActivity.this, "暂无下载链接");
+//                                return;
+//                            }
+//                            if (info.getIsLocal() == 1) {
+//                                CommonUtil.showToast(PlayerActivity.this, "本地歌曲不需要下载");
+//                                return;
+//                            }
+                            getDownUrl(info.getSong_id() + "");
                             break;
                         case R.id.ivShare:
                             Song infos = mService.getSong();
@@ -373,5 +383,42 @@ public class PlayerActivity extends MyBaseActivity {
                 }
             });
         }
+    }
+
+    private void getDownUrl(String id) {
+        MyVolley.getInstance(this).get(BaiduMusicApi.Song.songInfo(id), new MyVolley.MyCallBack() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                int code = jsonObject.optInt(ContentValue.Json.ErrorCode);
+                try {
+                    if (code == ContentValue.Json.Successcode) {
+                        JSONObject songurl = jsonObject.optJSONObject(ContentValue.Json.Songurl);
+                        JSONArray url = songurl.optJSONArray(ContentValue.Json.Url);
+                        List<DownInfo> downInfos = JSON.parseArray(url.toString(), DownInfo.class);
+                        if (downListPop == null) {
+                            downListPop = new DownListPopupWindow(PlayerActivity.this);
+                            downListPop.setOnPopItemClickListener(new DownListPopupWindow.onPopItemClickListener() {
+                                @Override
+                                public void popItemClick(int position) {
+
+                                }
+                            });
+                        }
+                        downListPop.show(binding.llMain, downInfos);
+                    } else {
+                        onFailure("暂无下载地址");
+                    }
+                } catch (Exception e) {
+                    AppLog.Loge(e.getMessage());
+                    onFailure("暂无下载地址");
+                }
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                onDialogFailure(msg);
+            }
+        });
     }
 }

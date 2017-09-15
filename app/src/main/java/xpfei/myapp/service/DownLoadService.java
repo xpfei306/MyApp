@@ -70,6 +70,7 @@ public class DownLoadService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
         if (ServiceAction_Start.equals(action)) {
+
         } else if (ServiceAction_Cancel.equals(action)) {
 
         } else if (ServiceAction_Del.equals(action)) {
@@ -83,7 +84,7 @@ public class DownLoadService extends Service {
             CommonUtil.showToast(getBaseContext(), "暂无下载链接");
             return;
         }
-        MyOkHttp.getInstance().download(info.getTaskId() + "", info.getDownloadUrl(), new DownloadResponseHandler() {
+        MyOkHttp.getInstance().download(info.getTaskId() + "", info.getDownloadUrl(),info.getFileName(), new DownloadResponseHandler() {
             @Override
             public void onFinish(File download_file) {
                 info.setState(5);

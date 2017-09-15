@@ -60,6 +60,8 @@ public class ContentValue {
         public static final String ArtList = "artist";
         public static final String Songinfo = "songinfo";
         public static final String Bitrate = "bitrate";
+        public static final String Songurl = "songurl";
+        public static final String Url = "url";
         public static final int Successcode = 22000;
     }
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -13,6 +14,8 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -167,5 +170,36 @@ public class CommonUtil {
             cachePath = context.getCacheDir().getPath();
         }
         return cachePath;
+    }
+
+    /**
+     * 获取屏幕高度和宽度
+     *
+     * @param context
+     * @return
+     */
+    public static int[] getScreenSize(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return new int[]{outMetrics.widthPixels, outMetrics.heightPixels};
+    }
+
+    /**
+     * 分享文字
+     *
+     * @param context  上下文
+     * @param content  分享的文字内容
+     * @param msgTitle 分享的标题
+     */
+    public static void share(Context context, String content, String msgTitle) {
+        Intent share_intent = new Intent();
+        share_intent.setAction(Intent.ACTION_SEND);//设置分享行为
+        share_intent.setType("text/plain");
+        share_intent.putExtra(Intent.EXTRA_TITLE, msgTitle);
+        share_intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
+        share_intent.putExtra(Intent.EXTRA_TEXT, content);//添加分享内容
+        share_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(Intent.createChooser(share_intent, "分享到："));
     }
 }

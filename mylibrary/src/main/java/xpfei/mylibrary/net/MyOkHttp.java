@@ -274,10 +274,22 @@ public class MyOkHttp {
      * @param downloadResponseHandler 下载回调
      */
     public void download(String tag, @NonNull String url, final DownloadResponseHandler downloadResponseHandler) {
+        download(tag, url, null, downloadResponseHandler);
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param url                     下载地址
+     * @param downloadResponseHandler 下载回调
+     */
+    public void download(String tag, @NonNull String url, String filename, final DownloadResponseHandler downloadResponseHandler) {
         Request.Builder builders = new Request.Builder();
         builders.url(url);
         builders.tag(tag);
-        String filename = url.substring(url.lastIndexOf("/"));
+        if (StringUtil.isEmpty(filename)) {
+            filename = url.substring(url.lastIndexOf("/"));
+        }
         String filedir = new File(Environment.getExternalStorageDirectory().getPath() + "/MyApp").getAbsolutePath();
         Request request = builders.build();
         client.newBuilder().addNetworkInterceptor(new Interceptor() {      //设置拦截器

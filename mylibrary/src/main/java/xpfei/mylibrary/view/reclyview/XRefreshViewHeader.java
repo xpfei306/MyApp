@@ -65,7 +65,7 @@ public class XRefreshViewHeader extends LinearLayout implements IHeaderCallBack 
         long refreshTime = mCalendar.getTimeInMillis();
         long howLong = refreshTime - lastRefreshTime;
         int minutes = (int) (howLong / 1000 / 60);
-        String refreshTimeText = null;
+        String refreshTimeText;
         Resources resources = getContext().getResources();
         if (minutes < 1) {
             refreshTimeText = resources.getString(R.string.xrefreshview_refresh_justnow);
