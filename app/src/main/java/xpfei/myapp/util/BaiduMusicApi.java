@@ -596,6 +596,44 @@ public class BaiduMusicApi {
         }
     }
 
+    public static class share {
+        private static String shareUrl = "http://music.baidu.com/";
+
+        /**
+         * 分享单首歌曲
+         *
+         * @param id 歌曲
+         */
+        public static String shareSong(String id) {
+            StringBuffer sb = new StringBuffer(shareUrl);
+            sb.append("song/").append(id);
+            return sb.toString();
+        }
+
+        /**
+         * 分享单首歌曲
+         *
+         * @param id 专辑id
+         */
+        public static String shareAlbum(String id) {
+            StringBuffer sb = new StringBuffer(shareUrl);
+            sb.append("album/").append(id);
+            return sb.toString();
+        }
+
+        /**
+         * 分享歌单
+         *
+         * @param id 歌单id
+         * @return
+         */
+        public static String shareGeDan(String id) {
+            StringBuffer sb = new StringBuffer(shareUrl);
+            sb.append("songlist/").append(id);
+            return sb.toString();
+        }
+    }
+
     private static String encode(String str) {
         if (str == null) return "";
 

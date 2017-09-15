@@ -18,7 +18,7 @@ public class GlideUtils {
                 .error(errorPath)
                 .skipMemoryCache(false)
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
     }
 
@@ -28,7 +28,7 @@ public class GlideUtils {
                 .error(errorPath)
                 .skipMemoryCache(false)
                 .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
     }
 }

@@ -81,7 +81,7 @@ public class PersonalCenterActivity extends MyBaseActivity {
                         }
                     });
                 } else {
-                    binding.mMultiStateView.setViewState(MultiStateView.STATE_EMPTY, "暂无歌曲(&gt;_&lt;)");
+                    binding.mMultiStateView.setViewState(MultiStateView.STATE_EMPTY, "暂无本地歌曲");
                 }
             }
         }, 1000);

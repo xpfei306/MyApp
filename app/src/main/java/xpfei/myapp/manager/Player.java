@@ -85,6 +85,10 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
     public void addMusic(Song info, boolean isPlay) {
         manager.insertOrReplace(info);
         if (isPlay) {
+            List<Song> list = manager.loadAll();
+            if (list.size() > 0) {
+                playingIndex = list.indexOf(info);
+            }
             play(info);
         }
     }

@@ -170,11 +170,18 @@ public class MainAdapter extends RecyclerView.Adapter {
         headerHold.banner.setOnBannerItemClickListener(new Banner.OnBannerItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                Intent intent = new Intent();
                 BannerInfo bannerInfo = list.get(position);
-                if (bannerInfo != null && bannerInfo.getCode().contains("http")) {
-                    Intent intent = new Intent(context, WebActivity.class);
+                if (bannerInfo.getType() == 2) {
+                    intent.setClass(context, AlbumDetailActivity.class);
                     intent.putExtra(ContentValue.IntentKey.IntentKeyStr, bannerInfo.getCode());
                     context.startActivity(intent);
+                } else {
+                    if (bannerInfo.getCode().contains("http")) {
+                        intent.setClass(context, WebActivity.class);
+                        intent.putExtra(ContentValue.IntentKey.IntentKeyStr, bannerInfo.getCode());
+                        context.startActivity(intent);
+                    }
                 }
             }
         });
@@ -261,7 +268,7 @@ public class MainAdapter extends RecyclerView.Adapter {
             public void onMyItemClick(int position) {
                 Intent intent = new Intent(context, AlbumDetailActivity.class);
                 AlbumInfo info = list.get(position);
-                intent.putExtra(ContentValue.IntentKey.IntentKeySer, info);
+                intent.putExtra(ContentValue.IntentKey.IntentKeyStr, info.getAlbum_id());
                 context.startActivity(intent);
             }
         });

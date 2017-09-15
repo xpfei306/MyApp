@@ -8,6 +8,15 @@ package xpfei.myapp.model;
 public class BannerInfo {
     private String code;
     private String randpic;
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public String getCode() {
         return code;

@@ -45,9 +45,9 @@ public class Song implements Parcelable {
 
     @Generated(hash = 268770055)
     public Song(Long song_id, String album_title, String title, String author,
-            String pic_small, String pic_huge, String lrclink, String file_link,
-            String lrclink_local, String file_link_local, int isLocal,
-            long album_id) {
+                String pic_small, String pic_huge, String lrclink, String file_link,
+                String lrclink_local, String file_link_local, int isLocal,
+                long album_id) {
         this.song_id = song_id;
         this.album_title = album_title;
         this.title = title;
@@ -194,4 +194,15 @@ public class Song implements Parcelable {
             return new Song[size];
         }
     };
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof Song) {
+            Song song = (Song) obj;
+            if (song.getSong_id().longValue() == this.song_id.longValue()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

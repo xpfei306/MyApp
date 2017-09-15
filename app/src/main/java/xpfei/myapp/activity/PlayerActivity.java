@@ -80,7 +80,6 @@ public class PlayerActivity extends MyBaseActivity {
             getSupportActionBar().setTitle("未知");
             getSupportActionBar().setSubtitle("未知");
             binding.ivPlay.setImageResource(R.drawable.player);
-
         }
     };
 
@@ -144,53 +143,61 @@ public class PlayerActivity extends MyBaseActivity {
         binding.setOnMyClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.ivCollection:
-                        break;
-                    case R.id.ivDownLoad:
-                        break;
-                    case R.id.ivShare:
-                        break;
-                    case R.id.ivDel:
-                        try {
+                try {
+                    switch (view.getId()) {
+                        case R.id.ivCollection:
+                            Song info1 = mService.getSong();
+                            if (info1.getIsLocal() == 1) {
+                                CommonUtil.showToast(PlayerActivity.this, "暂不支持本地歌曲分享");
+                                return;
+                            }
+                            break;
+                        case R.id.ivDownLoad:
+                            Song info = mService.getSong();
+                            if (info.getIsLocal() == 1) {
+                                CommonUtil.showToast(PlayerActivity.this, "本地歌曲不需要下载");
+                                return;
+                            }
+                            break;
+                        case R.id.ivShare:
+                            Song infos = mService.getSong();
+                            if (infos.getIsLocal() == 1) {
+                                CommonUtil.showToast(PlayerActivity.this, "暂不支持本地歌曲分享");
+                                return;
+                            }
+                            CommonUtil.share(PlayerActivity.this, BaiduMusicApi.share.shareSong(infos.getSong_id() + ""), infos.getAuthor() + "-" + infos.getTitle());
+                            break;
+                        case R.id.ivDel:
                             mService.delSong();
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case R.id.ivPlayList:
-                        if (popupWindow == null) {
-                            popupWindow = new MusicListPopupWindow(PlayerActivity.this);
-                            popupWindow.setonClearClickListener(new MusicListPopupWindow.onClearClickListener() {
-                                @Override
-                                public void clearClick() {
-                                    try {
-                                        mService.delAllSong();
-                                    } catch (RemoteException e) {
-                                        e.printStackTrace();
+                            break;
+                        case R.id.ivPlayList:
+                            if (popupWindow == null) {
+                                popupWindow = new MusicListPopupWindow(PlayerActivity.this);
+                                popupWindow.setonClearClickListener(new MusicListPopupWindow.onClearClickListener() {
+                                    @Override
+                                    public void clearClick() {
+                                        try {
+                                            mService.delAllSong();
+                                        } catch (RemoteException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                            });
-                            popupWindow.setOnPopItemClickListener(new MusicListPopupWindow.onPopItemClickListener() {
-                                @Override
-                                public void popItemClick(Song info) {
-                                    try {
-                                        play(info, true);
-                                    } catch (RemoteException e) {
-                                        e.printStackTrace();
+                                });
+                                popupWindow.setOnPopItemClickListener(new MusicListPopupWindow.onPopItemClickListener() {
+                                    @Override
+                                    public void popItemClick(Song info) {
+                                        try {
+                                            play(info, true);
+                                        } catch (RemoteException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
-                                }
-                            });
-                        }
-                        try {
+                                });
+                            }
                             popupWindow.show(binding.llMain, mService.getSongList(), mService.getPlayMode());
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                            popupWindow.show(binding.llMain, null, 0);
-                        }
-                        break;
-                    case R.id.ivPlayState:
-                        try {
+                            break;
+                        case R.id.ivPlayState:
+
                             int mode = mService.getPlayMode();
                             switch (mode) {
                                 case 1:
@@ -207,41 +214,30 @@ public class PlayerActivity extends MyBaseActivity {
                                     break;
                             }
                             mService.setPlayMode(mode);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case R.id.ivUp:
-                        try {
+
+                            break;
+                        case R.id.ivUp:
                             mService.doAction(ContentValue.PlayAction.Last);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case R.id.ivPlay:
-                        String action;
-                        int drawbleId;
-                        if (ispaused) {
-                            action = ContentValue.PlayAction.Pause;
-                            drawbleId = R.drawable.player;
-                        } else {
-                            action = ContentValue.PlayAction.Play;
-                            drawbleId = R.drawable.paused;
-                        }
-                        try {
+                            break;
+                        case R.id.ivPlay:
+                            String action;
+                            int drawbleId;
+                            if (ispaused) {
+                                action = ContentValue.PlayAction.Play;
+                                drawbleId = R.drawable.paused;
+                            } else {
+                                action = ContentValue.PlayAction.Pause;
+                                drawbleId = R.drawable.player;
+                            }
                             mService.doAction(action);
                             binding.ivPlay.setImageResource(drawbleId);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case R.id.ivNext:
-                        try {
+                            break;
+                        case R.id.ivNext:
                             mService.doAction(ContentValue.PlayAction.Next);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                        break;
+                            break;
+                    }
+                } catch (RemoteException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -249,11 +245,13 @@ public class PlayerActivity extends MyBaseActivity {
         if (type == 1) {
             Song_id = getIntent().getLongExtra(ContentValue.IntentKey.IntentKeyStr, 0);
             startBaseReqTask(this, null);
-        } else if (type == 2) {
+        } else if (type == 2)
+
+        {
             ArrayList<Song> list = getIntent().getParcelableArrayListExtra(ContentValue.IntentKey.IntentKeyList);
             int index = getIntent().getIntExtra(ContentValue.IntentKey.IntentKeyIndex, 0);
             try {
-                mService.setSongList(list, true, true,index);
+                mService.setSongList(list, true, true, index);
                 if (list != null && list.size() > 0) {
                     Song info = list.get(index);
                     getSupportActionBar().setTitle(info.getTitle());
