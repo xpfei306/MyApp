@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dim_10"
-            android:text="播放全部"
+            android:text="播放全部歌曲"
             android:textColor="@android:color/black"
             android:textSize="?normalSize" />
     </LinearLayout>

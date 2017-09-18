@@ -6,48 +6,51 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.alibaba.fastjson.JSON;
-
 import org.json.JSONObject;
 
 import xpfei.myapp.R;
 import xpfei.myapp.activity.base.MyBaseActivity;
-import xpfei.myapp.adapter.AlbumDetailAdapter;
+import xpfei.myapp.adapter.SingerDetailAdapter;
 import xpfei.myapp.databinding.ActivityAlbumdetailBinding;
-import xpfei.myapp.model.AlbumDeatilInfo;
+import xpfei.myapp.model.ArtInfo;
 import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
 import xpfei.mylibrary.net.MyVolley;
 import xpfei.mylibrary.utils.CommonUtil;
-import xpfei.mylibrary.utils.StringUtil;
 
 /**
- * Description: 专辑详情
+ * Description: 歌手详情页
  * Author: xpfei
- * Date:   2017/09/13
+ * Date:   2017/09/18
  */
-public class AlbumDetailActivity extends MyBaseActivity {
+public class SingerDetailActivity extends MyBaseActivity {
     private ActivityAlbumdetailBinding binding;
-    private String album_id;
-    private AlbumDetailAdapter adapter;
     private Drawable drawable;
     private LinearLayoutManager layoutManger;
+    private ArtInfo info;
+    private SingerDetailAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_albumdetail);
-        album_id = getIntent().getStringExtra(ContentValue.IntentKey.IntentKeyStr);
+        info = (ArtInfo) getIntent().getSerializableExtra(ContentValue.IntentKey.IntentKeySer);
+        if (info == null) {
+            CommonUtil.showToast(this, "暂无该歌手信息");
+            finish();
+            return;
+        }
         initView();
     }
 
     private void initView() {
-        onSetLeft(true);
+        startBaseReqTask(this);
+        getArtSong();
         drawable = binding.llAlbumDeatailTop.getBackground();
         if (drawable != null) {
             drawable.setAlpha(0);
         }
-        adapter = new AlbumDetailAdapter(AlbumDetailActivity.this, new AlbumDeatilInfo());
+        adapter = new SingerDetailAdapter(this);
         layoutManger = new LinearLayoutManager(this);
         binding.MyRv.setLayoutManager(layoutManger);
         binding.MyRv.setAdapter(adapter);
@@ -83,29 +86,47 @@ public class AlbumDetailActivity extends MyBaseActivity {
                 }
             }
         });
-        startBaseReqTask(this, null);
     }
-
 
     @Override
     public void onRequestData() {
-        MyVolley.getInstance(this).get(BaiduMusicApi.Album.albumInfo(album_id), new MyVolley.MyCallBack() {
+        MyVolley.getInstance(this).get(BaiduMusicApi.Artist.artistInfo(info.getTing_uid(), info.getArtist_id()), new MyVolley.MyCallBack() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-                if (jsonObject != null && !StringUtil.isEmpty(jsonObject.toString())) {
-                    AlbumDeatilInfo info = JSON.parseObject(jsonObject.toString(), AlbumDeatilInfo.class);
-                    onSetTitle(info.getAlbumInfo().getTitle());
-                    adapter.setData(info);
-                    onDialogSuccess(null);
-                } else {
-                    onFailure("暂未找到专辑详情");
-                }
+
             }
 
             @Override
             public void onFailure(String msg) {
-                onDialogFailure(msg);
-                finish();
+
+            }
+        });
+    }
+
+    private void getArtSong() {
+        MyVolley.getInstance(this).get(BaiduMusicApi.Artist.artistSongList(info.getTing_uid(), info.getArtist_id(), 0, 50), new MyVolley.MyCallBack() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+        });
+    }
+
+    private void getArtAlbum() {
+        MyVolley.getInstance(this).get(BaiduMusicApi.Artist.artAlbumList(info.getTing_uid(), 0, 50), new MyVolley.MyCallBack() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
             }
         });
     }

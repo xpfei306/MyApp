@@ -10,7 +10,7 @@ public class GeDanInfo {
     private int collectnum;//收藏数量
     private int listenum;//收听数量
     private String listid;//歌单id
-    private String pic;//图片
+    private String pic_300;//图片
     private String tag;//标签
     private String title;//名称
 
@@ -38,12 +38,12 @@ public class GeDanInfo {
         this.listid = listid;
     }
 
-    public String getPic() {
-        return pic;
+    public String getPic_300() {
+        return pic_300;
     }
 
-    public void setPic(String pic) {
-        this.pic = pic;
+    public void setPic_300(String pic_300) {
+        this.pic_300 = pic_300;
     }
 
     public String getTag() {

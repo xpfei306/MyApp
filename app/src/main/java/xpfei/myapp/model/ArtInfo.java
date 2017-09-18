@@ -1,11 +1,13 @@
 package xpfei.myapp.model;
 
+import java.io.Serializable;
+
 /**
  * Description:音乐人
  * Author: xpfei
  * Date:   2017/08/25
  */
-public class ArtInfo {
+public class ArtInfo implements Serializable {
     private String artist_id;
     private String avatar_big;
     private String firstchar;

@@ -25,7 +25,7 @@ import xpfei.mylibrary.utils.CommonUtil;
  * Author: xpfei
  * Date:   2017/09/13
  */
-public class DetailAdapter extends RecyclerView.Adapter {
+public class AlbumDetailAdapter extends RecyclerView.Adapter {
     private Context mContext;
     private AlbumDeatilInfo deatilInfo;
     private LayoutInflater inflater;
@@ -35,7 +35,7 @@ public class DetailAdapter extends RecyclerView.Adapter {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public DetailAdapter(Context mContext, AlbumDeatilInfo deatilInfo) {
+    public AlbumDetailAdapter(Context mContext, AlbumDeatilInfo deatilInfo) {
         this.mContext = mContext;
         this.deatilInfo = deatilInfo;
         inflater = LayoutInflater.from(mContext);

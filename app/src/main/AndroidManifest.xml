@@ -37,6 +37,8 @@
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.DownLoadActivity" />
         <activity android:name=".activity.AlbumDetailActivity" />
+        <activity android:name=".activity.GeDanDetailActivity" />
+        <activity android:name=".activity.SingerDetailActivity" />
 
         <service android:name=".service.MusicPlayService" />
         <service android:name=".service.DownLoadService">

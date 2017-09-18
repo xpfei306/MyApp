@@ -134,6 +134,15 @@ public abstract class MyBaseActivity extends AppCompatActivity {
      *
      * @param baseActivity 上下文
      */
+    protected void startBaseReqTask(MyBaseActivity baseActivity) {
+        startBaseReqTask(baseActivity, null);
+    }
+
+    /**
+     * 有ProgressDialog
+     *
+     * @param baseActivity 上下文
+     */
     protected void startBaseReqTask(MyBaseActivity baseActivity, String message) {
         activity = baseActivity;
         mLoadHandler.removeMessages(ContentValue.NET.NET_LOAD);

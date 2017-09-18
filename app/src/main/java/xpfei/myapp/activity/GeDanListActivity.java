@@ -35,6 +35,7 @@ public class GeDanListActivity extends MyBaseActivity {
     private ActivityListBinding binding;
     private int page = 1;
     private GeDanAdapter adapter;
+    private List<GeDanInfo> list = new ArrayList<>();
     private boolean isMore = true, isMsv = true;
 
     @Override
@@ -51,7 +52,7 @@ public class GeDanListActivity extends MyBaseActivity {
         binding.xrefreshview.setPullRefreshEnable(false);
         binding.recvclerview.setLayoutManager(new GridLayoutManager(this, 3));
         binding.xrefreshview.setPullLoadEnable(true);
-        adapter = new GeDanAdapter(this, new ArrayList<GeDanInfo>(), R.layout.item_recyclerview_gedan);
+        adapter = new GeDanAdapter(this, list, R.layout.item_recyclerview_gedan);
         binding.recvclerview.setAdapter(adapter);
         adapter.setCustomLoadMoreView(new CustomFooterView(this));
         binding.xrefreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
@@ -76,44 +77,42 @@ public class GeDanListActivity extends MyBaseActivity {
 
     @Override
     public void onRequestData() {
-        int num = page * 12;
-        MyVolley.getInstance(this).get(BaiduMusicApi.GeDan.hotGeDan(num), new MyVolley.MyCallBack() {
+        MyVolley.getInstance(this).get(BaiduMusicApi.GeDan.geDan(page, 12), new MyVolley.MyCallBack() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 int code = jsonObject.optInt(ContentValue.Json.ErrorCode);
                 if (code == ContentValue.Json.Successcode) {
                     try {
-                        JSONObject json = jsonObject.optJSONObject(ContentValue.Json.Content);
-                        JSONArray geDanList = json.optJSONArray(ContentValue.Json.List);
-                        if (geDanList != null) {
-                            String tempStr = geDanList.toString();
-                            List<GeDanInfo> tempList = JSON.parseArray(tempStr, GeDanInfo.class);
-                            adapter.setData(tempList);
+                        JSONArray json = jsonObject.optJSONArray(ContentValue.Json.Content);
+                        if (json != null) {
+                            List<GeDanInfo> tempList = JSON.parseArray(json.toString(), GeDanInfo.class);
+                            list.addAll(tempList);
+                            adapter.setData(list);
+                            onMSVSuccess(null);
                         } else {
                             if (isMsv) {
-                                onMSVFailure("未查询到相关歌单！");
+                                onFailure("未查询到相关歌单！");
+                                isMore = false;
                             } else {
                                 CommonUtil.showToast(GeDanListActivity.this, "未查询到相关歌单！");
                             }
-                            isMore = false;
                         }
                     } catch (Exception e) {
                         AppLog.Loge("Error:" + e.getMessage());
                         if (isMsv) {
-                            onMSVFailure("服务器繁忙，请稍后再试！");
+                            onFailure("服务器繁忙，请稍后再试！");
                         } else {
                             CommonUtil.showToast(GeDanListActivity.this, "服务器繁忙，请稍后再试！");
                         }
                     }
                 } else {
                     if (isMsv) {
-                        onMSVFailure("未查询到相关歌单！");
+                        onFailure("未查询到相关歌单！");
                     } else {
                         CommonUtil.showToast(GeDanListActivity.this, "未查询到相关歌单！");
                     }
                 }
                 binding.xrefreshview.stopLoadMore();
-                onMSVSuccess(null);
             }
 
             @Override

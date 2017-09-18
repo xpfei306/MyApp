@@ -297,6 +297,15 @@ public class BaiduMusicApi {
                     .append("&artistid=").append(artistid);
             return sb.toString();
         }
+
+        public static String artAlbumList(String tinguid, int offset, int limit) {
+            StringBuffer sb = new StringBuffer(BASE);
+            sb.append("&method=").append("baidu.ting.artist.getAlbumList")
+                    .append("&tinguid=").append(tinguid)
+                    .append("&offset=").append(offset)
+                    .append("&limits=").append(limit);
+            return sb.toString();
+        }
     }
 
     /**

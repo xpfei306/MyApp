@@ -100,7 +100,7 @@ public class RadiaoAdapter extends RecyclerView.Adapter {
             RadioPublicAdapter adapter = new RadioPublicAdapter(radioListInfos, context);
             holder.recyclerView.setAdapter(adapter);
             holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            holder.txtTitle.setText("推荐歌单");
+            holder.txtTitle.setText("推荐电台");
             holder.llMore.setVisibility(View.GONE);
         }
     }

@@ -12,24 +12,23 @@ import org.json.JSONObject;
 
 import xpfei.myapp.R;
 import xpfei.myapp.activity.base.MyBaseActivity;
-import xpfei.myapp.adapter.AlbumDetailAdapter;
+import xpfei.myapp.adapter.GeDanDetailAdapter;
 import xpfei.myapp.databinding.ActivityAlbumdetailBinding;
-import xpfei.myapp.model.AlbumDeatilInfo;
+import xpfei.myapp.model.GeDanDetailInfo;
 import xpfei.myapp.util.BaiduMusicApi;
 import xpfei.myapp.util.ContentValue;
 import xpfei.mylibrary.net.MyVolley;
 import xpfei.mylibrary.utils.CommonUtil;
-import xpfei.mylibrary.utils.StringUtil;
 
 /**
  * Description: 专辑详情
  * Author: xpfei
  * Date:   2017/09/13
  */
-public class AlbumDetailActivity extends MyBaseActivity {
+public class GeDanDetailActivity extends MyBaseActivity {
     private ActivityAlbumdetailBinding binding;
     private String album_id;
-    private AlbumDetailAdapter adapter;
+    private GeDanDetailAdapter adapter;
     private Drawable drawable;
     private LinearLayoutManager layoutManger;
 
@@ -47,7 +46,7 @@ public class AlbumDetailActivity extends MyBaseActivity {
         if (drawable != null) {
             drawable.setAlpha(0);
         }
-        adapter = new AlbumDetailAdapter(AlbumDetailActivity.this, new AlbumDeatilInfo());
+        adapter = new GeDanDetailAdapter(GeDanDetailActivity.this, new GeDanDetailInfo());
         layoutManger = new LinearLayoutManager(this);
         binding.MyRv.setLayoutManager(layoutManger);
         binding.MyRv.setAdapter(adapter);
@@ -89,17 +88,18 @@ public class AlbumDetailActivity extends MyBaseActivity {
 
     @Override
     public void onRequestData() {
-        MyVolley.getInstance(this).get(BaiduMusicApi.Album.albumInfo(album_id), new MyVolley.MyCallBack() {
+        String id = getIntent().getStringExtra(ContentValue.IntentKey.IntentKeyStr);
+        MyVolley.getInstance(this).get(BaiduMusicApi.GeDan.geDanInfo(id), new MyVolley.MyCallBack() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-                if (jsonObject != null && !StringUtil.isEmpty(jsonObject.toString())) {
-                    AlbumDeatilInfo info = JSON.parseObject(jsonObject.toString(), AlbumDeatilInfo.class);
-                    onSetTitle(info.getAlbumInfo().getTitle());
+                int code = jsonObject.optInt(ContentValue.Json.ErrorCode);
+                if (code == ContentValue.Json.Successcode) {
+                    GeDanDetailInfo info = JSON.parseObject(jsonObject.toString(), GeDanDetailInfo.class);
                     adapter.setData(info);
-                    onDialogSuccess(null);
                 } else {
-                    onFailure("暂未找到专辑详情");
+                    onFailure("未查询到该歌单信息");
                 }
+                onDialogSuccess(null);
             }
 
             @Override

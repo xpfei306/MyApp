@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imgAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@mipmap/nopic" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/dim_10"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/dim_10">
+
+        <TextView
+            android:id="@+id/txtAlbumName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="未知"
+            android:textColor="@android:color/black"
+            android:textSize="?largeSize" />
+
+        <TextView
+            android:id="@+id/txtDesc"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dim_5"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:layout_height="wrap_content" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dim_10"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <TextView
+                android:id="@+id/btnShare"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dim_40"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/share_gray"
+                android:gravity="center"
+                android:text="分享"
+                android:textSize="@dimen/font_10" />
+
+            <View
+                style="@style/View_Line_S"
+                android:layout_marginBottom="@dimen/dim_5"
+                android:layout_marginTop="@dimen/dim_5" />
+
+            <TextView
+                android:id="@+id/btnPlay"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dim_40"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/play_gray"
+                android:gravity="center"
+                android:text="播放"
+                android:textSize="@dimen/font_10" />
+
+            <View
+                style="@style/View_Line_S"
+                android:layout_marginBottom="@dimen/dim_5"
+                android:layout_marginTop="@dimen/dim_5" />
+
+            <TextView
+                android:id="@+id/btnCollection"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dim_40"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/nocollection_gray"
+                android:gravity="center"
+                android:text="收藏"
+                android:textSize="@dimen/font_10" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

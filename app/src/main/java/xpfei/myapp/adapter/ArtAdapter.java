@@ -1,6 +1,7 @@
 package xpfei.myapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import xpfei.myapp.R;
+import xpfei.myapp.activity.SingerDetailActivity;
 import xpfei.myapp.adapter.base.BaseMyReclyViewAdapter;
 import xpfei.myapp.model.ArtInfo;
+import xpfei.myapp.util.ContentValue;
 import xpfei.myapp.util.GlideUtils;
 
 /**
@@ -39,13 +42,13 @@ public class ArtAdapter extends BaseMyReclyViewAdapter<ArtInfo, ArtAdapter.ViewH
 
     @Override
     public void onBindData(ViewHolder holder, int position, boolean isItem) {
-        ArtInfo info = data.get(position);
+        final ArtInfo info = data.get(position);
         GlideUtils.loadImage(context, info.getAvatar_big(), R.mipmap.header, holder.imgArt);
         holder.txtArtName.setText(info.getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                context.startActivity(new Intent(context, SingerDetailActivity.class).putExtra(ContentValue.IntentKey.IntentKeySer,info));
             }
         });
     }
