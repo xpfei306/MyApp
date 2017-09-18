@@ -24,8 +24,7 @@ public class AudioProvider implements AbstructProvider {
     public ArrayList<Song> getList() {
         ArrayList<Song> list = null;
         if (context != null) {
-            Cursor cursor = context.getContentResolver().query(
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
+            Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
             if (cursor != null) {
                 list = new ArrayList<>();
                 while (cursor.moveToNext()) {

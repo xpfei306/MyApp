@@ -38,7 +38,7 @@ import xpfei.mylibrary.utils.StringUtil;
  */
 public class MyOkHttp {
     private OkHttpClient client;
-    private static MyOkHttp instance;
+    private volatile static MyOkHttp instance;// volatile 的主要原因是其一个特性：禁止指令重排序优化
 
     /**
      * client 初始化

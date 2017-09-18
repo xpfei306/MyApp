@@ -22,7 +22,7 @@ import xpfei.mylibrary.utils.AppLog;
  * Date:   2017/08/01
  */
 public class MyVolley {
-    private static MyVolley instance;
+    private volatile static MyVolley instance;
     private RequestQueue mQueue;
     private Context context;
 
