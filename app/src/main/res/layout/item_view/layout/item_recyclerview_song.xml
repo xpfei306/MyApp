@@ -5,21 +5,38 @@
     android:orientation="vertical"
     android:padding="@dimen/dim_5">
 
-    <ImageView
-        android:id="@+id/imgSong"
+    <LinearLayout
+        android:id="@+id/llLeft"
         android:layout_width="@dimen/dim_40"
         android:layout_height="@dimen/dim_40"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_ranking" />
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imgSong"
+            android:layout_width="@dimen/dim_40"
+            android:layout_height="@dimen/dim_40"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_ranking" />
+
+        <TextView
+            android:id="@+id/txtNum"
+            android:layout_width="@dimen/dim_40"
+            android:layout_height="@dimen/dim_40"
+            android:gravity="center"
+            android:text="01"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="?normalSize"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/dim_10"
-        android:layout_toRightOf="@+id/imgSong"
+        android:layout_toRightOf="@+id/llLeft"
         android:orientation="vertical">
 
         <TextView

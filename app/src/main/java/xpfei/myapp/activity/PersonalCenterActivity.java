@@ -64,7 +64,7 @@ public class PersonalCenterActivity extends MyBaseActivity {
                 AudioProvider provider = new AudioProvider(PersonalCenterActivity.this);
                 if (provider.getList() != null && provider.getList().size() > 0) {
                     final ArrayList<Song> songs = provider.getList();
-                    SongAdapter adapter = new SongAdapter(PersonalCenterActivity.this, provider.getList());
+                    SongAdapter adapter = new SongAdapter(PersonalCenterActivity.this, provider.getList(),0);
                     binding.mRecvclerview.setLayoutManager(new LinearLayoutManager(PersonalCenterActivity.this));
                     binding.mRecvclerview.addItemDecoration(new RecyclerViewDivider(PersonalCenterActivity.this,
                             LinearLayoutManager.HORIZONTAL, 1, getResources().getColor(R.color.colorGray)));

@@ -234,7 +234,7 @@ public class MainAdapter extends RecyclerView.Adapter {
      */
     private void initSong(SongHold hold, List<Song> list) {
         hold.txtTitle.setText("新歌速递");
-        SongAdapter adapter = new SongAdapter(context, list);
+        SongAdapter adapter = new SongAdapter(context, list,0);
         hold.recyclerView.setAdapter(adapter);
         adapter.setOnMyItemClickListener(new SongAdapter.onMyItemClickListener() {
             @Override

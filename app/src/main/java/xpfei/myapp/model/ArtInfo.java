@@ -13,6 +13,8 @@ public class ArtInfo implements Serializable {
     private String firstchar;
     private String name;
     private String ting_uid;
+    private int albums_total;
+    private int songs_total;
 
     public String getArtist_id() {
         return artist_id;
@@ -52,5 +54,21 @@ public class ArtInfo implements Serializable {
 
     public void setTing_uid(String ting_uid) {
         this.ting_uid = ting_uid;
+    }
+
+    public int getAlbums_total() {
+        return albums_total;
+    }
+
+    public void setAlbums_total(int albums_total) {
+        this.albums_total = albums_total;
+    }
+
+    public int getSongs_total() {
+        return songs_total;
+    }
+
+    public void setSongs_total(int songs_total) {
+        this.songs_total = songs_total;
     }
 }

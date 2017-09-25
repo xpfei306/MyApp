@@ -203,7 +203,7 @@ public class MainActivity extends MyBaseActivity {
                     try {
                         JSONArray jsonArray = jsonObject.optJSONArray(ContentValue.Json.Content);
                         JSONObject jsonSong = jsonArray.getJSONObject(0);
-                        JSONArray arraySong = jsonSong.optJSONArray(ContentValue.Json.SongList);
+                        JSONArray arraySong = jsonSong.optJSONArray(ContentValue.Json.Song_List);
                         aCache.put(ContentValue.AcacheKey.ACACHEKEY_NEWSONG, arraySong);
                         getSong(arraySong);
                     } catch (Exception e) {
@@ -244,7 +244,7 @@ public class MainActivity extends MyBaseActivity {
                     try {
                         JSONObject json = jsonObject.optJSONObject(ContentValue.Json.Album);
                         JSONObject jsonRM = json.optJSONObject(ContentValue.Json.RM);
-                        JSONObject AlbumList = jsonRM.optJSONObject(ContentValue.Json.AlbumList);
+                        JSONObject AlbumList = jsonRM.optJSONObject(ContentValue.Json.Album_List);
                         JSONArray jsonArray = AlbumList.optJSONArray(ContentValue.Json.List);
                         aCache.put(ContentValue.AcacheKey.ACACHEKEY_ALBUM, jsonArray);
                         getalbum(jsonArray);

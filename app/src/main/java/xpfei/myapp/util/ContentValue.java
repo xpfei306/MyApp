@@ -50,11 +50,13 @@ public class ContentValue {
     public static final class Json {
         public static final String List = "list";
         public static final String Banner = "pic";
-        public static final String SongList = "song_list";
+        public static final String Song_List = "song_list";
+        public static final String SongList = "songlist";
         public static final String ErrorCode = "error_code";
         public static final String Album = "plaze_album_list";
         public static final String RM = "RM";
-        public static final String AlbumList = "album_list";
+        public static final String Album_List = "album_list";
+        public static final String AlbumList = "albumlist";
         public static final String Result = "result";
         public static final String Content = "content";
         public static final String ArtList = "artist";

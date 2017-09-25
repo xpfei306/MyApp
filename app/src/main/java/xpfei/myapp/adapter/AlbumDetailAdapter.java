@@ -163,7 +163,7 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter {
     }
 
     private void initList(ListHoder hoder, List<Song> list) {
-        SongAdapter adapter = new SongAdapter(mContext, list);
+        SongAdapter adapter = new SongAdapter(mContext, list, 0);
         hoder.itemRv.setLayoutManager(new LinearLayoutManager(mContext));
         hoder.itemRv.setAdapter(adapter);
     }

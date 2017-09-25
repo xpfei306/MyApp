@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivSinger"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/nopic" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center|left"
+        android:orientation="vertical"
+        android:padding="@dimen/dim_10">
+
+        <TextView
+            android:id="@+id/txtSingerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="五月天"
+            android:textColor="@android:color/white"
+            android:textSize="?largeSize" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_5"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtSongNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="五月天"
+                android:textColor="@android:color/white"
+                android:textSize="?smallSize" />
+
+            <View
+                style="@style/View_Line_S"
+                android:layout_margin="@dimen/dim_5" />
+
+            <TextView
+                android:id="@+id/txtAlbumNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="五月天"
+                android:textColor="@android:color/white"
+                android:textSize="?smallSize" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

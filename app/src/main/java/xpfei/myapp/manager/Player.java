@@ -189,6 +189,7 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         if (mPlayer.isPlaying()) {
             mPlayer.pause();
             isPaused = true;
+            handler.removeCallbacks(runnable);
         }
     }
 
@@ -199,6 +200,8 @@ public class Player implements MediaPlayer.OnCompletionListener, MediaPlayer.OnP
         if (isPaused) {
             mPlayer.start();
             isPaused = false;
+            handler.removeCallbacks(runnable);
+            handler.postDelayed(runnable, 1000);
         }
     }
 

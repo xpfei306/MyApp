@@ -25,10 +25,12 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     private Context context;
     private List<Song> list;
     private onMyItemClickListener listener;
+    private int type;//0显示图片1显示文字
 
-    public SongAdapter(Context context, List<Song> list) {
+    public SongAdapter(Context context, List<Song> list, int type) {
         this.context = context;
         this.list = list;
+        this.type = type;
     }
 
     @Override
@@ -39,14 +41,22 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
-        int index = holder.getAdapterPosition();
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final int index = holder.getAdapterPosition();
         final Song info = list.get(index);
-        if (info.getIsLocal() == 1) {
-            Bitmap cover = CoverLoader.getInstance(context).loadThumbnail(info);
-            holder.imgSong.setImageBitmap(cover);
+        if (type == 1) {
+            holder.txtNum.setVisibility(View.VISIBLE);
+            holder.imgSong.setVisibility(View.GONE);
+            holder.txtNum.setText((index + 1) + "");
         } else {
-            GlideUtils.loadImage(context, info.getPic_small(), R.drawable.noalbum, holder.imgSong);
+            holder.txtNum.setVisibility(View.GONE);
+            holder.imgSong.setVisibility(View.VISIBLE);
+            if (info.getIsLocal() == 1) {
+                Bitmap cover = CoverLoader.getInstance(context).loadThumbnail(info);
+                holder.imgSong.setImageBitmap(cover);
+            } else {
+                GlideUtils.loadImage(context, info.getPic_small(), R.drawable.noalbum, holder.imgSong);
+            }
         }
         holder.txtSong.setText(info.getTitle());
         holder.txtAlbum.setText(info.getAuthor() + "-" + info.getAlbum_title());
@@ -54,7 +64,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 if (listener != null) {
-                    listener.onMyItemClick(info, position);
+                    listener.onMyItemClick(info, index);
                 }
             }
         });
@@ -82,13 +92,14 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgSong;
-        TextView txtAlbum, txtSong;
+        TextView txtAlbum, txtSong, txtNum;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imgSong = (ImageView) itemView.findViewById(R.id.imgSong);
             txtAlbum = (TextView) itemView.findViewById(R.id.txtAlbum);
             txtSong = (TextView) itemView.findViewById(R.id.txtSong);
+            txtNum = (TextView) itemView.findViewById(R.id.txtNum);
         }
     }
 }

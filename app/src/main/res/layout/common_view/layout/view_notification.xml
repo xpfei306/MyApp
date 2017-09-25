@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="@dimen/dim_5">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="@dimen/dim_40"
+        android:layout_height="@dimen/dim_40"
+        android:src="@drawable/noalbum" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dim_5"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fadingEdge="horizontal"
+            android:maxLines="1"
+            android:text="喜欢你"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/middletextsize" />
+
+        <TextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_5"
+            android:ellipsize="end"
+            android:fadingEdge="horizontal"
+            android:maxLines="1"
+            android:text="喜欢你"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_9" />
+    </LinearLayout>
+</LinearLayout>

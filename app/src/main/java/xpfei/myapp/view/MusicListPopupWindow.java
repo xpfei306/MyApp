@@ -64,7 +64,7 @@ public class MusicListPopupWindow {
         txtEmpty = (TextView) contentView.findViewById(R.id.txtEmpty);
         btnClear = (TextView) contentView.findViewById(R.id.btnClear);
         itemRv = (RecyclerView) contentView.findViewById(R.id.itemRv);
-        adapter = new SongAdapter(mContext, new ArrayList<Song>());
+        adapter = new SongAdapter(mContext, new ArrayList<Song>(),0);
         itemRv.setAdapter(adapter);
         itemRv.setLayoutManager(new LinearLayoutManager(mContext));
         adapter.setOnMyItemClickListener(new SongAdapter.onMyItemClickListener() {

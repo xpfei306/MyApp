@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import xpfei.myapp.manager.NotifierManager;
 import xpfei.myapp.manager.Player;
 import xpfei.myapp.model.Song;
 import xpfei.myapp.util.ContentValue;
@@ -35,13 +36,20 @@ public class MusicPlayService extends Service {
         }
 
         @Override
-        public void setSongList(List<Song> list, boolean isPlay, boolean isClear,int index) throws RemoteException {
-            player.addMusic(list, isPlay, isClear,index);
+        public void setSongList(List<Song> list, boolean isPlay, boolean isClear, int index) throws RemoteException {
+            player.addMusic(list, isPlay, isClear, index);
+            if (isPlay) {
+                Song song = list.get(index);
+                NotifierManager.showPlay(song);
+            }
         }
 
         @Override
         public void setSong(Song song, boolean isPlay) throws RemoteException {
             player.addMusic(song, isPlay);
+            if (isPlay) {
+                NotifierManager.showPlay(song);
+            }
         }
 
         @Override
@@ -49,9 +57,11 @@ public class MusicPlayService extends Service {
             if (ContentValue.PlayAction.Play.equals(action)) {
                 player.start();
                 notifyPlayState(player.isPaused());
+                NotifierManager.showPlay(player.getPlayingSong());
             } else if (ContentValue.PlayAction.Pause.equals(action)) {
                 player.pause();
                 notifyPlayState(player.isPaused());
+                NotifierManager.showPause(player.getPlayingSong());
             } else if (ContentValue.PlayAction.Last.equals(action)) {
                 player.playLast();
                 notifySong(player.getPlayingSong());
@@ -81,6 +91,7 @@ public class MusicPlayService extends Service {
         public void delSong() throws RemoteException {
             player.delSong();
             notifySong(player.getPlayingSong());
+            NotifierManager.showPlay(player.getPlayingSong());
         }
 
         @Override
@@ -114,6 +125,7 @@ public class MusicPlayService extends Service {
                 notifyError();
             }
         });
+        NotifierManager.init(this);
     }
 
     @Override
@@ -121,6 +133,7 @@ public class MusicPlayService extends Service {
         //销毁回调资源否则要内存泄露
         mCallBacks.kill();
         player.releasePlayer();
+        NotifierManager.cancelAll();
         super.onDestroy();
     }
 
